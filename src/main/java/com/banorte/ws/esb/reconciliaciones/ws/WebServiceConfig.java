@@ -3,6 +3,7 @@ package com.banorte.ws.esb.reconciliaciones.ws;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -17,6 +18,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 @EnableWebMvc
+@ComponentScan(basePackages = {"com.banorte.ws.esb.reconciliaciones.ws.WebServiceConfig"})
 public class WebServiceConfig extends WsConfigurerAdapter{
 
 	@Bean 
@@ -24,14 +26,14 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 		MessageDispatcherServlet messageDispatcherServlet = new MessageDispatcherServlet();
 		messageDispatcherServlet.setApplicationContext(context);
 		messageDispatcherServlet.setTransformWsdlLocations(true);
-		return new ServletRegistrationBean(messageDispatcherServlet, "/ws/*");
+		return new ServletRegistrationBean(messageDispatcherServlet, "/sifews/*");
 	}
 	
 	@Bean(name="user")
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema userSchema) {
 		DefaultWsdl11Definition defaultWsdl11Definition = new DefaultWsdl11Definition();
 		defaultWsdl11Definition.setPortTypeName("UserPort");
-		defaultWsdl11Definition.setLocationUri("/ws");
+		defaultWsdl11Definition.setLocationUri("/user");
 		defaultWsdl11Definition.setTargetNamespace("http://www.example.org/User");
 		defaultWsdl11Definition.setSchema(userSchema);
 		return defaultWsdl11Definition;
