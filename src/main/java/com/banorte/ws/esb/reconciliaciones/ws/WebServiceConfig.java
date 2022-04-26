@@ -29,18 +29,18 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 		return new ServletRegistrationBean(messageDispatcherServlet, "/sifews/*");
 	}
 	
-	@Bean(name="user")
+	@Bean(name="reconciliaciones")
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema userSchema) {
 		DefaultWsdl11Definition defaultWsdl11Definition = new DefaultWsdl11Definition();
-		defaultWsdl11Definition.setPortTypeName("UserPort");
-		defaultWsdl11Definition.setLocationUri("/user");
-		defaultWsdl11Definition.setTargetNamespace("http://www.example.org/User");
+		defaultWsdl11Definition.setPortTypeName("ReconciliacionesPort");
+		defaultWsdl11Definition.setLocationUri("/sifews");
+		defaultWsdl11Definition.setTargetNamespace("http://www.banorte.com/ws/esb/");
 		defaultWsdl11Definition.setSchema(userSchema);
 		return defaultWsdl11Definition;
 	} 
 	
 	@Bean
 	public XsdSchema userSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("xsd/User.xsd"));
+		return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerFiltradoFull.xsd"));
 	}
 }
