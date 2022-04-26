@@ -14,6 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ws-esb-reconciliaciones</name>
 	<description>ESB Reconciliaciones</description>
+	<packaging>war</packaging>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -25,29 +26,53 @@
 			<artifactId>wsdl4j</artifactId>
 			<version>1.6.3</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<artifactId>spring-boot-starter-web-services</artifactId>			
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+			<exclusions>
+				<exclusion>
+                	<groupId>org.apache.tomcat.embed</groupId>
+                	<artifactId>tomcat-embed-websocket</artifactId>
+            	</exclusion>
+		    </exclusions> 
+		
+		</dependency>	
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web-services</artifactId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>			
+				
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+	        <exclusions>
+	            <exclusion>
+	            	<groupId>org.slf4j</groupId>
+	                <artifactId>slf4j-api</artifactId>
+	            </exclusion>
+	        </exclusions>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>		
 
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -67,15 +92,15 @@
                         <goal>xjc</goal>
                     </goals>
                     <configuration>
-                        <outputDirectory>src/main/java</outputDirectory>
-                        <clearOutputDir>false</clearOutputDir>
-                        <packageName>com.banorte.ws.esb.reconciliaciones.schema</packageName>
                         <schemaDirectory>src/main/resources/xsd</schemaDirectory>
-                        <schemaFiles>User.xsd</schemaFiles>
+                        <schemaFiles>User.xsd</schemaFiles>                    
+                        <outputDirectory>src/main/java</outputDirectory>
+                        <packageName>com.banorte.ws.esb.reconciliaciones.schema</packageName>
+                        <clearOutputDir>false</clearOutputDir>                        
                     </configuration>
                 </execution>
             </executions>
-        </plugin>
+        	</plugin>
 		</plugins>
 	</build>
 
