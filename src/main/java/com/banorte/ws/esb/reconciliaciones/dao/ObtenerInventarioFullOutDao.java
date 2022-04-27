@@ -1,4 +1,4 @@
-package com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.dao;
+package com.banorte.ws.esb.reconciliaciones.dao;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
 import com.banorte.ws.esb.reconciliaciones.entity.User;
 
 

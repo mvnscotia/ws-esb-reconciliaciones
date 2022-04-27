@@ -3,7 +3,7 @@ package com.banorte.ws.esb.reconciliaciones.service;
 import java.util.List;
 import java.util.Map;
 
-import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
 
 public interface IObtenerInventarioFullOut {
 

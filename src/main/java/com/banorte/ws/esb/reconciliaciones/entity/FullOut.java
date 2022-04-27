@@ -1,4 +1,4 @@
-package com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.entity;
+package com.banorte.ws.esb.reconciliaciones.entity;
 
 public class FullOut {
 	

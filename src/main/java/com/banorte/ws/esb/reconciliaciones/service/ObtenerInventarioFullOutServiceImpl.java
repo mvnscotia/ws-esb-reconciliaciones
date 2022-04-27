@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.dao.ObtenerInventarioFullOutDao;
-import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.dao.ObtenerInventarioFullOutDao;
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
 
 @Service("ObtenerInventarioFullOutService")
 public class ObtenerInventarioFullOutServiceImpl implements IObtenerInventarioFullOut{

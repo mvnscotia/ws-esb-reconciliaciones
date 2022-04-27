@@ -1,4 +1,4 @@
-package com.banorte.ws.esb.reconciliaciones.ws;
+package com.banorte.ws.esb.reconciliaciones.config;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -18,7 +18,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.banorte.ws.esb.reconciliaciones.ws.WebServiceConfig"})
+@ComponentScan(basePackages = {"com.banorte.ws.esb.reconciliaciones.config.WebServiceConfig"})
 public class WebServiceConfig extends WsConfigurerAdapter{
 
 	@Bean 

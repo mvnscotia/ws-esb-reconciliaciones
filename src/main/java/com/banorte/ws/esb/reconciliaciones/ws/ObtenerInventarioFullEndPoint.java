@@ -9,10 +9,10 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.entity.ObtenerInventarioFullOut;
 
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.*;
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.ObtenerInventarioFullTypeResponse.Objetos.Objeto;
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerInventarioFullOutServiceImpl;
 
 @Endpoint
