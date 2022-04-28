@@ -11,8 +11,6 @@ public interface IObtenerInventarioFullOut {
 	
 	public ObtenerInventarioFullOut findByID(int id);
 	
-	public List<ObtenerInventarioFullOut> getInventarioFullOut();
-	
-	public Map<String, Object> getInventarioFull(String pUsuario,String pTerminal,String p_var);
+	public List<ObtenerInventarioFullOut> getInventarioFullOut(String pUsuario,String pTerminal,String p_var);
 	
 }
