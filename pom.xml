@@ -97,6 +97,20 @@
             <artifactId>jaxb2-maven-plugin</artifactId>
             <version>1.5</version>
             <executions>
+            	<execution>
+                    <id>id3</id>
+                    <goals>
+                        <goal>xjc</goal>
+                    </goals>
+                    <configuration>
+                    	<schemaDirectory>src/main/resources/xsd</schemaDirectory>
+                    	<schemaFiles>ObtenerObjetoFiltrado.xsd</schemaFiles>
+                        <outputDirectory>src/main/java</outputDirectory>
+                        <packageName>com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema</packageName>
+                        <clearOutputDir>false</clearOutputDir>
+                        <forceRegenerate>false</forceRegenerate>
+                    </configuration>
+                </execution>
                 <execution>
                     <id>id1</id>
                     <goals>
@@ -107,7 +121,7 @@
                         <schemaFiles>User.xsd</schemaFiles>                    
                         <outputDirectory>src/main/java</outputDirectory>
                         <packageName>com.banorte.ws.esb.reconciliaciones.schema</packageName>
-                        <clearOutputDir>false</clearOutputDir>                        
+                        <clearOutputDir>false</clearOutputDir>
                     </configuration>
                 </execution>
                 <execution>
@@ -122,20 +136,7 @@
                         <packageName>com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema</packageName>
                         <clearOutputDir>false</clearOutputDir>
                     </configuration>
-                </execution>
-                <execution>
-                    <id>id3</id>
-                    <goals>
-                        <goal>xjc</goal>
-                    </goals>
-                    <configuration>
-                    	<schemaDirectory>src/main/resources/xsd</schemaDirectory>
-                    	<schemaFiles>ObtenerObjetoFiltrado.xsd</schemaFiles>
-                        <outputDirectory>src/main/java</outputDirectory>
-                        <packageName>com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema</packageName>
-                        <clearOutputDir>false</clearOutputDir>
-                    </configuration>
-                </execution>
+                </execution>                
             </executions>
         	</plugin>
 		</plugins>

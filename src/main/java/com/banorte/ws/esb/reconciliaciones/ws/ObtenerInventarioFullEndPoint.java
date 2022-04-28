@@ -27,54 +27,37 @@ public class ObtenerInventarioFullEndPoint {
 	@ResponsePayload
 	public JAXBElement<ObtenerInventarioFullTypeResponse> getObtenerInventarioFullInType(
 			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request) {
-			
-			ObjectFactory objectFactory = new ObjectFactory();
-			
-			ObtenerInventarioFullTypeResponse InventarioFullResponseFactory = objectFactory.createObtenerInventarioFullTypeResponse();
-			
-			JAXBElement<ObtenerInventarioFullTypeResponse> InventarioFullResponse = objectFactory.createObtenerInventarioFullTypeResponse(InventarioFullResponseFactory);
-			
-			ObtenerInventarioFullTypeResponse ObtenerInventarioFullResponseObject= new ObtenerInventarioFullTypeResponse();
-			
-			ObtenerInventarioFullResponseObject.setObjetos(new ObtenerInventarioFullTypeResponse.Objetos());
-			
-			System.out.println("------>");
-			/*We need to change this part*/
-			List<ObtenerInventarioFullOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut();
-			
-			//Map<String, Object> ObjFullOut=obtenerInventarioFullOutServiceImpl.getInventarioFull("", "", "N1");
-			
-			Objeto listResponseObjects= new Objeto();
-			
-			/*int Numrandom;
-			Random random = new Random();
-			
-			for (int i=0;i<=20;i++) {
+		
+		ObjectFactory objectFactory = new ObjectFactory();
+		
+		ObtenerInventarioFullTypeResponse InventarioFullResponseFactory = objectFactory.createObtenerInventarioFullTypeResponse();
+		
+		JAXBElement<ObtenerInventarioFullTypeResponse> InventarioFullResponse = objectFactory.createObtenerInventarioFullTypeResponse(InventarioFullResponseFactory);
+		
+		ObtenerInventarioFullTypeResponse ObtenerInventarioFullResponseObject= new ObtenerInventarioFullTypeResponse();
+		
+		ObtenerInventarioFullResponseObject.setObjetos(new ObtenerInventarioFullTypeResponse.Objetos());
+		//N1,N2,R1,R3,FULL			
+		String pUsuario="";
+		String pTerminal="";//request.getValue().getTranAplicacion();
+		String p_var=request.getValue().getTranTipoObjeto();
+		/*We need to change this part*/
+		List<ObtenerInventarioFullOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,p_var);
+		Objeto listResponseObjects= new Objeto();
+		
+		if (listObtenerInventarioFullOut != null) {
+			for (ObtenerInventarioFullOut objfull : listObtenerInventarioFullOut) {
 				
-				listResponseObjects= new Objeto();				
-				
-				Numrandom = random.nextInt(2000 + 1000) + 1000;
-				
-				listResponseObjects.setTranIdTipoObjeto(Numrandom+"");
-				
+				listResponseObjects= new Objeto();
+				listResponseObjects.setTranIdTipoObjeto(objfull.getVal1());
 				ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
-			}*/
-			
-			
-			if (listObtenerInventarioFullOut != null) {
-				for (ObtenerInventarioFullOut objfull : listObtenerInventarioFullOut) {
-					
-					listResponseObjects= new Objeto();
-					listResponseObjects.setTranIdTipoObjeto(objfull.getREPOIGID());
-					ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
-					
-				}
 			}
-			
-			InventarioFullResponse.setValue(ObtenerInventarioFullResponseObject);
-			
-			return InventarioFullResponse;
-			
+		}
+		
+		InventarioFullResponse.setValue(ObtenerInventarioFullResponseObject);
+		
+		return InventarioFullResponse;
+		
 	}
 	
 }

@@ -15,11 +15,8 @@ import com.banorte.ws.esb.reconciliaciones.entity.User;
 
 public interface ObtenerInventarioFullOutDao extends JpaRepository<ObtenerInventarioFullOut, Integer>{
 	
-	@Query(value = "SELECT REPOIGID,REPOIGNIVEL,REPOIGCADENA,REPOIGFECHAGEN FROM REP_OIG", nativeQuery=true)
-    List<ObtenerInventarioFullOut> getInventarioFullOut();
-	
-	@Procedure(name = "Get.get_extract_reconciliaciones_test",procedureName = "get_extract_reconciliaciones_test")
-	Map<String, Object> getInventarioFull(@Param("pUsuario") String pUsuario,@Param("pTerminal") String pTerminal,@Param("p_var") String p_var);
+	@Query(value = "select * from table(return_table_final(:pUsuario,:pTerminal,:p_var))", nativeQuery=true)
+    List<ObtenerInventarioFullOut> getInventarioFullOut(@Param( "pUsuario" ) String pUsuario,@Param( "pTerminal" ) String pTerminal,@Param( "p_var" ) String p_var);
 	
 }
 
