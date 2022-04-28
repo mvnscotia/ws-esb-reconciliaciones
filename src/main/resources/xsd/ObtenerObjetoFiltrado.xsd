@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+ targetNamespace="http://www.example.org/User"
+  xmlns:tns="http://www.example.org/User" elementFormDefault="qualified">
+
+    <element name="userRequest"
+    	type="tns:userRequest">
+    </element>
+    
+    <complexType name="userRequest">
+    	<sequence>
+    		<element name="action" type="int"></element>
+    		<element name="id" type="int" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="userResponse"
+    	type="tns:userResponse">
+    </element>
+    
+    <complexType name="userResponse">
+    	<sequence>
+    		<element name="UserDetails"
+    			type="tns:UserDetails" minOccurs="0" maxOccurs="unbounded">
+    		</element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="UserDetails">
+    	<sequence>
+    		<element name="id" type="int"></element>
+    		<element name="name" type="string"></element>
+    		<element name="alias" type="string"></element>
+    	  	</sequence>
+    </complexType>
+
+    <element name="userFault" type="tns:userFault"></element>
+    
+    <complexType name="userFault">
+    	<sequence>
+    		<element name="errorCode" type="integer" minOccurs="0"></element>
+    		<element name="errorMessage" type="string" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+</schema>

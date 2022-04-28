@@ -30,15 +30,8 @@ public class ObtenerInventarioFullOutServiceImpl implements IObtenerInventarioFu
 		return obtenerInventarioFullOutDao.findById(id).get();
 	}
 	
-	public List<ObtenerInventarioFullOut> getInventarioFullOut() {
-		return (List<ObtenerInventarioFullOut>) obtenerInventarioFullOutDao.getInventarioFullOut();
-	}
-	
-	@Transactional
-	public Map<String, Object> getInventarioFull(String pUsuario,String pTerminal,String p_var)
-	{
-		System.out.println(pUsuario+"--"+pTerminal+"--"+p_var);
-		return (Map<String, Object>) obtenerInventarioFullOutDao.getInventarioFull(pUsuario,pTerminal,p_var);
+	public List<ObtenerInventarioFullOut> getInventarioFullOut(String pUsuario,String pTerminal,String p_var) {
+		return (List<ObtenerInventarioFullOut>) obtenerInventarioFullOutDao.getInventarioFullOut(pUsuario,pTerminal,p_var);
 	}
 	
 }
