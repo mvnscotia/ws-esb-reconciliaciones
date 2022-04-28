@@ -12,6 +12,13 @@ http://xmlns.oracle.com/weblogic/weblogic-web-app/1.4/weblogic-web-app.xsd">
         <wls:package-name>org.slf4j.*</wls:package-name>
         <wls:package-name>org.springframework.*</wls:package-name>
         <wls:package-name>com.fasterxml.*</wls:package-name>
+        <wls:package-name>javax.persistence.*</wls:package-name> 
     </wls:prefer-application-packages>
 </wls:container-descriptor>
+
+<resource-description>
+    <res-ref-name>jdbc/sife</res-ref-name>
+    <jndi-name>sife</jndi-name>
+</resource-description>
+
 </wls:weblogic-web-app>
