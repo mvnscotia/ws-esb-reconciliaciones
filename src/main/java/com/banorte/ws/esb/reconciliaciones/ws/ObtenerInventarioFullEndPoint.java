@@ -18,7 +18,7 @@ import com.banorte.ws.esb.reconciliaciones.service.ObtenerInventarioFullOutServi
 @Endpoint
 public class ObtenerInventarioFullEndPoint {
 
-	private static final String NAMESPACE_URI = "http://www.banorte.com/ws/esb/Reconciliacionesbeta";
+	private static final String NAMESPACE_URI = "http://www.banorte.com/ws/esb/Reconciliaciones";
 
 	@Autowired
 	ObtenerInventarioFullOutServiceImpl obtenerInventarioFullOutServiceImpl;
