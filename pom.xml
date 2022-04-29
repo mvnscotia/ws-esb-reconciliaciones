@@ -110,7 +110,7 @@
                         <clearOutputDir>false</clearOutputDir>
                         <forceRegenerate>false</forceRegenerate>
                     </configuration>
-                </execution>
+                </execution>                 
                 <execution>
                     <id>id1</id>
                     <goals>
@@ -136,7 +136,7 @@
                         <packageName>com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema</packageName>
                         <clearOutputDir>false</clearOutputDir>
                     </configuration>
-                </execution>                
+                </execution>             
             </executions>
         	</plugin>
 		</plugins>
