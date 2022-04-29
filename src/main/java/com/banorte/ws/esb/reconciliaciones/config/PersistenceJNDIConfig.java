@@ -3,18 +3,15 @@ package com.banorte.ws.esb.reconciliaciones.config;
 import java.util.Properties;
 
 import javax.naming.NamingException;
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jndi.JndiTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -30,9 +27,16 @@ public class PersistenceJNDIConfig {
 	
 	@Autowired
     private Environment env;
-   
+	
+	@Autowired
+	private DataSource dataSource;
+	
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
 	@Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory()  throws NamingException {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory()  throws NamingException {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[] { "com.banorte.ws.esb.reconciliaciones.entity" });
@@ -44,10 +48,8 @@ public class PersistenceJNDIConfig {
         return em;
      }    
 
-    @Bean
-    public DataSource dataSource() throws NamingException {
-    	String jndi = env.getProperty("spring.datasource.jndi-name");
-        return (DataSource) new JndiTemplate().lookup(env.getProperty("spring.datasource.jndi-name"));
+	public DataSource dataSource()  throws NamingException  {
+    	return this.dataSource;
     }
 
     @Bean
@@ -65,6 +67,7 @@ public class PersistenceJNDIConfig {
     
     Properties additionalProperties() {
         Properties properties = new Properties();
+        //properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle12cDialect");
         return properties;
     }     
