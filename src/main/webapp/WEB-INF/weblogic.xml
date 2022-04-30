@@ -11,6 +11,8 @@ http://xmlns.oracle.com/weblogic/weblogic-web-app/1.4/weblogic-web-app.xsd">
     <wls:prefer-application-packages>
         <wls:package-name>org.slf4j.*</wls:package-name>
         <wls:package-name>com.fasterxml.*</wls:package-name>
+        <wls:package-name>org.hibernate.*</wls:package-name>
+        <wls:package-name>javax.persistence.*</wls:package-name>
     </wls:prefer-application-packages>
 </wls:container-descriptor>
 

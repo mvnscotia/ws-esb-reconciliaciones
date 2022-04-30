@@ -1,5 +1,7 @@
 package com.banorte.ws.esb.reconciliaciones.entity;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,7 +9,7 @@ import javax.persistence.Id;
 @Entity
 public class ObtenerInventarioFullOut{
 	@Id
-	String REPOIGID;
+	Long REPOIGID;
 	@Column
 	String REPOIGNIVEL;
 	@Column
@@ -31,12 +33,12 @@ public class ObtenerInventarioFullOut{
 	@Column
 	String val10;
 	@Column
-	String REPOIGFECHAGEN;
+	Date REPOIGFECHAGEN;
 	
-	public String getREPOIGID() {
+	public Long getREPOIGID() {
 		return REPOIGID;
 	}
-	public void setREPOIGID(String rEPOIGID) {
+	public void setREPOIGID(Long rEPOIGID) {
 		REPOIGID = rEPOIGID;
 	}
 	public String getREPOIGNIVEL() {
@@ -105,10 +107,10 @@ public class ObtenerInventarioFullOut{
 	public void setVal10(String val10) {
 		this.val10 = val10;
 	}
-	public String getREPOIGFECHAGEN() {
+	public Date getREPOIGFECHAGEN() {
 		return REPOIGFECHAGEN;
 	}
-	public void setREPOIGFECHAGEN(String rEPOIGFECHAGEN) {
+	public void setREPOIGFECHAGEN(Date rEPOIGFECHAGEN) {
 		REPOIGFECHAGEN = rEPOIGFECHAGEN;
 	}	
 }
