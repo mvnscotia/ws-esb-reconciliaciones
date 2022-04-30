@@ -8,7 +8,7 @@ public interface IObtenerObjetoFilterService {
 
 	public List<ObtenerInventarioFullOut> findAll();
 	
-	public ObtenerInventarioFullOut findByID(int id);
+	public ObtenerInventarioFullOut findByID(Long id);
 	
 	public List<ObtenerInventarioFullOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String p_var);
 	

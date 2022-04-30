@@ -19,7 +19,7 @@ import org.springframework.xml.xsd.XsdSchemaCollection;
 
 @EnableWs
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 @ComponentScan(basePackages = {"com.banorte.ws.esb.reconciliaciones.config.WebServiceConfig"})
 public class WebServiceConfig extends WsConfigurerAdapter{
 

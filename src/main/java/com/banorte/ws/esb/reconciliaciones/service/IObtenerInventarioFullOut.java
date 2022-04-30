@@ -9,7 +9,7 @@ public interface IObtenerInventarioFullOut {
 
 	public List<ObtenerInventarioFullOut> findAll();
 	
-	public ObtenerInventarioFullOut findByID(int id);
+	public ObtenerInventarioFullOut findByID(Long id);
 	
 	public List<ObtenerInventarioFullOut> getInventarioFullOut(String pUsuario,String pTerminal,String p_var);
 	

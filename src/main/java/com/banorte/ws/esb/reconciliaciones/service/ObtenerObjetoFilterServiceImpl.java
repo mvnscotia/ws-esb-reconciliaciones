@@ -22,7 +22,7 @@ public class ObtenerObjetoFilterServiceImpl implements IObtenerObjetoFilterServi
 	}
 
 	@Override
-	public ObtenerInventarioFullOut findByID(int id) {
+	public ObtenerInventarioFullOut findByID(Long id) {
 		return obtenerInventarioFullOutDao.findById(id).get();
 	}
 	
