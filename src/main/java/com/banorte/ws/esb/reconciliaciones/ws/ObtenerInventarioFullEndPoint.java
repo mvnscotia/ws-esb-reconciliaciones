@@ -14,6 +14,8 @@ import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.*;
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.ObtenerInventarioFullTypeResponse.Objetos.Objeto;
 import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerInventarioFullOutServiceImpl;
+import com.banorte.ws.esb.reconciliaciones.util.Props;
+
 
 @Endpoint
 public class ObtenerInventarioFullEndPoint {
@@ -22,6 +24,9 @@ public class ObtenerInventarioFullEndPoint {
 
 	@Autowired
 	ObtenerInventarioFullOutServiceImpl obtenerInventarioFullOutServiceImpl;
+	
+	@Autowired
+	Props PropsObj;
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerInventarioFullTypeRequest")
 	@ResponsePayload
@@ -39,23 +44,30 @@ public class ObtenerInventarioFullEndPoint {
 		ObtenerInventarioFullResponseObject.setObjetos(new ObtenerInventarioFullTypeResponse.Objetos());
 		//N1,N2,R1,R3,FULL			
 		String pUsuario="";
-		String pTerminal="";//request.getValue().getTranAplicacion();
+		String pTerminal="";
 		String p_var=request.getValue().getTranTipoObjeto();
-		/*We need to change this part*/
-		List<ObtenerInventarioFullOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,p_var);
-		Objeto listResponseObjects= new Objeto();
+		String clave_aplicativo=request.getValue().getTranAplicacion();
+		String type_query=PropsObj.find_coincidence(p_var);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
 		
-		if (listObtenerInventarioFullOut != null) {
-			for (ObtenerInventarioFullOut objfull : listObtenerInventarioFullOut) {
-				
-				listResponseObjects= new Objeto();
-				listResponseObjects.setTranIdTipoObjeto(objfull.getVal1());
-				ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
+		if(!type_query.equals("not_found"))
+		{
+			
+		
+			List<ObtenerInventarioFullOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,type_query,clave_aplicativo);
+			Objeto listResponseObjects= new Objeto();
+			
+			if (listObtenerInventarioFullOut != null) {
+				for (ObtenerInventarioFullOut objfull : listObtenerInventarioFullOut) {
+					
+					listResponseObjects= new Objeto();
+					listResponseObjects.setTranIdTipoObjeto(objfull.getVal1());
+					ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
+				}
 			}
+			
+			InventarioFullResponse.setValue(ObtenerInventarioFullResponseObject);
+			
 		}
-		
-		InventarioFullResponse.setValue(ObtenerInventarioFullResponseObject);
-		
 		return InventarioFullResponse;
 		
 	}

@@ -30,8 +30,8 @@ public class ObtenerInventarioFullOutServiceImpl implements IObtenerInventarioFu
 		return obtenerInventarioFullOutDao.findById(id).get();
 	}
 	
-	public List<ObtenerInventarioFullOut> getInventarioFullOut(String pUsuario,String pTerminal,String p_var) {
-		return (List<ObtenerInventarioFullOut>) obtenerInventarioFullOutDao.getInventarioFullOut(pUsuario,pTerminal,p_var);
+	public List<ObtenerInventarioFullOut> getInventarioFullOut(String pUsuario,String pTerminal,String p_var,String clave_aplicativo) {
+		return (List<ObtenerInventarioFullOut>) obtenerInventarioFullOutDao.getInventarioFullOut(pUsuario,pTerminal,p_var,clave_aplicativo);
 	}
 	
 }

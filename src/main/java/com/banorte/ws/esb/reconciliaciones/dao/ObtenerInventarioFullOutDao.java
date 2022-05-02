@@ -10,8 +10,9 @@ import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
 
 public interface ObtenerInventarioFullOutDao extends JpaRepository<ObtenerInventarioFullOut, Long>{
 	
-	@Query(value = "select * from table(return_table_final(:pUsuario,:pTerminal,:p_var))", nativeQuery=true)
-    List<ObtenerInventarioFullOut> getInventarioFullOut(@Param( "pUsuario" ) String pUsuario,@Param( "pTerminal" ) String pTerminal,@Param( "p_var" ) String p_var);
+	@Query(value = "select * from table(return_table_final2(:pUsuario,:pTerminal,:p_var,:clave_aplicativo)) ", nativeQuery=true)
+	List<ObtenerInventarioFullOut> getInventarioFullOut(@Param( "pUsuario" ) String pUsuario,@Param( "pTerminal" ) String pTerminal,@Param( "p_var" ) String p_var,@Param( "clave_aplicativo" ) String clave_aplicativor);
+
 	
 }
 

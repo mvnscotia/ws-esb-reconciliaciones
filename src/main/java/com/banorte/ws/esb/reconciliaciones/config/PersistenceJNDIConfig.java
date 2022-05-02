@@ -6,6 +6,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -29,6 +30,7 @@ public class PersistenceJNDIConfig {
     private Environment env;
 	
 	@Autowired
+	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	public void setDataSource(DataSource dataSource) {
