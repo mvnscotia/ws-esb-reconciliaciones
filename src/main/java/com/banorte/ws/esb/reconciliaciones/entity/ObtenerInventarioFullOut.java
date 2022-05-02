@@ -1,25 +1,44 @@
-package com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.entity;
+package com.banorte.ws.esb.reconciliaciones.entity;
 
-public class FullOut {
-	
-	String REPOIGID;
+import java.sql.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class ObtenerInventarioFullOut{
+	@Id
+	Long REPOIGID;
+	@Column
 	String REPOIGNIVEL;
+	@Column
 	String val1;
+	@Column
 	String val2; 
+	@Column
 	String val3;
+	@Column
 	String val4;
+	@Column
 	String val5;
+	@Column
 	String val6;
+	@Column
 	String val7;
+	@Column
 	String val8;
+	@Column
 	String val9;
+	@Column
 	String val10;
-	String REPOIGFECHAGEN;
+	@Column
+	Date REPOIGFECHAGEN;
 	
-	public String getREPOIGID() {
+	public Long getREPOIGID() {
 		return REPOIGID;
 	}
-	public void setREPOIGID(String rEPOIGID) {
+	public void setREPOIGID(Long rEPOIGID) {
 		REPOIGID = rEPOIGID;
 	}
 	public String getREPOIGNIVEL() {
@@ -88,11 +107,10 @@ public class FullOut {
 	public void setVal10(String val10) {
 		this.val10 = val10;
 	}
-	public String getREPOIGFECHAGEN() {
+	public Date getREPOIGFECHAGEN() {
 		return REPOIGFECHAGEN;
 	}
-	public void setREPOIGFECHAGEN(String rEPOIGFECHAGEN) {
+	public void setREPOIGFECHAGEN(Date rEPOIGFECHAGEN) {
 		REPOIGFECHAGEN = rEPOIGFECHAGEN;
-	}
-	
+	}	
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
- targetNamespace="http://www.banorte.com/ws/esb/Reconciliacionesbeta"
-  xmlns:tns="http://www.banorte.com/ws/esb/Reconciliacionesbeta" elementFormDefault="qualified">
+ targetNamespace="http://www.banorte.com/ws/esb/Reconciliaciones"
+  xmlns:tns="http://www.banorte.com/ws/esb/Reconciliaciones" elementFormDefault="qualified">
 	
 	
 	<element name="CadenaLGTreintaYDos" type="tns:CadenaLGTreintaYDos"></element>

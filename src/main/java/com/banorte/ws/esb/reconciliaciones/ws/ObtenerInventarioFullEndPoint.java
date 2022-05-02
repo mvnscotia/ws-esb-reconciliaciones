@@ -9,76 +9,70 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
-import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.entity.ObtenerInventarioFullOut;
 
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.*;
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.ObtenerInventarioFullTypeResponse.Objetos.Objeto;
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerInventarioFullOutServiceImpl;
+import com.banorte.ws.esb.reconciliaciones.util.Props;
+
 
 @Endpoint
 public class ObtenerInventarioFullEndPoint {
 
-	private static final String NAMESPACE_URI = "http://www.banorte.com/ws/esb/Reconciliacionesbeta";
+	private static final String NAMESPACE_URI = "http://www.banorte.com/ws/esb/Reconciliaciones";
 
 	@Autowired
 	ObtenerInventarioFullOutServiceImpl obtenerInventarioFullOutServiceImpl;
+	
+	@Autowired
+	Props PropsObj;
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerInventarioFullTypeRequest")
 	@ResponsePayload
 	public JAXBElement<ObtenerInventarioFullTypeResponse> getObtenerInventarioFullInType(
 			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request) {
+		
+		ObjectFactory objectFactory = new ObjectFactory();
+		
+		ObtenerInventarioFullTypeResponse InventarioFullResponseFactory = objectFactory.createObtenerInventarioFullTypeResponse();
+		
+		JAXBElement<ObtenerInventarioFullTypeResponse> InventarioFullResponse = objectFactory.createObtenerInventarioFullTypeResponse(InventarioFullResponseFactory);
+		
+		ObtenerInventarioFullTypeResponse ObtenerInventarioFullResponseObject= new ObtenerInventarioFullTypeResponse();
+		
+		ObtenerInventarioFullResponseObject.setObjetos(new ObtenerInventarioFullTypeResponse.Objetos());
+		//N1,N2,R1,R3,FULL			
+		String pUsuario="";
+		String pTerminal="";
+		String p_var=request.getValue().getTranTipoObjeto();
+		String clave_aplicativo=request.getValue().getTranAplicacion();
+		String type_query=PropsObj.find_coincidence(p_var);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
+		
+		if(!type_query.equals("not_found"))
+		{
 			
-			ObjectFactory objectFactory = new ObjectFactory();
-			
-			ObtenerInventarioFullTypeResponse InventarioFullResponseFactory = objectFactory.createObtenerInventarioFullTypeResponse();
-			
-			JAXBElement<ObtenerInventarioFullTypeResponse> InventarioFullResponse = objectFactory.createObtenerInventarioFullTypeResponse(InventarioFullResponseFactory);
-			
-			ObtenerInventarioFullTypeResponse ObtenerInventarioFullResponseObject= new ObtenerInventarioFullTypeResponse();
-			
-			ObtenerInventarioFullResponseObject.setObjetos(new ObtenerInventarioFullTypeResponse.Objetos());
-			
-			System.out.println("------>");
-			/*We need to change this part*/
-			List<ObtenerInventarioFullOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut();
-			
-			//Map<String, Object> ObjFullOut=obtenerInventarioFullOutServiceImpl.getInventarioFull("", "", "N1");
-			
+		
+			List<ObtenerInventarioFullOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,type_query,clave_aplicativo);
 			Objeto listResponseObjects= new Objeto();
-			
-			/*int Numrandom;
-			Random random = new Random();
-			
-			for (int i=0;i<=20;i++) {
-				
-				listResponseObjects= new Objeto();				
-				
-				Numrandom = random.nextInt(2000 + 1000) + 1000;
-				
-				listResponseObjects.setTranIdTipoObjeto(Numrandom+"");
-				
-				ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
-			}*/
-			
 			
 			if (listObtenerInventarioFullOut != null) {
 				for (ObtenerInventarioFullOut objfull : listObtenerInventarioFullOut) {
 					
 					listResponseObjects= new Objeto();
-					listResponseObjects.setTranIdTipoObjeto(objfull.getREPOIGID());
+					listResponseObjects.setTranIdTipoObjeto(objfull.getVal1());
 					ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
-					
 				}
 			}
 			
 			InventarioFullResponse.setValue(ObtenerInventarioFullResponseObject);
 			
-			return InventarioFullResponse;
-			
+		}
+		return InventarioFullResponse;
+		
 	}
 	
 }
-
 
 
 

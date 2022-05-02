@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import com.banorte.ws.esb.reconciliaciones.dao.UserDao;
 import com.banorte.ws.esb.reconciliaciones.entity.User;
 
