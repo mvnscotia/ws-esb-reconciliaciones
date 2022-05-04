@@ -12,7 +12,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.*;
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.ObtenerInventarioFullTypeResponse.Objetos.Objeto;
-import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.entity.T_RECORD_REP_OIG;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerInventarioFullOutServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
 
@@ -50,17 +50,17 @@ public class ObtenerInventarioFullEndPoint {
 		String type_query=PropsObj.find_coincidence(p_var);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
 		
 		if(!type_query.equals("not_found"))
-		{
+		{	
+			//List<T_RECORD_REP_OIG> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.findAll();//.getInventarioFullOut(pUsuario,pTerminal,type_query,clave_aplicativo);
 			
-		
-			List<ObtenerInventarioFullOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,type_query,clave_aplicativo);
+			List<T_RECORD_REP_OIG> listObtenerInventarioFullOut = PropsObj.full_rows(type_query,clave_aplicativo);
 			Objeto listResponseObjects= new Objeto();
 			
 			if (listObtenerInventarioFullOut != null) {
-				for (ObtenerInventarioFullOut objfull : listObtenerInventarioFullOut) {
+				for (T_RECORD_REP_OIG objfull : listObtenerInventarioFullOut) {
 					
 					listResponseObjects= new Objeto();
-					listResponseObjects.setTranIdTipoObjeto(objfull.getVal1());
+					listResponseObjects.setTranIdTipoObjeto(objfull.getVAL1());
 					ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
 				}
 			}

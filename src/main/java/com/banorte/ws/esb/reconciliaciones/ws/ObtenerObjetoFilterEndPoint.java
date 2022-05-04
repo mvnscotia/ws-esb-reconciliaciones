@@ -27,7 +27,7 @@ import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerOb
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Objetos.Objeto;
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Relaciones;
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Relaciones.Relacion;
-import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.entity.T_RECORD_REP_OIG;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
 
 @Endpoint
@@ -59,10 +59,10 @@ public class ObtenerObjetoFilterEndPoint {
 		obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutTypeResponse.Objetos());
 		//N1,N2,R1,R3,FULL			
 		String pUsuario="";
-		String pTerminal="";//request.getValue().getTranAplicacion();
+		String pTerminal="";//request.getVALue().getTranAplicacion();
 		String p_var=request.getValue().getTranTipoObjeto();
 		/*We need to change this part*/
-		List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,p_var);
+		List<T_RECORD_REP_OIG> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,p_var,"AP00000070");
 		//Objeto listResponseObjects= new Objeto();
 		
 		if (listObtenerObjetoFilterOut != null) {
@@ -96,47 +96,47 @@ public class ObtenerObjetoFilterEndPoint {
 	
 
 	
-	private void populateN1Response(List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateN1Response(List<T_RECORD_REP_OIG> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Objeto listResponseObjects= new Objeto();
-		for (ObtenerInventarioFullOut fullObj : listObtenerObjetoFilterOut) {
+		for (T_RECORD_REP_OIG fullObj : listObtenerObjetoFilterOut) {
 			
-			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
-			listResponseObjects.setTranObjeto(fullObj.getVal2());
-			listResponseObjects.setTranDescripcion(fullObj.getVal3());
-			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal5(), format, cal));
-			listResponseObjects.setTranIdUsuario(fullObj.getVal6());
-			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal7(), format, cal));
+			listResponseObjects.setTranIdTipoObjeto(fullObj.getVAL1());
+			listResponseObjects.setTranObjeto(fullObj.getVAL2());
+			listResponseObjects.setTranDescripcion(fullObj.getVAL3());
+			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVAL5(), format, cal));
+			listResponseObjects.setTranIdUsuario(fullObj.getVAL6());
+			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVAL7(), format, cal));
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
 		}		
 	}
 	
-	private void populateN2Response(List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateN2Response(List<T_RECORD_REP_OIG> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Objeto listResponseObjects= new Objeto();
-		for (ObtenerInventarioFullOut fullObj : listObtenerObjetoFilterOut) {
+		for (T_RECORD_REP_OIG fullObj : listObtenerObjetoFilterOut) {
 			
-			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
-			listResponseObjects.setTranObjeto(fullObj.getVal4());
-			listResponseObjects.setTranDescripcion(fullObj.getVal5());
-			listResponseObjects.setTranTipoOperacion(fullObj.getVal6());
-			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal8(), format, cal));
-			listResponseObjects.setTranIdUsuario(fullObj.getVal9());
-			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal10(), format, cal));
+			listResponseObjects.setTranIdTipoObjeto(fullObj.getVAL1());
+			listResponseObjects.setTranObjeto(fullObj.getVAL4());
+			listResponseObjects.setTranDescripcion(fullObj.getVAL5());
+			listResponseObjects.setTranTipoOperacion(fullObj.getVAL6());
+			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVAL8(), format, cal));
+			listResponseObjects.setTranIdUsuario(fullObj.getVAL9());
+			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVAL10(), format, cal));
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
 		}
 	}
 	
-	private void populateR1Response(List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateR1Response(List<T_RECORD_REP_OIG> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Relaciones relaciones = new Relaciones();
 		Relacion relacionObj = new Relacion();
-		for (ObtenerInventarioFullOut fullObj : listObtenerObjetoFilterOut) {
+		for (T_RECORD_REP_OIG fullObj : listObtenerObjetoFilterOut) {
 			
-			relacionObj.setTranIdPerfil(fullObj.getVal1());
-			relacionObj.setTranIdTransaccion(fullObj.getVal2());  
-			//relacionObj.setTranTipoOperacion(getFechaCreacionR1(fullObj.getVal3()));
-			relacionObj.setTranIdUsuario(fullObj.getVal4());
-			relacionObj.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
+			relacionObj.setTranIdPerfil(fullObj.getVAL1());
+			relacionObj.setTranIdTransaccion(fullObj.getVAL2());  
+			//relacionObj.setTranTipoOperacion(getFechaCreacionR1(fullObj.getVAL3()));
+			relacionObj.setTranIdUsuario(fullObj.getVAL4());
+			relacionObj.setTranFechaOperacion(getFechaCreacion(fullObj.getVAL3(), format, cal));
 			relaciones.getRelacion().add(relacionObj);
 			
 			obtenerObjetoFilterResponseObject.getRelaciones().add(relaciones);
@@ -144,16 +144,16 @@ public class ObtenerObjetoFilterEndPoint {
 		
 	}	
 	
-	private void populateR3Response(List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateR3Response(List<T_RECORD_REP_OIG> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Relaciones relaciones = new Relaciones();
 		Relacion relacionObj = new Relacion();
-		for (ObtenerInventarioFullOut fullObj : listObtenerObjetoFilterOut) {
+		for (T_RECORD_REP_OIG fullObj : listObtenerObjetoFilterOut) {
 			
-			relacionObj.setTranIdPerfil(fullObj.getVal2()); 
+			relacionObj.setTranIdPerfil(fullObj.getVAL2()); 
 			relacionObj.setTranIdTransaccion("");
 			relacionObj.setTranTipoOperacion("Alta");
-			relacionObj.setTranIdUsuario(fullObj.getVal1()); 
-			relacionObj.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
+			relacionObj.setTranIdUsuario(fullObj.getVAL1()); 
+			relacionObj.setTranFechaOperacion(getFechaCreacion(fullObj.getVAL3(), format, cal));
 			relaciones.getRelacion().add(relacionObj);
 			
 			obtenerObjetoFilterResponseObject.getRelaciones().add(relaciones);

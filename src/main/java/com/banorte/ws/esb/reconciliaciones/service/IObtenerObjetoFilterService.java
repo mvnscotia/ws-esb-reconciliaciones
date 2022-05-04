@@ -2,14 +2,14 @@ package com.banorte.ws.esb.reconciliaciones.service;
 
 import java.util.List;
 
-import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.entity.T_RECORD_REP_OIG;
 
 public interface IObtenerObjetoFilterService {
 
-	public List<ObtenerInventarioFullOut> findAll();
+	public List<T_RECORD_REP_OIG> findAll();
 	
-	public ObtenerInventarioFullOut findByID(Long id);
+	public T_RECORD_REP_OIG findByID(Long id);
 	
-	public List<ObtenerInventarioFullOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String p_var);
+	public List<T_RECORD_REP_OIG> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String p_var,String clave_aplicativo);
 	
 }
