@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.banorte.ws.esb.reconciliaciones.dao.ObtenerInventarioFullOutDao;
-import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.entity.T_RECORD_REP_OIG;
 
 @Service("ObtenerInventarioFullOutService")
 public class ObtenerInventarioFullOutServiceImpl implements IObtenerInventarioFullOut{
@@ -21,17 +21,17 @@ public class ObtenerInventarioFullOutServiceImpl implements IObtenerInventarioFu
 	private ObtenerInventarioFullOutDao obtenerInventarioFullOutDao;
 	
 	@Override
-	public List<ObtenerInventarioFullOut> findAll() {
-		return (List<ObtenerInventarioFullOut>) obtenerInventarioFullOutDao.findAll();
+	public List<T_RECORD_REP_OIG> findAll() {
+		return (List<T_RECORD_REP_OIG>) obtenerInventarioFullOutDao.findAll();
 	}
 
 	@Override
-	public ObtenerInventarioFullOut findByID(Long id) {
+	public T_RECORD_REP_OIG findByID(Long id) {
 		return obtenerInventarioFullOutDao.findById(id).get();
 	}
 	
-	public List<ObtenerInventarioFullOut> getInventarioFullOut(String pUsuario,String pTerminal,String p_var,String clave_aplicativo) {
-		return (List<ObtenerInventarioFullOut>) obtenerInventarioFullOutDao.getInventarioFullOut(pUsuario,pTerminal,p_var,clave_aplicativo);
+	public List<T_RECORD_REP_OIG> getInventarioFullOut(String pUsuario,String pTerminal,String p_var,String clave_aplicativo) {
+		return (List<T_RECORD_REP_OIG>) obtenerInventarioFullOutDao.getInventarioFullOut(pUsuario,pTerminal,p_var,clave_aplicativo);
 	}
 	
 }
