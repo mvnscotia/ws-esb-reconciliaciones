@@ -6,7 +6,7 @@ http://xmlns.oracle.com/weblogic/weblogic-web-app
 http://xmlns.oracle.com/weblogic/weblogic-web-app/1.4/weblogic-web-app.xsd">
 
 <wls:weblogic-version>12.2.1</wls:weblogic-version>
-<wls:context-root>sifews</wls:context-root>
+<wls:context-root>sifewstest</wls:context-root>
 <wls:container-descriptor>
     <wls:prefer-application-packages>
         <wls:package-name>org.slf4j.*</wls:package-name>
@@ -17,8 +17,8 @@ http://xmlns.oracle.com/weblogic/weblogic-web-app/1.4/weblogic-web-app.xsd">
 </wls:container-descriptor>
 
 <wls:resource-description>
-    <wls:res-ref-name>jdbc/sife</wls:res-ref-name>
-    <wls:jndi-name>ds.oracle.sife</wls:jndi-name>
+    <wls:res-ref-name>jdbc/sife2</wls:res-ref-name>
+    <wls:jndi-name>ds.oracle.sife2</wls:jndi-name>
 </wls:resource-description>
 
 </wls:weblogic-web-app>

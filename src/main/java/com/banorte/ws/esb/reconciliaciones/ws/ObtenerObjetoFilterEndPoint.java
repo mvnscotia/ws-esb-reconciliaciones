@@ -29,6 +29,7 @@ import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerOb
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Relaciones.Relacion;
 import com.banorte.ws.esb.reconciliaciones.entity.T_RECORD_REP_OIG;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
+import com.banorte.ws.esb.reconciliaciones.util.Props;
 
 @Endpoint
 public class ObtenerObjetoFilterEndPoint {
@@ -40,6 +41,9 @@ public class ObtenerObjetoFilterEndPoint {
 
 	@Autowired
 	private ObtenerObjetoFilterServiceImpl obtenerObjetoFilterService;
+	
+	@Autowired
+	Props PropsObj;
 	
 	private Map<String, XMLGregorianCalendar> dateList ;
 	
@@ -60,9 +64,12 @@ public class ObtenerObjetoFilterEndPoint {
 		//N1,N2,R1,R3,FULL			
 		String pUsuario="";
 		String pTerminal="";//request.getVALue().getTranAplicacion();
+		String clave_aplicativo=request.getValue().getTranAplicacion();
 		String p_var=request.getValue().getTranTipoObjeto();
+		String type_query=PropsObj.find_coincidence(p_var);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
 		/*We need to change this part*/
-		List<T_RECORD_REP_OIG> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,p_var,"AP00000070");
+		//List<T_RECORD_REP_OIG> listObtenerObjetoFilterOut = PropsObj.full_rows(type_query,clave_aplicativo);
+		List<T_RECORD_REP_OIG> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,type_query,clave_aplicativo);
 		//Objeto listResponseObjects= new Objeto();
 		
 		if (listObtenerObjetoFilterOut != null) {
@@ -70,7 +77,7 @@ public class ObtenerObjetoFilterEndPoint {
 			GregorianCalendar cal = new GregorianCalendar();
 			dateList = new HashMap<String, XMLGregorianCalendar>();
 			
-			switch (p_var) {
+			switch (type_query) {
 			case "N1":
 				populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
 				break;

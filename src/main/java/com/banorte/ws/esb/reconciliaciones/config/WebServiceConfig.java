@@ -20,7 +20,7 @@ import org.springframework.xml.xsd.XsdSchemaCollection;
 @EnableWs
 @Configuration
 //@EnableWebMvc
-@ComponentScan(basePackages = {"com.banorte.ws.esb.reconciliaciones.config.WebServiceConfig"})
+@ComponentScan(basePackages = {"com.totalplay.comisiones_col.config.WebServiceConfig"})
 public class WebServiceConfig extends WsConfigurerAdapter{
 
 	@Bean 
@@ -43,16 +43,17 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 	} 
 	
 	@Bean
-	public XsdSchemaCollection requestSchemaCollection(XsdSchema User, XsdSchema ObtenerFiltradoFull, XsdSchema ObtenerObjetoFiltrado) {
+	public XsdSchemaCollection requestSchemaCollection( XsdSchema ObtenerFiltradoFull, XsdSchema ObtenerObjetoFiltrado) {
 	    return new XsdSchemaCollection() {
 
 	        public XsdSchema[] getXsdSchemas() {
-				return new XsdSchema[] { User, ObtenerFiltradoFull, ObtenerObjetoFiltrado};
+				return new XsdSchema[] { ObtenerFiltradoFull, ObtenerObjetoFiltrado};
 	        }
 
 	        public XmlValidator createValidator() {
 	            throw new UnsupportedOperationException();
 	        }
+	        
 	    };
 	}
 

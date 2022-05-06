@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.banorte</groupId>
 	<artifactId>ws-esb-reconciliaciones</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>ws-esb-reconciliaciones</name>
 	<description>ESB Reconciliaciones</description>
 	<packaging>war</packaging>
@@ -53,6 +53,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>2.5.0</version>
 	         <exclusions>
 	            <exclusion>
 	            	<groupId>org.slf4j</groupId>
