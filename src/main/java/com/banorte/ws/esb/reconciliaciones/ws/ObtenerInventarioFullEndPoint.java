@@ -1,5 +1,7 @@
 package com.banorte.ws.esb.reconciliaciones.ws;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -28,10 +30,11 @@ public class ObtenerInventarioFullEndPoint {
 	@Autowired
 	Props PropsObj;
 	
+	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerInventarioFullTypeRequest")
 	@ResponsePayload
 	public JAXBElement<ObtenerInventarioFullTypeResponse> getObtenerInventarioFullInType(
-			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request) {
+			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request) throws SQLException {
 		
 		ObjectFactory objectFactory = new ObjectFactory();
 		
@@ -51,9 +54,7 @@ public class ObtenerInventarioFullEndPoint {
 		
 		if(!type_query.equals("not_found"))
 		{	
-			//List<T_RECORD_REP_OIG> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.findAll();//.getInventarioFullOut(pUsuario,pTerminal,type_query,clave_aplicativo);
-			
-			List<T_RECORD_REP_OIG> listObtenerInventarioFullOut = PropsObj.full_rows(type_query,clave_aplicativo);
+			List<T_RECORD_REP_OIG> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,type_query,clave_aplicativo);
 			Objeto listResponseObjects= new Objeto();
 			
 			if (listObtenerInventarioFullOut != null) {
