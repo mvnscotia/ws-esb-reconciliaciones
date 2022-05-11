@@ -1,16 +1,15 @@
 package com.banorte.ws.esb.reconciliaciones.service;
 
 import java.util.List;
-import java.util.Map;
-
-import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
+import com.banorte.ws.esb.reconciliaciones.entity.RepOig;
 
 public interface IObtenerInventarioFullOut {
 
-	public List<ObtenerInventarioFullOut> findAll();
+	public List<RepOig> findAll();
 	
-	public ObtenerInventarioFullOut findByID(Long id);
+	public RepOig findByID(Long id);
 	
-	public List<ObtenerInventarioFullOut> getInventarioFullOut(String pUsuario,String pTerminal,String p_var,String clave_aplicativo);
+	public List<ObtenerInventarioFiltradoOut> getInventarioFullOut(String pUsuario,String pTerminal,String pVar,String pClaveAplicativo);
 	
 }

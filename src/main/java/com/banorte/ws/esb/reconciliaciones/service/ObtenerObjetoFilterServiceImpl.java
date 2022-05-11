@@ -1,33 +1,33 @@
 package com.banorte.ws.esb.reconciliaciones.service;
 
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.banorte.ws.esb.reconciliaciones.dao.ObtenerInventarioFullOutDao;
-import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
+
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
+import com.banorte.ws.esb.reconciliaciones.entity.RepOig;
+import com.banorte.ws.esb.reconciliaciones.repository.RepOigRepository;
 
 @Service("ObtenerObjetoFilterService")
 public class ObtenerObjetoFilterServiceImpl implements IObtenerObjetoFilterService{
 
-	private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 	
 	@Autowired
-	private ObtenerInventarioFullOutDao obtenerInventarioFullOutDao;
+	private RepOigRepository repOigRepository;
 	
 	@Override
-	public List<ObtenerInventarioFullOut> findAll() {
-		return (List<ObtenerInventarioFullOut>) obtenerInventarioFullOutDao.findAll();
+	public List<RepOig> findAll() {
+		return (List<RepOig>) repOigRepository.findAll();
 	}
 
 	@Override
-	public ObtenerInventarioFullOut findByID(Long id) {
-		return obtenerInventarioFullOutDao.findById(id).get();
+	public RepOig findByID(Long id) {
+		return repOigRepository.findById(id).get();
 	}
 	
-	public List<ObtenerInventarioFullOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String p_var) {
-		return (List<ObtenerInventarioFullOut>) obtenerInventarioFullOutDao.getInventarioFullOut(pUsuario,pTerminal,p_var);
+	@Override
+	public List<ObtenerInventarioFiltradoOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String pVar,String pClaveAplicativo) {
+		return (List<ObtenerInventarioFiltradoOut>) repOigRepository.findFilteredInventoryByObjectType(pUsuario,pTerminal,pVar,pClaveAplicativo);
 	}
 	
 }

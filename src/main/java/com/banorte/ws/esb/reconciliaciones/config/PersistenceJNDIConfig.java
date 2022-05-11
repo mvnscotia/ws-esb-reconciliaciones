@@ -23,14 +23,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
-@EnableJpaRepositories(basePackages = {"com.banorte.ws.esb.reconciliaciones.dao"})
+@EnableJpaRepositories(basePackages = {"com.banorte.ws.esb.reconciliaciones.repository"})
 public class PersistenceJNDIConfig {
 	
 	@Autowired
     private Environment env;
 	
 	@Autowired
-	@Qualifier("dataSource")
 	private DataSource dataSource;
 	
 	public void setDataSource(DataSource dataSource) {
@@ -40,6 +39,7 @@ public class PersistenceJNDIConfig {
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory()  throws NamingException {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setPersistenceUnitName("sifePU");
         em.setDataSource(dataSource());
         em.setPackagesToScan(new String[] { "com.banorte.ws.esb.reconciliaciones.entity" });
 
@@ -69,7 +69,7 @@ public class PersistenceJNDIConfig {
     
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "none");
+        properties.setProperty("hibernate.hbm2ddl.auto", "none");        
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.Oracle12cDialect");
         return properties;
     }     

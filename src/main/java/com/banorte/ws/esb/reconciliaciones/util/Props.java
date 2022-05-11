@@ -1,5 +1,8 @@
 package com.banorte.ws.esb.reconciliaciones.util;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Props {
 	
 	
@@ -22,4 +25,6 @@ public class Props {
 		return found;
 	}
 	
+	
 }
+	

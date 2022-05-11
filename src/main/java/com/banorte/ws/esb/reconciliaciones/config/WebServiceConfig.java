@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
@@ -19,7 +18,6 @@ import org.springframework.xml.xsd.XsdSchemaCollection;
 
 @EnableWs
 @Configuration
-//@EnableWebMvc
 @ComponentScan(basePackages = {"com.banorte.ws.esb.reconciliaciones.config.WebServiceConfig"})
 public class WebServiceConfig extends WsConfigurerAdapter{
 
@@ -43,35 +41,30 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 	} 
 	
 	@Bean
-	public XsdSchemaCollection requestSchemaCollection(XsdSchema User, XsdSchema ObtenerFiltradoFull, XsdSchema ObtenerObjetoFiltrado) {
+	public XsdSchemaCollection requestSchemaCollection( XsdSchema ObtenerFiltradoFull, XsdSchema ObtenerObjetoFiltrado) {
 	    return new XsdSchemaCollection() {
 
 	        public XsdSchema[] getXsdSchemas() {
-				return new XsdSchema[] { User, ObtenerFiltradoFull, ObtenerObjetoFiltrado};
+				return new XsdSchema[] { ObtenerFiltradoFull, ObtenerObjetoFiltrado};
 	        }
 
 	        public XmlValidator createValidator() {
 	            throw new UnsupportedOperationException();
 	        }
+	        
 	    };
 	}
-
-	@Bean(name = "User")
-	public XsdSchema UserSchema()
-	{
-	    return new SimpleXsdSchema(new ClassPathResource("xsd/User.xsd"));
-	}
 	
-	  @Bean(name = "ObtenerFiltradoFull") 
-	  public XsdSchema ObtenerFiltradoFullSchema() 
-	  { 
-		  return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerFiltradoFull.xsd")); 
-	  }
+	@Bean(name = "ObtenerFiltradoFull") 
+	public XsdSchema ObtenerFiltradoFullSchema() 
+	{ 
+		return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerFiltradoFull.xsd")); 
+	}
 	 
 	
 	@Bean(name = "ObtenerObjetoFiltrado")
 	public XsdSchema ObtenerObjetoFiltradoSchema()
 	{
-	    return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerObjetoFiltrado.xsd"));
+		return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerObjetoFiltrado.xsd"));
 	}	
 }

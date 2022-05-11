@@ -5,16 +5,20 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd
 http://xmlns.oracle.com/weblogic/weblogic-web-app 
 http://xmlns.oracle.com/weblogic/weblogic-web-app/1.4/weblogic-web-app.xsd">
 
-<wls:weblogic-version>12.2.1</wls:weblogic-version>
+<wls:weblogic-version>12.1.3.0.0</wls:weblogic-version>
 <wls:context-root>sifews</wls:context-root>
 <wls:container-descriptor>
     <wls:prefer-application-packages>
+    	<wls:package-name>antlr.*</wls:package-name>
         <wls:package-name>org.slf4j.*</wls:package-name>
+        <wls:package-name>org.springframework.*</wls:package-name>        
         <wls:package-name>com.fasterxml.*</wls:package-name>
+        <wls:package-name>org.joda.*</wls:package-name>
         <wls:package-name>org.hibernate.*</wls:package-name>
         <wls:package-name>javax.persistence.*</wls:package-name>
     </wls:prefer-application-packages>
 </wls:container-descriptor>
+
 
 <wls:resource-description>
     <wls:res-ref-name>jdbc/sife</wls:res-ref-name>

@@ -12,6 +12,6 @@
 
   <sws:annotation-driven/>
   
-  <jee:jndi-lookup jndi-name="jdbc/sife" id="dataSource" />  
+  <jee:jndi-lookup id="dataSource" jndi-name="jdbc/sife" />	  
 
 </beans>

@@ -3,7 +3,6 @@ package com.banorte.ws.esb.reconciliaciones.ws;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -27,8 +26,11 @@ import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerOb
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Objetos.Objeto;
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Relaciones;
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Relaciones.Relacion;
-import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFullOut;
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
+import com.banorte.ws.esb.reconciliaciones.util.Props;
+
+//import weblogic.logging.NonCatalogLogger;
 
 @Endpoint
 public class ObtenerObjetoFilterEndPoint {
@@ -41,12 +43,16 @@ public class ObtenerObjetoFilterEndPoint {
 	@Autowired
 	private ObtenerObjetoFilterServiceImpl obtenerObjetoFilterService;
 	
+	@Autowired
+	Props PropsObj;
+	
 	private Map<String, XMLGregorianCalendar> dateList ;
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerObjetoFiltradaInTypeRequest")
 	@ResponsePayload
 	public JAXBElement<ObtenerObjetoFiltradaOutTypeResponse> getObtenerObjetoFiltradaInType(
 			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInTypeRequest> request) {
+	    //NonCatalogLogger log = new NonCatalogLogger("ws-esb-reconciliaciones");
 		
 		ObjectFactory objectFactory = new ObjectFactory();
 		
@@ -59,10 +65,21 @@ public class ObtenerObjetoFilterEndPoint {
 		obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutTypeResponse.Objetos());
 		//N1,N2,R1,R3,FULL			
 		String pUsuario="";
-		String pTerminal="";//request.getValue().getTranAplicacion();
-		String p_var=request.getValue().getTranTipoObjeto();
+		String pTerminal="";
+		String pClaveAplicativo=request.getValue().getTranAplicacion();
+		String pVar=request.getValue().getTranTipoObjeto();
+		String type_query=PropsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
+		
 		/*We need to change this part*/
-		List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,p_var);
+//		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = null;
+//		try{
+//			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,p_var);
+//		}catch(Exception e) {
+//			log.error("ws-esb-reconciliaciones-An exception occurred in service()", e);
+//		}
+//		
+		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,pVar, pClaveAplicativo);
+		
 		//Objeto listResponseObjects= new Objeto();
 		
 		if (listObtenerObjetoFilterOut != null) {
@@ -70,7 +87,7 @@ public class ObtenerObjetoFilterEndPoint {
 			GregorianCalendar cal = new GregorianCalendar();
 			dateList = new HashMap<String, XMLGregorianCalendar>();
 			
-			switch (p_var) {
+			switch (type_query) {
 			case "N1":
 				populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
 				break;
@@ -96,10 +113,10 @@ public class ObtenerObjetoFilterEndPoint {
 	
 
 	
-	private void populateN1Response(List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateN1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Objeto listResponseObjects= new Objeto();
-		for (ObtenerInventarioFullOut fullObj : listObtenerObjetoFilterOut) {
-			
+		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
+			listResponseObjects= new Objeto();
 			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
 			listResponseObjects.setTranObjeto(fullObj.getVal2());
 			listResponseObjects.setTranDescripcion(fullObj.getVal3());
@@ -111,10 +128,10 @@ public class ObtenerObjetoFilterEndPoint {
 		}		
 	}
 	
-	private void populateN2Response(List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateN2Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Objeto listResponseObjects= new Objeto();
-		for (ObtenerInventarioFullOut fullObj : listObtenerObjetoFilterOut) {
-			
+		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
+			listResponseObjects= new Objeto();
 			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
 			listResponseObjects.setTranObjeto(fullObj.getVal4());
 			listResponseObjects.setTranDescripcion(fullObj.getVal5());
@@ -127,36 +144,42 @@ public class ObtenerObjetoFilterEndPoint {
 		}
 	}
 	
-	private void populateR1Response(List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
-		Relaciones relaciones = new Relaciones();
-		Relacion relacionObj = new Relacion();
-		for (ObtenerInventarioFullOut fullObj : listObtenerObjetoFilterOut) {
+	private void populateR1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+		Relacion relacionAttributeList = new Relacion();
+		Relaciones relacionesList = new Relaciones();
+		
+		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
+			relacionAttributeList = new Relacion();
+			relacionAttributeList.setTranIdPerfil(fullObj.getVal1());
+			relacionAttributeList.setTranIdTransaccion(fullObj.getVal2());  
+			relacionAttributeList.setTranTipoOperacion(getFechaCreacionR1(fullObj.getVal3()));
+			relacionAttributeList.setTranIdUsuario(fullObj.getVal4());
+			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
 			
-			relacionObj.setTranIdPerfil(fullObj.getVal1());
-			relacionObj.setTranIdTransaccion(fullObj.getVal2());  
-			//relacionObj.setTranTipoOperacion(getFechaCreacionR1(fullObj.getVal3()));
-			relacionObj.setTranIdUsuario(fullObj.getVal4());
-			relacionObj.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
-			relaciones.getRelacion().add(relacionObj);
+			relacionesList = new Relaciones();
+			relacionesList.getRelacion().add(relacionAttributeList);
 			
-			obtenerObjetoFilterResponseObject.getRelaciones().add(relaciones);
+			obtenerObjetoFilterResponseObject.getRelaciones().add(relacionesList);
 		}
 		
 	}	
 	
-	private void populateR3Response(List<ObtenerInventarioFullOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
-		Relaciones relaciones = new Relaciones();
-		Relacion relacionObj = new Relacion();
-		for (ObtenerInventarioFullOut fullObj : listObtenerObjetoFilterOut) {
+	private void populateR3Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+		Relacion relacionAttributeList = new Relacion();
+		Relaciones relacionesList = new Relaciones();
+		
+		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
+			relacionAttributeList = new Relacion();
+			relacionAttributeList.setTranIdPerfil(fullObj.getVal2()); 
+			relacionAttributeList.setTranIdTransaccion("");
+			relacionAttributeList.setTranTipoOperacion("Alta");
+			relacionAttributeList.setTranIdUsuario(fullObj.getVal1()); 
+			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
 			
-			relacionObj.setTranIdPerfil(fullObj.getVal2()); 
-			relacionObj.setTranIdTransaccion("");
-			relacionObj.setTranTipoOperacion("Alta");
-			relacionObj.setTranIdUsuario(fullObj.getVal1()); 
-			relacionObj.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
-			relaciones.getRelacion().add(relacionObj);
+			relacionesList = new Relaciones();
+			relacionesList.getRelacion().add(relacionAttributeList);
 			
-			obtenerObjetoFilterResponseObject.getRelaciones().add(relaciones);
+			obtenerObjetoFilterResponseObject.getRelaciones().add(relacionesList);
 		}		
 	}	
 	
