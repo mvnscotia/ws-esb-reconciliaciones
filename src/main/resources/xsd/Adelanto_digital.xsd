@@ -1,0 +1,30 @@
+<xsd:schema targetNamespace="http://entrada.totalplay.mx.com/" xmlns:ns0="http://entrada.totalplay.mx.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <xsd:complexType name="get_datos_adelanto_digital">
+      <xsd:sequence>
+         <xsd:element name="id_empleado" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="obj_query" type="ns0:proceso_result" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="get_datos_adelanto_digitalResponse">
+      <xsd:sequence>
+         <xsd:element name="return" type="ns0:nivel_endeudamiento" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="proceso_result">
+      <xsd:sequence>
+         <xsd:element name="causa_error" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="status" type="xsd:boolean"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:complexType name="nivel_endeudamiento">
+      <xsd:sequence>
+         <xsd:element name="CURP" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="RFC" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="antiguedad" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="capacidad_de_endeudamiento" type="xsd:string" minOccurs="0"/>
+         <xsd:element name="nombre_completo" type="xsd:string" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   <xsd:element name="get_datos_adelanto_digital" type="ns0:get_datos_adelanto_digital"/>
+   <xsd:element name="get_datos_adelanto_digitalResponse" type="ns0:get_datos_adelanto_digitalResponse"/>
+</xsd:schema>
