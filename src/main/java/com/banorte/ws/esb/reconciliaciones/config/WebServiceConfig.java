@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
@@ -19,8 +18,7 @@ import org.springframework.xml.xsd.XsdSchemaCollection;
 
 @EnableWs
 @Configuration
-//@EnableWebMvc
-@ComponentScan(basePackages = {"com.totalplay.comisiones_col.config.WebServiceConfig"})
+@ComponentScan(basePackages = {"com.banorte.ws.esb.reconciliaciones.config.WebServiceConfig"})
 public class WebServiceConfig extends WsConfigurerAdapter{
 
 	@Bean 
@@ -56,23 +54,17 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 	        
 	    };
 	}
-
-	@Bean(name = "User")
-	public XsdSchema UserSchema()
-	{
-	    return new SimpleXsdSchema(new ClassPathResource("xsd/User.xsd"));
-	}
 	
-	  @Bean(name = "ObtenerFiltradoFull") 
-	  public XsdSchema ObtenerFiltradoFullSchema() 
-	  { 
-		  return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerFiltradoFull.xsd")); 
-	  }
+	@Bean(name = "ObtenerFiltradoFull") 
+	public XsdSchema ObtenerFiltradoFullSchema() 
+	{ 
+		return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerFiltradoFull.xsd")); 
+	}
 	 
 	
 	@Bean(name = "ObtenerObjetoFiltrado")
 	public XsdSchema ObtenerObjetoFiltradoSchema()
 	{
-	    return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerObjetoFiltrado.xsd"));
+		return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerObjetoFiltrado.xsd"));
 	}	
 }

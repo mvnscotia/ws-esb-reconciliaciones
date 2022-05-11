@@ -1,11 +1,6 @@
 package com.banorte.ws.esb.reconciliaciones.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
-
-import com.banorte.ws.esb.reconciliaciones.entity.T_RECORD_REP_OIG;
 
 @Component
 public class Props {

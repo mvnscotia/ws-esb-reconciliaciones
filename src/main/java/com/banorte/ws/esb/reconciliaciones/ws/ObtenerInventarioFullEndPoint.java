@@ -1,7 +1,6 @@
 package com.banorte.ws.esb.reconciliaciones.ws;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBElement;
@@ -14,7 +13,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.*;
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.ObtenerInventarioFullTypeResponse.Objetos.Objeto;
-import com.banorte.ws.esb.reconciliaciones.entity.T_RECORD_REP_OIG;
+import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerInventarioFullOutServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
 
@@ -28,7 +27,7 @@ public class ObtenerInventarioFullEndPoint {
 	ObtenerInventarioFullOutServiceImpl obtenerInventarioFullOutServiceImpl;
 	
 	@Autowired
-	Props PropsObj;
+	Props propsObj;
 	
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerInventarioFullTypeRequest")
@@ -48,20 +47,20 @@ public class ObtenerInventarioFullEndPoint {
 		//N1,N2,R1,R3,FULL			
 		String pUsuario="";
 		String pTerminal="";
-		String p_var=request.getValue().getTranTipoObjeto();
-		String clave_aplicativo=request.getValue().getTranAplicacion();
-		String type_query=PropsObj.find_coincidence(p_var);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
+		String pVar=request.getValue().getTranTipoObjeto();
+		String pClaveAplicativo=request.getValue().getTranAplicacion();
+		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
 		
 		if(!type_query.equals("not_found"))
 		{	
-			List<T_RECORD_REP_OIG> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,type_query,clave_aplicativo);
+			List<ObtenerInventarioFiltradoOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,type_query,pClaveAplicativo);
 			Objeto listResponseObjects= new Objeto();
 			
 			if (listObtenerInventarioFullOut != null) {
-				for (T_RECORD_REP_OIG objfull : listObtenerInventarioFullOut) {
+				for (ObtenerInventarioFiltradoOut objfull : listObtenerInventarioFullOut) {
 					
 					listResponseObjects= new Objeto();
-					listResponseObjects.setTranIdTipoObjeto(objfull.getVAL1());
+					listResponseObjects.setTranIdTipoObjeto(objfull.getVal1());
 					ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
 				}
 			}
