@@ -1,0 +1,48 @@
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:schema="http://www.banorte.com/ws/esb/Reconciliaciones"
+                  xmlns:tns="http://www.banorte.com/ws/esb/Reconciliaciones"
+                  targetNamespace="http://www.banorte.com/ws/esb/Reconciliaciones">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.banorte.com/ws/esb/Reconciliaciones" schemaLocation="xsd/ObtenerObjetoFiltrado.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+	
+    <wsdl:message name="ObtenerObjetoFiltradaRequestMsg">
+        <wsdl:part element="schema:ObtenerObjetoFiltradaIn" name="parameters"/>       
+    </wsdl:message>
+	
+    <wsdl:message name="ObtenerObjetoFiltradaResponseMsg">
+        <wsdl:part element="schema:ObtenerObjetoFiltradaOut" name="result"/>       
+    </wsdl:message>	
+	
+	
+	
+    <wsdl:portType name="ReconciliacionesPort">                                         
+        <wsdl:operation name="ObtenerObjetoFiltrada">
+            <wsdl:input message="tns:ObtenerObjetoFiltradaRequestMsg" name="ObtenerObjetoFiltradaRequest"/>
+            <wsdl:output message="tns:ObtenerObjetoFiltradaResponseMsg" name="ObtenerObjetoFiltradaResponse" />     
+        </wsdl:operation>
+    </wsdl:portType>
+	
+	
+	
+    <wsdl:binding name="Reconciliaciones" type="tns:ReconciliacionesPort">          
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>                   
+        <wsdl:operation name="ObtenerObjetoFiltrada">
+			 <soap:operation soapAction="" />
+			 <wsdl:input name="ObtenerObjetoFiltradaRequest">
+				<soap:body use="literal"/>
+			 </wsdl:input>
+			 <wsdl:output name="ObtenerObjetoFiltradaResponse">
+				<soap:body use="literal"/>
+			 </wsdl:output>			 
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="ReconciliacionesPortService">
+        <wsdl:port binding="tns:Reconciliaciones" name="ReconciliacionesHttpPort">  
+            <soap:address location="http://127.0.0.1:8080/sifews/sifews"/>     
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

@@ -21,11 +21,11 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObjectFactory;
-import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaInTypeRequest;
-import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse;
-import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Objetos.Objeto;
-import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Relaciones;
-import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutTypeResponse.Relaciones.Relacion;
+import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaInType;
+import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutType;
+import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutType.Objetos.Objeto;
+import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutType.Relaciones;
+import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutType.Relaciones.Relacion;
 import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
@@ -48,21 +48,21 @@ public class ObtenerObjetoFilterEndPoint {
 	
 	private Map<String, XMLGregorianCalendar> dateList ;
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerObjetoFiltradaInTypeRequest")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerObjetoFiltradaIn")
 	@ResponsePayload
-	public JAXBElement<ObtenerObjetoFiltradaOutTypeResponse> getObtenerObjetoFiltradaInType(
-			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInTypeRequest> request) {
+	public JAXBElement<ObtenerObjetoFiltradaOutType> getObtenerObjetoFiltradaInType(
+			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInType> request) {
 	    //NonCatalogLogger log = new NonCatalogLogger("ws-esb-reconciliaciones");
 		
 		ObjectFactory objectFactory = new ObjectFactory();
 		
-		ObtenerObjetoFiltradaOutTypeResponse objetoFiltradaResponseFactory = objectFactory.createObtenerObjetoFiltradaOutTypeResponse();
+		ObtenerObjetoFiltradaOutType objetoFiltradaResponseFactory = objectFactory.createObtenerObjetoFiltradaOutType();
 		
-		JAXBElement<ObtenerObjetoFiltradaOutTypeResponse> objetoFiltradaRespose = objectFactory.createObtenerObjetoFiltradaOutTypeResponse(objetoFiltradaResponseFactory);
+		JAXBElement<ObtenerObjetoFiltradaOutType> objetoFiltradaRespose = objectFactory.createObtenerObjetoFiltradaOut(objetoFiltradaResponseFactory);
 		
-		ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject= new ObtenerObjetoFiltradaOutTypeResponse();
+		ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject= new ObtenerObjetoFiltradaOutType();
 		
-		obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutTypeResponse.Objetos());
+		obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
 		//N1,N2,R1,R3,FULL			
 		String pUsuario="";
 		String pTerminal="";
@@ -113,7 +113,7 @@ public class ObtenerObjetoFilterEndPoint {
 	
 
 	
-	private void populateN1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateN1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Objeto listResponseObjects= new Objeto();
 		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
 			listResponseObjects= new Objeto();
@@ -128,7 +128,7 @@ public class ObtenerObjetoFilterEndPoint {
 		}		
 	}
 	
-	private void populateN2Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateN2Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Objeto listResponseObjects= new Objeto();
 		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
 			listResponseObjects= new Objeto();
@@ -144,7 +144,7 @@ public class ObtenerObjetoFilterEndPoint {
 		}
 	}
 	
-	private void populateR1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateR1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Relacion relacionAttributeList = new Relacion();
 		Relaciones relacionesList = new Relaciones();
 		
@@ -164,7 +164,7 @@ public class ObtenerObjetoFilterEndPoint {
 		
 	}	
 	
-	private void populateR3Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutTypeResponse obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateR3Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
 		Relacion relacionAttributeList = new Relacion();
 		Relaciones relacionesList = new Relaciones();
 		
