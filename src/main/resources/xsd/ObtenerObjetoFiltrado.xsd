@@ -53,9 +53,11 @@
          <maxLength value="256"/>
       </restriction>
    	</simpleType>
+ 
    	
     <element name="ObtenerObjetoFiltradaIn" type="tns:ObtenerObjetoFiltradaInType"></element>
     <element name="ObtenerObjetoFiltradaOut" type="tns:ObtenerObjetoFiltradaOutType"></element>
+    
     
 	 <complexType name="ObtenerObjetoFiltradaInType">
 	   <sequence>

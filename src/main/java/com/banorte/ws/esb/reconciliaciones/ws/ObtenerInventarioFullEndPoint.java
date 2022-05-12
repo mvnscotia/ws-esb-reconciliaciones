@@ -30,7 +30,7 @@ public class ObtenerInventarioFullEndPoint {
 	Props propsObj;
 	
 	
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerInventarioFullTypeRequest")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerInventarioFullIn")
 	@ResponsePayload
 	public JAXBElement<ObtenerInventarioFullTypeResponse> getObtenerInventarioFullInType(
 			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request) throws SQLException {
@@ -39,7 +39,7 @@ public class ObtenerInventarioFullEndPoint {
 		
 		ObtenerInventarioFullTypeResponse InventarioFullResponseFactory = objectFactory.createObtenerInventarioFullTypeResponse();
 		
-		JAXBElement<ObtenerInventarioFullTypeResponse> InventarioFullResponse = objectFactory.createObtenerInventarioFullTypeResponse(InventarioFullResponseFactory);
+		JAXBElement<ObtenerInventarioFullTypeResponse> InventarioFullResponse = objectFactory.createObtenerInventarioFullOut(InventarioFullResponseFactory);
 		
 		ObtenerInventarioFullTypeResponse ObtenerInventarioFullResponseObject= new ObtenerInventarioFullTypeResponse();
 		
