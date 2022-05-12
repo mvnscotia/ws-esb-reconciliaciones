@@ -5,9 +5,20 @@
                   targetNamespace="http://www.banorte.com/ws/esb/Reconciliaciones">
     <wsdl:types>
         <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://www.banorte.com/ws/esb/Reconciliaciones" schemaLocation="xsd/ObtenerFiltradoFull.xsd"/>
             <xsd:import namespace="http://www.banorte.com/ws/esb/Reconciliaciones" schemaLocation="xsd/ObtenerObjetoFiltrado.xsd"/>
         </xsd:schema>
     </wsdl:types>
+    
+    
+    <wsdl:message name="ObtenerInventarioFullRequestMsg">
+        <wsdl:part element="schema:ObtenerInventarioFullIn" name="parameters"/>       
+    </wsdl:message>
+	
+    <wsdl:message name="ObtenerInventarioFullResponseMsg">
+        <wsdl:part element="schema:ObtenerInventarioFullOut" name="result"/>       
+    </wsdl:message>	    
+	
 	
     <wsdl:message name="ObtenerObjetoFiltradaRequestMsg">
         <wsdl:part element="schema:ObtenerObjetoFiltradaIn" name="parameters"/>       
@@ -20,16 +31,34 @@
 	
 	
     <wsdl:portType name="ReconciliacionesPort">                                         
+
+        <wsdl:operation name="ObtenerObjetoFull">
+            <wsdl:input message="tns:ObtenerInventarioFullRequestMsg" name="ObtenerObjetoFullRequest"/>
+            <wsdl:output message="tns:ObtenerInventarioFullResponseMsg" name="ObtenerObjetoFullResponse" />     
+        </wsdl:operation>   
+        
         <wsdl:operation name="ObtenerObjetoFiltrada">
             <wsdl:input message="tns:ObtenerObjetoFiltradaRequestMsg" name="ObtenerObjetoFiltradaRequest"/>
             <wsdl:output message="tns:ObtenerObjetoFiltradaResponseMsg" name="ObtenerObjetoFiltradaResponse" />     
-        </wsdl:operation>
+        </wsdl:operation>             
+        
     </wsdl:portType>
 	
 	
 	
     <wsdl:binding name="Reconciliaciones" type="tns:ReconciliacionesPort">          
-        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>                   
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>  
+        
+        <wsdl:operation name="ObtenerObjetoFull">
+			 <soap:operation soapAction="" />
+			 <wsdl:input name="ObtenerObjetoFullRequest">
+				<soap:body use="literal"/>
+			 </wsdl:input>
+			 <wsdl:output name="ObtenerObjetoFullResponse">
+				<soap:body use="literal"/>
+			 </wsdl:output>			 
+        </wsdl:operation>          
+                         
         <wsdl:operation name="ObtenerObjetoFiltrada">
 			 <soap:operation soapAction="" />
 			 <wsdl:input name="ObtenerObjetoFiltradaRequest">
@@ -39,6 +68,9 @@
 				<soap:body use="literal"/>
 			 </wsdl:output>			 
         </wsdl:operation>
+        
+      
+        
     </wsdl:binding>
     <wsdl:service name="ReconciliacionesPortService">
         <wsdl:port binding="tns:Reconciliaciones" name="ReconciliacionesHttpPort">  

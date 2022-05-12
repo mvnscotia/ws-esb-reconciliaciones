@@ -91,6 +91,21 @@
             <artifactId>jaxb2-maven-plugin</artifactId>
             <version>1.5</version>
             <executions>
+
+                <execution>
+                    <id>id1</id>
+                    <goals>
+                        <goal>xjc</goal>
+                    </goals>
+                    <configuration>
+                    	<schemaDirectory>src/main/resources/xsd</schemaDirectory>
+                    	<schemaFiles>ObtenerFiltradoFull.xsd</schemaFiles>
+                        <outputDirectory>src/main/java</outputDirectory>
+                        <packageName>com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema</packageName>
+                        <clearOutputDir>false</clearOutputDir>
+                    </configuration>
+                </execution>
+                
             	<execution>
                     <id>id2</id>
                     <goals>
@@ -104,20 +119,8 @@
                         <clearOutputDir>false</clearOutputDir>
                         <forceRegenerate>false</forceRegenerate>
                     </configuration>
-                </execution>
-                <execution>
-                    <id>id1</id>
-                    <goals>
-                        <goal>xjc</goal>
-                    </goals>
-                    <configuration>
-                    	<schemaDirectory>src/main/resources/xsd</schemaDirectory>
-                    	<schemaFiles>ObtenerFiltradoFull.xsd</schemaFiles>
-                        <outputDirectory>src/main/java</outputDirectory>
-                        <packageName>com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema</packageName>
-                        <clearOutputDir>false</clearOutputDir>
-                    </configuration>
-                </execution>             
+                </execution>                
+                             
             </executions>
         	</plugin>
 		</plugins>

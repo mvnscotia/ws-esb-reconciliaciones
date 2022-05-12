@@ -30,8 +30,8 @@
 	     </restriction>
 	</simpleType>
 	
-	<element name="ObtenerInventarioFullTypeRequest" type="tns:ObtenerInventarioFullTypeRequest"></element>
-	<element name="ObtenerInventarioFullTypeResponse" type="tns:ObtenerInventarioFullTypeResponse"></element>
+	<element name="ObtenerInventarioFullIn" type="tns:ObtenerInventarioFullTypeRequest"></element>
+	<element name="ObtenerInventarioFullOut" type="tns:ObtenerInventarioFullTypeResponse"></element>
     
     <complexType name="ObtenerInventarioFullTypeRequest">
     	<sequence>

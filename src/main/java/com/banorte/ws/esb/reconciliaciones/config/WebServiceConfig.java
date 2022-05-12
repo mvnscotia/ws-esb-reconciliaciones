@@ -47,11 +47,11 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 //	} 
 	
 	@Bean
-	public XsdSchemaCollection requestSchemaCollection(/* XsdSchema ObtenerFiltradoFull, */ XsdSchema ObtenerObjetoFiltrado) {
+	public XsdSchemaCollection requestSchemaCollection( XsdSchema ObtenerFiltradoFull,  XsdSchema ObtenerObjetoFiltrado) {
 	    return new XsdSchemaCollection() {
 
 	        public XsdSchema[] getXsdSchemas() {
-				return new XsdSchema[] { /* ObtenerFiltradoFull, */ ObtenerObjetoFiltrado};
+				return new XsdSchema[] {  ObtenerFiltradoFull,  ObtenerObjetoFiltrado};
 	        }
 
 	        public XmlValidator createValidator() {
