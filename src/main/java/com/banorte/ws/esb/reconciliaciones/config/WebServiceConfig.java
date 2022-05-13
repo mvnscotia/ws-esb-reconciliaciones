@@ -1,5 +1,9 @@
 package com.banorte.ws.esb.reconciliaciones.config;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.server.EndpointInterceptor;
+import org.springframework.ws.server.endpoint.interceptor.PayloadLoggingInterceptor;
+import org.springframework.ws.soap.security.xwss.XwsSecurityInterceptor;
+import org.springframework.ws.soap.security.xwss.callback.SimplePasswordValidationCallbackHandler;
+import org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.ws.wsdl.wsdl11.SimpleWsdl11Definition;
@@ -47,11 +56,11 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 //	} 
 	
 	@Bean
-	public XsdSchemaCollection requestSchemaCollection( XsdSchema ObtenerFiltradoFull,  XsdSchema ObtenerObjetoFiltrado) {
+	public XsdSchemaCollection requestSchemaCollection(/* XsdSchema ObtenerFiltradoFull, */  XsdSchema ObtenerObjetoFiltrado) {
 	    return new XsdSchemaCollection() {
 
 	        public XsdSchema[] getXsdSchemas() {
-				return new XsdSchema[] {  ObtenerFiltradoFull,  ObtenerObjetoFiltrado};
+				return new XsdSchema[] { /* ObtenerFiltradoFull, */  ObtenerObjetoFiltrado};
 	        }
 
 	        public XmlValidator createValidator() {
@@ -60,6 +69,14 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 	        
 	    };
 	}
+	
+	
+	
+	@Bean(name = "requestHeadersV1xsd3") 
+	public XsdSchema requestHeadersV1xsd3() 
+	{ 
+		return new SimpleXsdSchema(new ClassPathResource("xsd/requestHeadersV1xsd3.xsd")); 
+	}	
 	
 	@Bean(name = "ObtenerFiltradoFull") 
 	public XsdSchema ObtenerFiltradoFullSchema() 
@@ -72,5 +89,68 @@ public class WebServiceConfig extends WsConfigurerAdapter{
 	public XsdSchema ObtenerObjetoFiltradoSchema()
 	{
 		return new SimpleXsdSchema(new ClassPathResource("xsd/ObtenerObjetoFiltrado.xsd"));
+	}
+	
+	
+	
+	
+	/**
+	 * @return payloadLoggingInterceptor
+	 * Configure Logging Interceptors
+	 * To log the payload of our SOAP messages we’ll add the below beans in the WebServiceConfig class.
+	 */
+	@Bean
+	PayloadLoggingInterceptor payloadLoggingInterceptor() {
+		return new PayloadLoggingInterceptor();
+	}
+
+	/**
+	 * @return payloadValidatingInterceptor
+	 * Configure Logging Interceptors
+	 * To log the payload of our SOAP messages we’ll add the below beans in the WebServiceConfig class.	 * 
+	 */
+	@Bean
+	PayloadValidatingInterceptor payloadValidatingInterceptor() {
+		final PayloadValidatingInterceptor payloadValidatingInterceptor = new PayloadValidatingInterceptor();
+		payloadValidatingInterceptor.setSchema(new ClassPathResource("xsd/ObtenerObjetoFiltrado.xsd"));
+		//payloadValidatingInterceptor.setXsdSchemaCollection(requestSchemaCollection);
+		return payloadValidatingInterceptor;
 	}	
+	
+	/**
+	 * @return securityInterceptor
+	 * Configure Security Interceptors
+	 * XwsSecurityInterceptor will intercept the request and validate the username & password by the help of SimplePasswordValidationCallbackHandler.
+	 */
+	@Bean
+	XwsSecurityInterceptor securityInterceptor() {
+		XwsSecurityInterceptor securityInterceptor = new XwsSecurityInterceptor();
+		securityInterceptor.setCallbackHandler(callbackHandler());
+		securityInterceptor.setPolicyConfiguration(new ClassPathResource("securityPolicy.xml"));
+		return securityInterceptor;
+	}
+
+	/**
+	 * @return callbackHandler
+	 * Configure Security Interceptors
+	 * XwsSecurityInterceptor will intercept the request and validate the username & password by the help of SimplePasswordValidationCallbackHandler.	 * 
+	 */
+	@Bean
+	SimplePasswordValidationCallbackHandler callbackHandler() {
+		SimplePasswordValidationCallbackHandler callbackHandler = new SimplePasswordValidationCallbackHandler();
+		callbackHandler.setUsersMap(Collections.singletonMap("VUdfQ09OQ0VOVFJBX0xHQ1k=", "QU1EZ3IwRDBucw=="));
+		return callbackHandler;
+	}	
+	
+	/**
+	 *Add interceptor to the chain
+	 */
+	@Override
+	public void addInterceptors(List<EndpointInterceptor> interceptors) {
+		interceptors.add(payloadLoggingInterceptor());
+		interceptors.add(payloadValidatingInterceptor());
+		interceptors.add(securityInterceptor());
+	}	
+	
+	
 }

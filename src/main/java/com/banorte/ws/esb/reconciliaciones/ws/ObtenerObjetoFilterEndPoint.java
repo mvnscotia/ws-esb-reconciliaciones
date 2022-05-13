@@ -19,6 +19,7 @@ import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.soap.SoapHeader;
 
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObjectFactory;
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaInType;
@@ -51,7 +52,7 @@ public class ObtenerObjetoFilterEndPoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerObjetoFiltradaIn")
 	@ResponsePayload
 	public JAXBElement<ObtenerObjetoFiltradaOutType> getObtenerObjetoFiltradaInType(
-			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInType> request) {
+			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInType> request, SoapHeader soapHeader) {
 	    //NonCatalogLogger log = new NonCatalogLogger("ws-esb-reconciliaciones");
 		
 		ObjectFactory objectFactory = new ObjectFactory();
