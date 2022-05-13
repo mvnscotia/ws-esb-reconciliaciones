@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema elementFormDefault="qualified" 
+		targetNamespace="http://www.banorte.com/ws/esb/general/Headers"
+		xmlns="http://www.w3.org/2001/XMLSchema" 
+		xmlns:tns="http://www.banorte.com/ws/esb/general/Headers">
+		
+   <annotation>
+      <documentation xml:lang="es">-Schema que contiene la
+			definicion de los elementos genericos Header/Request
+			-Grupo Financiero
+			Banorte
+			-30/Enero/2014</documentation>
+   </annotation>
+   <element name="HeaderReq" type="tns:HeaderRequestType"/>
+   <complexType name="RequestType">
+      <annotation>
+         <documentation xml:lang="es">define los elementos genericos del elemento Request</documentation>
+      </annotation>
+      <sequence>
+         <element name="IdServicio" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identificador de servicio que se quiere invocar,
+						como servicio final. Se usara para consultar al
+						WSRR</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="10"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="VersionServicio" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identifica la version del servicio a invocar</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="5"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="VersionEndpoint" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Version Mensaje Negocio</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="5"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="CodEmpresa" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Entidad a la que pertenece la terminal conectada</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="10"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="CodCR" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Oficina a la que pertenece la terminal conectada</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="integer">
+                  <minExclusive value="0"/>
+                  <maxExclusive value="99999"/>
+               </restriction>
+            </simpleType>
+         </element>
+      </sequence>
+   </complexType>
+   <complexType name="HeaderRequestType">
+      <annotation>
+         <documentation xml:lang="es">-Elemento Base que
+				define los elementos genericos del Header Request
+				--ATRIBUTOS--
+				-locale: Informacion de localizacion del peticionario
+				-CodIdioma:
+				Formato de codificacion de caracteres</documentation>
+      </annotation>
+      <sequence>
+         <element name="Despliegue" type="tns:DespliegueType" minOccurs="0" maxOccurs="1"/>
+         <element name="Acceso" type="tns:AccesoType" minOccurs="1" maxOccurs="1"/>
+         <element name="Consumidor" type="tns:ConsumidorType" minOccurs="1" maxOccurs="1"/>
+         <element name="DatosPeticion" type="tns:RequestType" minOccurs="1" maxOccurs="1"/>
+         <element name="DatosVariables" type="tns:DatosVariablesType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+      <attribute name="locale" use="optional">
+         <simpleType>
+            <restriction base="string">
+               <minLength value="1"/>
+               <maxLength value="8"/>
+            </restriction>
+         </simpleType>
+      </attribute>
+      <attribute name="codIdioma" use="optional">
+         <simpleType>
+            <restriction base="string">
+               <minLength value="1"/>
+               <maxLength value="10"/>
+            </restriction>
+         </simpleType>
+      </attribute>
+   </complexType>
+   <complexType name="DespliegueType">
+      <sequence>
+         <element name="Dispositivo" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Dispositivo desde el
+						cual se ejecuta la peticion</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="15"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="MarcaDispositivo" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Marca dispositivo
+						desde el cual se ejecuta la
+						peticion</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="20"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="Navegador" minOccurs="0" maxOccurs="1" type="tns:NavegadorType">
+            <annotation>
+               <documentation xml:lang="es">-Nombre del Browser
+						utilizado para ejecutar la peticion
+						---ATRIBUTOS--
+						-version: Version
+						del Navegador utilizado</documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <complexType name="NavegadorType">
+      <annotation>
+         <documentation xml:lang="es">-Nombre del Browser
+				utilizado para ejecutar la peticion
+				---ATRIBUTOS--
+				-version: Version
+				del Navegador utilizado</documentation>
+      </annotation>
+      <simpleContent>
+         <extension base="string">
+            <attribute name="version" use="optional">
+               <simpleType>
+                  <restriction base="string">
+                     <minLength value="1"/>
+                     <maxLength value="20"/>
+                  </restriction>
+               </simpleType>
+            </attribute>
+         </extension>
+      </simpleContent>
+   </complexType>
+   <complexType name="AccesoType">
+      <sequence>
+         <element name="IdUsuario" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identificador de Usuario</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="40"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="ClaveAcceso" type="string" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation>Clave de acceso a usuario para envio de solicitudes incluidas  hacia servicios expuestos en Altamira.</documentation>
+            </annotation>
+         </element>
+         <element name="IdUsuarioHost" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Usuario generico o especifico que realiza la
+						peticion(Usuario de Back-End)</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="15"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="IdSesion" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identificador de sesion para correlar sesiones</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="256"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="IdOperacion" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identificador de operacion para correlar operaciones,  usuado por BBT
+para hacer la relacion del mensaje de entrada con el de salida</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="36"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="TokenOperacion" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation>Token de la operacion utilizado por interfaz
+						Valida Transaccion</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="256"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="Sic" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation>Sic utilizado por interfaz Valida Transaccion.</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="25"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="CustomSeg" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation>Campo de seguridad para validar en la tabla de
+						operaciones, informacion adicional requerida por
+						el motor de reglas para validar la transaccion
+						es abierto y valida entre servicios.</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="20"/>
+               </restriction>
+            </simpleType>
+         </element>
+      </sequence>
+   </complexType>
+   <complexType name="ConsumidorType">
+      <sequence>
+         <element name="IpServer" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">IP/Nombre de la
+						maquina que realiza la peticion</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="100"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="IpCliente" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Direccion IP/Nombre
+						de la maquina del terminal o
+						usuario cliente</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="15"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="TipoCanal" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identifidor del canal
+						consumidor</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="10"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="IdAplicacion" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identificador
+						aplicacion que ejecuta la
+						operacion</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="10"/>
+               </restriction>
+            </simpleType>
+         </element>
+      </sequence>
+   </complexType>
+   <complexType name="PropiedadType">
+      <sequence>
+         <element name="Nombre" type="string" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation>Identificador elemento</documentation>
+            </annotation>
+         </element>
+         <element name="Valor" type="string" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation>Valor elemento</documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <complexType name="DatosVariablesType">
+      <sequence>
+         <element maxOccurs="100" minOccurs="0" name="Propiedad" type="tns:PropiedadType">
+            <annotation>
+               <documentation>Lista de datos variable</documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   <complexType name="TransaccionType">
+      <sequence>
+         <element name="Monto" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation>Monto  utilizado por interfaz Valida Transaccion</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="2"/>
+                  <maxLength value="12"/>
+               </restriction>
+            </simpleType>
+         </element>
+      </sequence>
+   </complexType>
+</schema>
