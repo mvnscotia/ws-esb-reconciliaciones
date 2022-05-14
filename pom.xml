@@ -115,9 +115,37 @@
             <artifactId>jaxb2-maven-plugin</artifactId>
             <version>1.5</version>
             <executions>
-
+            
                 <execution>
                     <id>id1</id>
+                    <goals>
+                        <goal>xjc</goal>
+                    </goals>
+                    <configuration>
+                    	<schemaDirectory>src/main/resources/xsd</schemaDirectory>
+                    	<schemaFiles>responseHeadersV1xsd4.xsd</schemaFiles>
+                        <outputDirectory>src/main/java</outputDirectory>
+                        <packageName>com.banorte.ws.esb.reconciliaciones.responseHeaders.schema</packageName>
+                        <clearOutputDir>false</clearOutputDir>
+                    </configuration>
+                </execution>               
+            
+                <execution>
+                    <id>id2</id>
+                    <goals>
+                        <goal>xjc</goal>
+                    </goals>
+                    <configuration>
+                    	<schemaDirectory>src/main/resources/xsd</schemaDirectory>
+                    	<schemaFiles>requestHeadersV1xsd3.xsd</schemaFiles>
+                        <outputDirectory>src/main/java</outputDirectory>
+                        <packageName>com.banorte.ws.esb.reconciliaciones.requestHeaders.schema</packageName>
+                        <clearOutputDir>false</clearOutputDir>
+                    </configuration>
+                </execution>            
+
+                <execution>
+                    <id>id3</id>
                     <goals>
                         <goal>xjc</goal>
                     </goals>
@@ -131,7 +159,7 @@
                 </execution>
                 
             	<execution>
-                    <id>id2</id>
+                    <id>id4</id>
                     <goals>
                         <goal>xjc</goal>
                     </goals>

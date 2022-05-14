@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema elementFormDefault="qualified" 
+		targetNamespace="http://www.banorte.com/ws/esb/general/Headers"
+		xmlns="http://www.w3.org/2001/XMLSchema"
+		xmlns:tns="http://www.banorte.com/ws/esb/general/Headers">
+		
+   <annotation>
+      <documentation xml:lang="es">-Schema que contiene la definicion de los elementos genericos Header/Response
+			-Grupo
+			Financiero
+			Banorte
+			-30/Enero/2014
+	  </documentation>
+   </annotation>
+   <element name="HeaderRes" type="tns:HeaderResponseType"/>
+   <complexType name="HeaderResponseType">
+      <sequence>
+         <element name="IdOperacion" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identificador de operacion para correlar operaciones</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="36"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="NumReferencia" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Identificador de operacion en la entidad destino(Back-End)</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="48"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="TotalOcurrencias" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Numero de registros retornados</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="integer">
+                  <minExclusive value="0"/>
+                  <maxExclusive value="999"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="EstadoRespuesta" type="tns:EstadoRespuestaType" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">-Elemento que agrupa el detalle del error de
+						Negocio</documentation>
+            </annotation>
+         </element>
+         <element name="TokenOperacion" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation>Token de operacion retornada por la interfaz Valida Transaccion, es un token que se genera inicialmente al momento de la utentificacion y es enviado en cada una de las invocaciones posteriores.
+
+El mismo cambia con cada invocacion, es decir un nuevo token es generado como respuesta a una operacion y el cual debera ser enviado en la invocacion subsecuente.
+
+El id de la ssesion es el mismo pero el token de operacion cambia con cada invocacion.</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="256"/>
+               </restriction>
+            </simpleType>
+         </element>
+      </sequence>
+      <attribute name="fechaHora" type="dateTime" use="optional">
+         <annotation>
+            <documentation xml:lang="es">Momento en la que se
+					ejecuta la peticion</documentation>
+         </annotation>
+      </attribute>
+   </complexType>
+   <complexType name="EstadoRespuestaType">
+      <sequence>
+         <element name="Id" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation>Identificador del mensaje de Error</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="10"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="MensajeAUsuario" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">Mensaje de negocio para el usuario(Catalogo)</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="255"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="MensajeDetallado" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation xml:lang="es">StackTrace, lista completa del error de sistema.</documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <minLength value="1"/>
+                  <maxLength value="500"/>
+               </restriction>
+            </simpleType>
+         </element>
+         <element name="NivelSegRequerido" type="int" minOccurs="0" maxOccurs="1">
+            <annotation>
+               <documentation>Nivel de seguridad de requerido por la operacion
+						en el caso de que no existieran permisos
+						suficientes para su ejecucion (Modulo de
+						Seguridad).</documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+</schema>
