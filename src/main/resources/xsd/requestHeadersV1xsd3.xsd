@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema elementFormDefault="qualified" 
 		targetNamespace="http://www.banorte.com/ws/esb/general/Headers"
-		xmlns="http://www.w3.org/2001/XMLSchema" 
+		xmlns="http://www.w3.org/2001/XMLSchema"
 		xmlns:tns="http://www.banorte.com/ws/esb/general/Headers">
 		
    <annotation>

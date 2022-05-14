@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema elementFormDefault="qualified" 
+		targetNamespace="http://www.banorte.com/ws/esb/general/Headers"
+		xmlns="http://www.w3.org/2001/XMLSchema" 
+        xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" 
+        xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"		
+		xmlns:tns="http://www.banorte.com/ws/esb/general/Headers">
+		
+   <annotation>
+      <documentation xml:lang="es">-Schema que contiene la
+			definicion de los elementos genericos Header/Request
+			-Grupo Financiero
+			Banorte
+			-30/Enero/2014</documentation>
+   </annotation>
+   <element name="Security" type="tns:HeaderSecurityRequestType"/>
+
+   <complexType name="HeaderSecurityRequestType">
+      <annotation>
+         <documentation xml:lang="es">-Elemento Base que
+				define los elementos genericos del Header Request
+				--ATRIBUTOS--
+				-locale: Informacion de localizacion del peticionario
+				-CodIdioma:
+				Formato de codificacion de caracteres</documentation>
+      </annotation>
+      <sequence>
+         <element name="UsernameToken" type="tns:UsernameTokenType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+   </complexType>
+   
+   <complexType name="UsernameTokenType">
+      <sequence>
+         <element name="Username" type="string" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation>Identificador elemento</documentation>
+            </annotation>
+         </element>
+         <element name="Password" type="string" minOccurs="1" maxOccurs="1">
+            <annotation>
+               <documentation>Valor elemento</documentation>
+            </annotation>
+         </element>
+      </sequence>
+   </complexType>
+   
+   
+</schema>
