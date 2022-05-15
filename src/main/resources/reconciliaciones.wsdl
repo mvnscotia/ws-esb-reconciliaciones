@@ -15,10 +15,12 @@
     
     
     <wsdl:message name="ObtenerInventarioFullRequestMsg">
+    	<wsdl:part element="head:HeaderReq" name="requestHeader"/>
         <wsdl:part element="schema:ObtenerInventarioFullIn" name="parameters"/>       
     </wsdl:message>
 	
     <wsdl:message name="ObtenerInventarioFullResponseMsg">
+    	<wsdl:part element="head:HeaderRes" name="responseHeader" />
         <wsdl:part element="schema:ObtenerInventarioFullOut" name="result"/>       
     </wsdl:message>	    
 	
@@ -57,10 +59,12 @@
         <wsdl:operation name="ObtenerInventarioFull">
 			 <soap:operation soapAction="" />
 			 <wsdl:input name="ObtenerInventarioFullRequest">
-				<soap:body use="literal"/>
+			 	<soap:header message="tns:ObtenerInventarioFullRequestMsg" part="requestHeader" use="literal"/>
+				<soap:body parts="parameters" use="literal"/>
 			 </wsdl:input>
 			 <wsdl:output name="ObtenerInventarioFullResponse">
-				<soap:body use="literal"/>
+			 	<soap:header message="tns:ObtenerInventarioFullResponseMsg" part="responseHeader" use="literal" />
+				<soap:body parts="result" use="literal"/>
 			 </wsdl:output>			 
         </wsdl:operation>          
                          

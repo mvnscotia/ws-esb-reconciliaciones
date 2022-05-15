@@ -1,19 +1,29 @@
 package com.banorte.ws.esb.reconciliaciones.ws;
 
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.TransformerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.soap.SoapHeaderElement;
+import org.springframework.ws.soap.saaj.SaajSoapMessage;
 
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.*;
 import com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema.ObtenerInventarioFullTypeResponse.Objetos.Objeto;
 import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
+import com.banorte.ws.esb.reconciliaciones.requestHeaders.schema.HeaderRequestType;
+import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.EstadoRespuestaType;
+import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.HeaderResponseType;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerInventarioFullOutServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
 
@@ -33,7 +43,103 @@ public class ObtenerInventarioFullEndPoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerInventarioFullIn")
 	@ResponsePayload
 	public JAXBElement<ObtenerInventarioFullTypeResponse> getObtenerInventarioFullInType(
-			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request) throws SQLException {
+			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request,
+			MessageContext messageContext) throws JAXBException, TransformerException, SQLException {
+		
+		String idOperacion = "", tokenOperacion = "";
+		try {
+	        /*
+	          Get MessageContext to get request soap message
+	          defined in ObtenerObjetoFiltradaRequestMsg message from WSDL
+	        */
+			SaajSoapMessage soapRequest = (SaajSoapMessage) messageContext.getRequest();
+
+	        /*
+	          Read request Header
+	          requestHeader is defined in ObtenerObjetoFiltradaRequestMsg message
+	          that make reference to head:HeaderReq element in WSLD definition
+	        */			 
+		    org.springframework.ws.soap.SoapHeader soapRequestHeader = soapRequest.getSoapHeader();
+
+	        /*
+	          Get MessageContext to get response soap message
+	          defined in ObtenerObjetoFiltradaResponseMsg message from WSDL
+	        */
+		    SaajSoapMessage soapResponse = (SaajSoapMessage) messageContext.getResponse();
+		     
+		    /*
+	          Read response Header
+	          responseHeader is defined in ObtenerObjetoFiltradaRequestMsg message
+	          that make reference to head:HeaderRes element in WSDL definition
+	        */			     
+		    org.springframework.ws.soap.SoapHeader soapResponseHeader = soapResponse.getSoapHeader();        
+
+		    /*
+		     * We need to create JAXB element object to parse the header that we got from request message
+		    */
+		    JAXBElement<HeaderRequestType> headersRequestType = null;
+		     
+		    /*
+		     * We create an instance of JAXBContest base on the header request factory created by JAXB
+		     * this is important because this indicate the base structure of your header request element
+		    */
+			JAXBContext jaxbContext = JAXBContext.newInstance(com.banorte.ws.esb.reconciliaciones.requestHeaders.schema.ObjectFactory.class);
+		        
+	        Iterator<SoapHeaderElement> itr = soapRequestHeader.examineAllHeaderElements();
+		    while (itr.hasNext()) {
+		    	SoapHeaderElement ele = itr.next();
+		        headersRequestType = (JAXBElement<HeaderRequestType>)jaxbContext.createUnmarshaller().unmarshal(ele.getSource());
+		    }
+
+		    /*
+		     * Create response header
+		     * And send back
+		     * The process in the same like when we send a nomar response object
+		     * but now we will send the response object into the soapResponseHeader object
+		     * calling the result method
+		    */       
+			com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory responseHeaderObjFactory = new com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory();
+				
+			HeaderResponseType headerResponseFactory = responseHeaderObjFactory.createHeaderResponseType();
+			JAXBElement<HeaderResponseType> headerResResponse = responseHeaderObjFactory.createHeaderRes(headerResponseFactory);
+				
+			HeaderResponseType headerResponseTypeObject = new HeaderResponseType();
+			headerResponseTypeObject.setEstadoRespuesta(new EstadoRespuestaType());
+			
+			idOperacion = headersRequestType.getValue().getAcceso().getIdOperacion();
+			tokenOperacion = headersRequestType.getValue().getAcceso().getTokenOperacion();
+				
+			headerResponseTypeObject.setIdOperacion(idOperacion);
+			headerResponseTypeObject.setTokenOperacion(tokenOperacion);
+			 
+			headerResponseTypeObject.getEstadoRespuesta().setId("1");
+			headerResponseTypeObject.getEstadoRespuesta().setMensajeAUsuario("Exitosa");
+			headerResponseTypeObject.getEstadoRespuesta().setMensajeDetallado("Solicitud Exitosa");
+			 
+			 
+			headerResResponse.setValue(headerResponseTypeObject);
+			 
+		    /*
+		    * Send response back
+		    * It is important to make sure create a new JAXB instance from
+		    * existing jaxbContext variable that we created at the beginning to parse the request headers,
+		    * and also make sure that in this new instance we pass the ObjectFactory
+		    * that belong to response Headers object to be able to marshal it in a right way
+		   */
+		    jaxbContext = JAXBContext.newInstance(com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory.class);
+		    jaxbContext.createMarshaller().marshal(headerResResponse, soapResponseHeader.getResult());
+		  }finally {
+			  
+		  }
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		ObjectFactory objectFactory = new ObjectFactory();
 		
