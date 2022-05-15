@@ -13,7 +13,7 @@ public interface RepOigRepository extends JpaRepository<RepOig, Long>{
     List<ObtenerInventarioFiltradoOut> findFullInventory(@Param( "pUsuario" ) String pUsuario,@Param( "pTerminal" ) String pTerminal,@Param( "pVar" ) String pVar, @Param( "pClaveAplicativo" ) String pClaveAplicativo);
 	
 	@Query(nativeQuery=true)
-    List<ObtenerInventarioFiltradoOut> findFilteredInventoryByObjectType(@Param( "pUsuario" ) String pUsuario,@Param( "pTerminal" ) String pTerminal,@Param( "pVar" ) String pVar, @Param( "pClaveAplicativo" ) String pClaveAplicativo);
+    List<ObtenerInventarioFiltradoOut> findFilteredInventoryByObjectType(@Param( "pUsuario" ) String pUsuario,@Param( "pTerminal" ) String pTerminal,@Param( "pjson" ) String pjson,@Param( "pVar" ) String pVar, @Param( "pClaveAplicativo" ) String pClaveAplicativo);
 	
 }
 

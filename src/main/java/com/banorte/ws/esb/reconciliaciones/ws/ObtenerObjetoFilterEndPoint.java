@@ -37,6 +37,7 @@ import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.EstadoRespuest
 import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.HeaderResponseType;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
+import com.google.gson.Gson;
 
 
 
@@ -169,36 +170,41 @@ public class ObtenerObjetoFilterEndPoint {
 		String pTerminal="";
 		String pClaveAplicativo=request.getValue().getTranAplicacion();
 		String pVar=request.getValue().getTranTipoObjeto();
+		
+		String json = new Gson().toJson( request.getValue().getObjetos().getObjeto() );
+		json=json.toLowerCase();
+		
 		String type_query=PropsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
 		
-		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,pVar, pClaveAplicativo);
+		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json,pVar, pClaveAplicativo);
 		
 		//Objeto listResponseObjects= new Objeto();
-		
-		if (listObtenerObjetoFilterOut != null) {
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			GregorianCalendar cal = new GregorianCalendar();
-			dateList = new HashMap<String, XMLGregorianCalendar>();
-			
-			switch (type_query) {
-			case "N1":
-				populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
-				break;
-			case "N2":
-				populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
-				break;
-			case "R1":
-				populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
-				break;
-			case "R3":
-				populateR3Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
-				break;
-			default:
-				break;
+		if(!type_query.equals("not_found"))
+		{
+			if (listObtenerObjetoFilterOut != null) {
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				GregorianCalendar cal = new GregorianCalendar();
+				dateList = new HashMap<String, XMLGregorianCalendar>();
+				
+				switch (type_query) {
+				case "N1":
+					populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					break;
+				case "N2":
+					populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					break;
+				case "R1":
+					populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					break;
+				case "R3":
+					populateR3Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					break;
+				default:
+					break;
+				}
 			}
+			objetoFiltradaRespose.setValue(obtenerObjetoFilterResponseObject);
 		}
-		
-		objetoFiltradaRespose.setValue(obtenerObjetoFilterResponseObject);
 		
 		return objetoFiltradaRespose;
 		

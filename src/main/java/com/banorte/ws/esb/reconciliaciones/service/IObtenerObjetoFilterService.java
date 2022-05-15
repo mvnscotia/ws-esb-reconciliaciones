@@ -10,6 +10,6 @@ public interface IObtenerObjetoFilterService {
 	
 	public RepOig findByID(Long id);
 	
-	public List<ObtenerInventarioFiltradoOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String pVar,String pClaveAplicativo);
+	public List<ObtenerInventarioFiltradoOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String pjson,String pVar,String pClaveAplicativo);
 	
 }

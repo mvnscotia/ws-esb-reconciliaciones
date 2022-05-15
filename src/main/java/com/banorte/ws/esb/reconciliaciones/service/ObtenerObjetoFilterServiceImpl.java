@@ -26,8 +26,8 @@ public class ObtenerObjetoFilterServiceImpl implements IObtenerObjetoFilterServi
 	}
 	
 	@Override
-	public List<ObtenerInventarioFiltradoOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String pVar,String pClaveAplicativo) {
-		return (List<ObtenerInventarioFiltradoOut>) repOigRepository.findFilteredInventoryByObjectType(pUsuario,pTerminal,pVar,pClaveAplicativo);
+	public List<ObtenerInventarioFiltradoOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String pjson,String pVar,String pClaveAplicativo) {
+		return (List<ObtenerInventarioFiltradoOut>) repOigRepository.findFilteredInventoryByObjectType(pUsuario,pTerminal,pjson,pVar,pClaveAplicativo);
 	}
 	
 }
