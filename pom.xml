@@ -121,7 +121,7 @@
             <artifactId>jaxb2-maven-plugin</artifactId>
             <version>1.5</version>
             <executions>
-            <!-- 
+            
                 <execution>
                     <id>id1</id>
                     <goals>
@@ -178,7 +178,7 @@
                         <forceRegenerate>false</forceRegenerate>
                     </configuration>
                 </execution>                
-                             -->
+                             
             </executions>
         	</plugin>
 		</plugins>
