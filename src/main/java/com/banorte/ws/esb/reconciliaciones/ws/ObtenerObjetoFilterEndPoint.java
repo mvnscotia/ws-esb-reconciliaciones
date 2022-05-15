@@ -6,30 +6,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.JAXBException;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.transform.Source;
-import javax.xml.transform.dom.DOMSource;
-
+import javax.xml.transform.TransformerException;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.soap.SoapHeaderElement;
-import org.springframework.ws.soap.server.endpoint.annotation.SoapAction;
-import org.springframework.ws.soap.server.endpoint.annotation.SoapHeader;
-import org.w3c.dom.Node;
-
+import org.springframework.ws.soap.saaj.SaajSoapMessage;
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObjectFactory;
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaInType;
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutType;
@@ -38,6 +33,7 @@ import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerOb
 import com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema.ObtenerObjetoFiltradaOutType.Relaciones.Relacion;
 import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
 import com.banorte.ws.esb.reconciliaciones.requestHeaders.schema.HeaderRequestType;
+import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.EstadoRespuestaType;
 import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.HeaderResponseType;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
@@ -63,61 +59,111 @@ public class ObtenerObjetoFilterEndPoint {
 	
 	private Map<String, XMLGregorianCalendar> dateList ;
 	
-	//@SoapAction(value = "http://example.com/TicketAgent/listFlights")
-	//@SoapAction(value = "http://www.banorte.com/ws/esb/Reconciliaciones/ObtenerObjetoFiltradaIn")
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ObtenerObjetoFiltradaIn")
 	@ResponsePayload
 	public JAXBElement<ObtenerObjetoFiltradaOutType> getObtenerObjetoFiltradaInType(
-			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInType> request, 
-			@SoapHeader(value = "{http://www.banorte.com/ws/esb/general/Headers}HeaderReq") SoapHeaderElement soapRequestHeaderElement,
-			@SoapHeader(value = "{http://www.banorte.com/ws/esb/general/Headers}HeaderRes") SoapHeaderElement soapResponseHeaderElement) {
+			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInType> request,
+			MessageContext messageContext)throws JAXBException, TransformerException {
 		
 		String idOperacion = "", tokenOperacion = "";
-		JAXBContext responseContext = null;
-		
 		try {
-			JAXBContext requestContext = JAXBContext.newInstance(com.banorte.ws.esb.reconciliaciones.requestHeaders.schema.ObjectFactory.class);
-			Unmarshaller requestUnmarshaller = requestContext.createUnmarshaller();
-			
-			JAXBElement<HeaderRequestType> requestHeaders = (JAXBElement<HeaderRequestType>) requestUnmarshaller.unmarshal(soapRequestHeaderElement.getSource());
-			HeaderRequestType requestSoapHeaders = requestHeaders.getValue();
-			idOperacion = requestSoapHeaders.getAcceso().getIdOperacion();
-			tokenOperacion = requestSoapHeaders.getAcceso().getTokenOperacion();
-			
-			
-			
+	        /*
+	          Get MessageContext to get request soap message
+	          defined in ObtenerObjetoFiltradaRequestMsg message from WSDL
+	        */
+			SaajSoapMessage soapRequest = (SaajSoapMessage) messageContext.getRequest();
+
+	        /*
+	          Read request Header
+	          requestHeader is defined in ObtenerObjetoFiltradaRequestMsg message
+	          that make reference to head:HeaderReq element in WSLD definition
+	        */			 
+		    org.springframework.ws.soap.SoapHeader soapRequestHeader = soapRequest.getSoapHeader();
+
+	        /*
+	          Get MessageContext to get response soap message
+	          defined in ObtenerObjetoFiltradaResponseMsg message from WSDL
+	        */
+		    SaajSoapMessage soapResponse = (SaajSoapMessage) messageContext.getResponse();
+		     
+		    /*
+	          Read response Header
+	          responseHeader is defined in ObtenerObjetoFiltradaRequestMsg message
+	          that make reference to head:HeaderRes element in WSDL definition
+	        */			     
+		    org.springframework.ws.soap.SoapHeader soapResponseHeader = soapResponse.getSoapHeader();        
+
+		    /*
+		     * We need to create JAXB element object to parse the header that we got from request message
+		    */
+		    JAXBElement<HeaderRequestType> headersRequestType = null;
+		     
+		    /*
+		     * We create an instance of JAXBContest base on the header request factory created by JAXB
+		     * this is important because this indicate the base structure of your header request element
+		    */
+			JAXBContext jaxbContext = JAXBContext.newInstance(com.banorte.ws.esb.reconciliaciones.requestHeaders.schema.ObjectFactory.class);
+		        
+	        Iterator<SoapHeaderElement> itr = soapRequestHeader.examineAllHeaderElements();
+		    while (itr.hasNext()) {
+		    	SoapHeaderElement ele = itr.next();
+		        headersRequestType = (JAXBElement<HeaderRequestType>)jaxbContext.createUnmarshaller().unmarshal(ele.getSource());
+		    }
+
+		    /*
+		     * Create response header
+		     * And send back
+		     * The process in the same like when we send a nomar response object
+		     * but now we will send the response object into the soapResponseHeader object
+		     * calling the result method
+		    */       
 			com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory responseHeaderObjFactory = new com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory();
+				
+			HeaderResponseType headerResponseFactory = responseHeaderObjFactory.createHeaderResponseType();
+			JAXBElement<HeaderResponseType> headerResResponse = responseHeaderObjFactory.createHeaderRes(headerResponseFactory);
+				
+			HeaderResponseType headerResponseTypeObject = new HeaderResponseType();
+			headerResponseTypeObject.setEstadoRespuesta(new EstadoRespuestaType());
 			
-			HeaderResponseType headerResponseType = responseHeaderObjFactory.createHeaderResponseType();
-			headerResponseType.setIdOperacion(idOperacion);
-			headerResponseType.setTokenOperacion(tokenOperacion);
-			
-			JAXBElement<HeaderResponseType> headersResResponse = responseHeaderObjFactory.createHeaderRes(headerResponseType);
-			
-			responseContext = JAXBContext.newInstance(HeaderResponseType.class);
-			Marshaller marshaller= responseContext.createMarshaller();
-			marshaller.marshal(headersResResponse, soapResponseHeaderElement.getResult());
-			
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+			idOperacion = headersRequestType.getValue().getAcceso().getIdOperacion();
+			tokenOperacion = headersRequestType.getValue().getAcceso().getTokenOperacion();
+				
+			headerResponseTypeObject.setIdOperacion(idOperacion);
+			headerResponseTypeObject.setTokenOperacion(tokenOperacion);
+			 
+			headerResponseTypeObject.getEstadoRespuesta().setId("1");
+			headerResponseTypeObject.getEstadoRespuesta().setMensajeAUsuario("Exitosa");
+			headerResponseTypeObject.getEstadoRespuesta().setMensajeDetallado("Solicitud Exitosa");
+			 
+			 
+			headerResResponse.setValue(headerResponseTypeObject);
+			 
+		    /*
+		    * Send response back
+		    * It is important to make sure create a new JAXB instance from
+		    * existing jaxbContext variable that we created at the beginning to parse the request headers,
+		    * and also make sure that in this new instance we pass the ObjectFactory
+		    * that belong to response Headers object to be able to marshal it in a right way
+		   */
+		    jaxbContext = JAXBContext.newInstance(com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory.class);
+		    jaxbContext.createMarshaller().marshal(headerResResponse, soapResponseHeader.getResult());
+		  }finally {
+			  
+		  }
 		
 		
-		
-		
-		
-		
-		/*---------------------------------------------------------------------------------------------------------------*/
+		/* Structure to send response body*/
 		ObjectFactory objectFactory = new ObjectFactory();
 		
 		ObtenerObjetoFiltradaOutType objetoFiltradaResponseFactory = objectFactory.createObtenerObjetoFiltradaOutType();
 		
 		JAXBElement<ObtenerObjetoFiltradaOutType> objetoFiltradaRespose = objectFactory.createObtenerObjetoFiltradaOut(objetoFiltradaResponseFactory);
 		
-		ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject= new ObtenerObjetoFiltradaOutType();
+		ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject = new ObtenerObjetoFiltradaOutType();
 		
 		obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
+		
+		/*@Daniel We need to improve this variable assignment*/
 		//N1,N2,R1,R3,FULL			
 		String pUsuario="";
 		String pTerminal="";
@@ -125,14 +171,6 @@ public class ObtenerObjetoFilterEndPoint {
 		String pVar=request.getValue().getTranTipoObjeto();
 		String type_query=PropsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
 		
-		/*We need to change this part*/
-//		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = null;
-//		try{
-//			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,p_var);
-//		}catch(Exception e) {
-//			log.error("ws-esb-reconciliaciones-An exception occurred in service()", e);
-//		}
-//		
 		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,pVar, pClaveAplicativo);
 		
 		//Objeto listResponseObjects= new Objeto();

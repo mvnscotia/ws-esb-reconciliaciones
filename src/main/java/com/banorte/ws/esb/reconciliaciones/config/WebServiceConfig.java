@@ -139,6 +139,8 @@ public class WebServiceConfig extends WsConfigurerAdapter /* implements WebServi
 	    List<Resource> schemaResources = new ArrayList<>();
 	    //schemaResources.add(new ClassPathResource("xsd/requestHeadersV1xsd3.xsd"));
 	    schemaResources.add(new ClassPathResource("xsd/ObtenerObjetoFiltrado.xsd"));
+	    schemaResources.add(new ClassPathResource("xsd/ObtenerFiltradoFull.xsd"));
+	    
 	    //schemaResources.add(new ClassPathResource("thirdService.xsd"));
 	    return schemaResources.toArray(new Resource[schemaResources.size()]);
 	}	
@@ -202,6 +204,7 @@ public class WebServiceConfig extends WsConfigurerAdapter /* implements WebServi
 	}
 
 	/*
+	 * Do not delete i am still doing testing with this method
 	@Override
 	public void doWithMessage(WebServiceMessage message) throws IOException, TransformerException {
 		// TODO Auto-generated method stub
