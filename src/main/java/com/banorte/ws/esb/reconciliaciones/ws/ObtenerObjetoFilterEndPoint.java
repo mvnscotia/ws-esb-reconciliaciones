@@ -96,23 +96,22 @@ public class ObtenerObjetoFilterEndPoint {
 		{
 			if (listObtenerObjetoFilterOut != null) {
 				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				GregorianCalendar cal = new GregorianCalendar();
 				dateList = new HashMap<String, XMLGregorianCalendar>();
 				
 				switch (type_query) {
 				case "N1":
 					obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
-					populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
 					break;
 				case "N2":
 					obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
-					populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
 					break;
 				case "R1":
-					populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
 					break;
 				case "R3":
-					populateR3Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					populateR3Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
 					break;
 				default:
 					break;
@@ -218,7 +217,7 @@ public class ObtenerObjetoFilterEndPoint {
 	
 
 	
-	private void populateN1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateN1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format) {
 		Objeto listResponseObjects= new Objeto();
 		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
 			listResponseObjects= new Objeto();
@@ -227,16 +226,16 @@ public class ObtenerObjetoFilterEndPoint {
 			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
 			listResponseObjects.setTranObjeto(fullObj.getVal2());
 			listResponseObjects.setTranDescripcion(fullObj.getVal3());
-			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal5(), format, cal));
+			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal5(), format));
 			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal6()));
-			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal7(), format, cal));
+			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal7(), format));
 			listResponseObjects.setTranExtension("");
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
 		}		
 	}
 	
-	private void populateN2Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateN2Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format) {
 		Objeto listResponseObjects= new Objeto();
 		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
 			listResponseObjects= new Objeto();
@@ -246,16 +245,16 @@ public class ObtenerObjetoFilterEndPoint {
 			listResponseObjects.setTranObjeto(fullObj.getVal4());
 			listResponseObjects.setTranDescripcion(fullObj.getVal5());
 			listResponseObjects.setTranTipoOperacion(fullObj.getVal6());
-			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal8(), format, cal));
+			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal8(), format));
 			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal9()));
-			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal10(), format, cal));
+			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal10(), format));
 			listResponseObjects.setTranExtension("");
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
 		}
 	}
 	
-	private void populateR1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateR1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format) {
 		Relacion relacionAttributeList = new Relacion();
 		Relaciones relacionesList = new Relaciones();
 		
@@ -265,7 +264,7 @@ public class ObtenerObjetoFilterEndPoint {
 			relacionAttributeList.setTranIdTransaccion(fullObj.getVal2());  
 			relacionAttributeList.setTranTipoOperacion(getFechaCreacionR1(fullObj.getVal3()));
 			relacionAttributeList.setTranIdUsuario(fullObj.getVal4());
-			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
+			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format));
 			
 			relacionesList = new Relaciones();
 			relacionesList.setTranIdTipoObjeto("");
@@ -276,7 +275,7 @@ public class ObtenerObjetoFilterEndPoint {
 		
 	}	
 	
-	private void populateR3Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format, GregorianCalendar cal) {
+	private void populateR3Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format) {
 		Relacion relacionAttributeList = new Relacion();
 		Relaciones relacionesList = new Relaciones();
 		
@@ -286,7 +285,7 @@ public class ObtenerObjetoFilterEndPoint {
 			relacionAttributeList.setTranIdTransaccion("");
 			relacionAttributeList.setTranTipoOperacion("Alta");
 			relacionAttributeList.setTranIdUsuario(fullObj.getVal1()); 
-			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
+			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format));
 			
 			relacionesList = new Relaciones();
 			relacionesList.setTranIdTipoObjeto("");
@@ -296,7 +295,7 @@ public class ObtenerObjetoFilterEndPoint {
 		}		
 	}	
 	
-	private XMLGregorianCalendar getFechaCreacion(String fecha, DateFormat format, GregorianCalendar cal) {
+	private XMLGregorianCalendar getFechaCreacion(String fecha, DateFormat format) {
 		//System.out.println("getFechaCreacion-XMLGregorianCalendar::Before parse date: " + fecha);	
 		//DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		Date date;
@@ -309,8 +308,7 @@ public class ObtenerObjetoFilterEndPoint {
 		
 			try {
 				date = format.parse(fecha);
-				cal.setTime(date);
-				xmlGregCal =  DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+				xmlGregCal =  DatatypeFactory.newInstance().newXMLGregorianCalendar(format.format(date));
 				dateList.put(fecha, xmlGregCal);
 				System.out.println("getFechaCreacion-XMLGregorianCalendar::Alfer parse date and Add: " + xmlGregCal);
 			} catch (ParseException | DatatypeConfigurationException e) {
