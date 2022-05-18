@@ -56,7 +56,7 @@ public class ObtenerObjetoFilterEndPoint {
 	private ObtenerObjetoFilterServiceImpl obtenerObjetoFilterService;
 	
 	@Autowired
-	Props PropsObj;
+	Props propsObj;
 	
 	private Map<String, XMLGregorianCalendar> dateList ;
 	
@@ -75,7 +75,7 @@ public class ObtenerObjetoFilterEndPoint {
 		
 		ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject = new ObtenerObjetoFiltradaOutType();
 		
-		obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
+		//obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
 		
 		/*@Daniel We need to improve this variable assignment*/
 		//N1,N2,R1,R3,FULL			
@@ -87,9 +87,9 @@ public class ObtenerObjetoFilterEndPoint {
 		String json = new Gson().toJson( request.getValue().getObjetos().getObjeto() );
 		json=json.toLowerCase();
 		
-		String type_query=PropsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
+		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
 		
-		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json,pVar, pClaveAplicativo);
+		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json,type_query, pClaveAplicativo);
 		
 		//Objeto listResponseObjects= new Objeto();
 		if(!type_query.equals("not_found"))
@@ -101,9 +101,11 @@ public class ObtenerObjetoFilterEndPoint {
 				
 				switch (type_query) {
 				case "N1":
+					obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
 					populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
 					break;
 				case "N2":
+					obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
 					populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
 					break;
 				case "R1":
@@ -220,12 +222,15 @@ public class ObtenerObjetoFilterEndPoint {
 		Objeto listResponseObjects= new Objeto();
 		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
 			listResponseObjects= new Objeto();
+			listResponseObjects.setTranIdGrupo("");
+			listResponseObjects.setTranNombreGrupo("");
 			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
 			listResponseObjects.setTranObjeto(fullObj.getVal2());
 			listResponseObjects.setTranDescripcion(fullObj.getVal3());
 			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal5(), format, cal));
-			listResponseObjects.setTranIdUsuario(fullObj.getVal6());
+			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal6()));
 			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal7(), format, cal));
+			listResponseObjects.setTranExtension("");
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
 		}		
@@ -235,13 +240,16 @@ public class ObtenerObjetoFilterEndPoint {
 		Objeto listResponseObjects= new Objeto();
 		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
 			listResponseObjects= new Objeto();
+			listResponseObjects.setTranIdGrupo("");
+			listResponseObjects.setTranNombreGrupo("");
 			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
 			listResponseObjects.setTranObjeto(fullObj.getVal4());
 			listResponseObjects.setTranDescripcion(fullObj.getVal5());
 			listResponseObjects.setTranTipoOperacion(fullObj.getVal6());
 			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal8(), format, cal));
-			listResponseObjects.setTranIdUsuario(fullObj.getVal9());
+			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal9()));
 			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal10(), format, cal));
+			listResponseObjects.setTranExtension("");
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
 		}
@@ -260,6 +268,7 @@ public class ObtenerObjetoFilterEndPoint {
 			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
 			
 			relacionesList = new Relaciones();
+			relacionesList.setTranIdTipoObjeto("");
 			relacionesList.getRelacion().add(relacionAttributeList);
 			
 			obtenerObjetoFilterResponseObject.getRelaciones().add(relacionesList);
@@ -280,6 +289,7 @@ public class ObtenerObjetoFilterEndPoint {
 			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format, cal));
 			
 			relacionesList = new Relaciones();
+			relacionesList.setTranIdTipoObjeto("");
 			relacionesList.getRelacion().add(relacionAttributeList);
 			
 			obtenerObjetoFilterResponseObject.getRelaciones().add(relacionesList);

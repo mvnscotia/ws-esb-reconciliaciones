@@ -25,6 +25,12 @@ public class Props {
 		return found;
 	}
 	
+	public String removeSpaceInString(String parameter) {
+		parameter = parameter.replaceAll(" ", "");
+		parameter = !parameter.isEmpty() ? parameter : "";
+		return parameter;
+	}
+	
 	
 }
 	
