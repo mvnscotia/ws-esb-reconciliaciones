@@ -2,9 +2,9 @@ package com.banorte.ws.esb.reconciliaciones.util;
 
 public class Singleton_handling_errors {
 
-	String Id;
-	String Messange_user;
-	String Message_detail;
+	String Id="1";
+	String Messange_user="Exitosa";
+	String Message_detail="Solicitud Exitosa";
 		
 	public String getId() {
 		return Id;

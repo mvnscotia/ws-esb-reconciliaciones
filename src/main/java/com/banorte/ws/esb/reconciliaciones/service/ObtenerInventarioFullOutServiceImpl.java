@@ -36,19 +36,19 @@ public class ObtenerInventarioFullOutServiceImpl implements IObtenerInventarioFu
 		try {
 			returnlist = repOigRepository.findFullInventory(pUsuario,pTerminal,pVar,pClaveAplicativo);
 		} catch(ConstraintViolationException e) {
-			System.out.println(" dhc dhc dhc "+e.getMessage());
+			System.out.println(e.getMessage());
 			Singleton_handling_errors.getInstance().setId("2");
-			Singleton_handling_errors.getInstance().setMessange_user("Erro en base de datos");
+			Singleton_handling_errors.getInstance().setMessange_user("Error en base de datos");
 			Singleton_handling_errors.getInstance().setMessage_detail(e.getMessage());
 		} catch(JDBCConnectionException e) {
-			System.out.println(" dhc dhc dhc "+e.getMessage());
+			System.out.println(e.getMessage());
 			Singleton_handling_errors.getInstance().setId("2");
-			Singleton_handling_errors.getInstance().setMessange_user("Erro en base de datos");
+			Singleton_handling_errors.getInstance().setMessange_user("Error en base de datos");
 			Singleton_handling_errors.getInstance().setMessage_detail(e.getMessage());
 		}catch (Exception ex) {
-			System.out.println(" dhc dhc dhc "+ex.getMessage());
+			System.out.println(ex.getMessage());
 			Singleton_handling_errors.getInstance().setId("2");
-			Singleton_handling_errors.getInstance().setMessange_user("Erro en base de datos");
+			Singleton_handling_errors.getInstance().setMessange_user("Error en base de datos");
 			Singleton_handling_errors.getInstance().setMessage_detail(ex.getMessage());
 		}
 		
