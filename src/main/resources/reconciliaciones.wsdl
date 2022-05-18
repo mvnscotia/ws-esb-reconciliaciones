@@ -2,7 +2,7 @@
                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
                   xmlns:schema="http://www.banorte.com/ws/esb/Reconciliaciones"
                   xmlns:tns="http://www.banorte.com/ws/esb/Reconciliaciones"
-                  xmlns:head="http://www.banorte.com/ws/esb/general/Headers"
+                  xmlns="http://www.banorte.com/ws/esb/general/Headers"
                   targetNamespace="http://www.banorte.com/ws/esb/Reconciliaciones">
     <wsdl:types>
         <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -15,23 +15,23 @@
     
     
     <wsdl:message name="ObtenerInventarioFullRequestMsg">
-    	<wsdl:part element="head:HeaderReq" name="requestHeader"/>
+    	<wsdl:part element="HeaderReq" name="requestHeader"/>
         <wsdl:part element="schema:ObtenerInventarioFullIn" name="parameters"/>       
     </wsdl:message>
 	
     <wsdl:message name="ObtenerInventarioFullResponseMsg">
-    	<wsdl:part element="head:HeaderRes" name="responseHeader" />
+    	<wsdl:part element="HeaderRes" name="responseHeader" />
         <wsdl:part element="schema:ObtenerInventarioFullOut" name="result"/>       
     </wsdl:message>	    
 	
 	
     <wsdl:message name="ObtenerObjetoFiltradaRequestMsg">
-    	<wsdl:part element="head:HeaderReq" name="requestHeader"/>
+    	<wsdl:part element="HeaderReq" name="requestHeader"/>
         <wsdl:part element="schema:ObtenerObjetoFiltradaIn" name="parameters"/>
     </wsdl:message>
 	
     <wsdl:message name="ObtenerObjetoFiltradaResponseMsg">
-    	<wsdl:part element="head:HeaderRes" name="responseHeader" />
+    	<wsdl:part element="HeaderRes" name="responseHeader" />
         <wsdl:part element="schema:ObtenerObjetoFiltradaOut" name="result"/>       
     </wsdl:message>	
 	
