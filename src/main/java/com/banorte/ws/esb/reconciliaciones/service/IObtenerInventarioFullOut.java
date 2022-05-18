@@ -12,4 +12,5 @@ public interface IObtenerInventarioFullOut {
 	
 	public List<ObtenerInventarioFiltradoOut> getInventarioFullOut(String pUsuario,String pTerminal,String pVar,String pClaveAplicativo);
 	
+	public String getIdOperation();
 }

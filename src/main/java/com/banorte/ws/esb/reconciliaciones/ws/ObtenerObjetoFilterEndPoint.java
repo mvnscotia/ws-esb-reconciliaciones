@@ -66,6 +66,61 @@ public class ObtenerObjetoFilterEndPoint {
 			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInType> request,
 			MessageContext messageContext)throws JAXBException, TransformerException {
 		
+		/* Structure to send response body*/
+		ObjectFactory objectFactory = new ObjectFactory();
+		
+		ObtenerObjetoFiltradaOutType objetoFiltradaResponseFactory = objectFactory.createObtenerObjetoFiltradaOutType();
+		
+		JAXBElement<ObtenerObjetoFiltradaOutType> objetoFiltradaRespose = objectFactory.createObtenerObjetoFiltradaOut(objetoFiltradaResponseFactory);
+		
+		ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject = new ObtenerObjetoFiltradaOutType();
+		
+		obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
+		
+		/*@Daniel We need to improve this variable assignment*/
+		//N1,N2,R1,R3,FULL			
+		String pUsuario="";
+		String pTerminal="";
+		String pClaveAplicativo=request.getValue().getTranAplicacion();
+		String pVar=request.getValue().getTranTipoObjeto();
+		
+		String json = new Gson().toJson( request.getValue().getObjetos().getObjeto() );
+		json=json.toLowerCase();
+		
+		String type_query=PropsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
+		
+		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json,pVar, pClaveAplicativo);
+		
+		//Objeto listResponseObjects= new Objeto();
+		if(!type_query.equals("not_found"))
+		{
+			if (listObtenerObjetoFilterOut != null) {
+				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				GregorianCalendar cal = new GregorianCalendar();
+				dateList = new HashMap<String, XMLGregorianCalendar>();
+				
+				switch (type_query) {
+				case "N1":
+					populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					break;
+				case "N2":
+					populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					break;
+				case "R1":
+					populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					break;
+				case "R3":
+					populateR3Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
+					break;
+				default:
+					break;
+				}
+			}
+			objetoFiltradaRespose.setValue(obtenerObjetoFilterResponseObject);
+		}
+		
+		/********************************************************************/
+		
 		String idOperacion = "", tokenOperacion = "";
 		try {
 	        /*
@@ -126,16 +181,17 @@ public class ObtenerObjetoFilterEndPoint {
 			HeaderResponseType headerResponseTypeObject = new HeaderResponseType();
 			headerResponseTypeObject.setEstadoRespuesta(new EstadoRespuestaType());
 			
-			idOperacion = headersRequestType.getValue().getAcceso().getIdOperacion();
+			//idOperacion = headersRequestType.getValue().getAcceso().getIdOperacion();
+			/* Calculate of idOperation */
+			idOperacion = obtenerObjetoFilterService.getIdOperation();
 			tokenOperacion = headersRequestType.getValue().getAcceso().getTokenOperacion();
-				
+			
 			headerResponseTypeObject.setIdOperacion(idOperacion);
 			headerResponseTypeObject.setTokenOperacion(tokenOperacion);
 			 
 			headerResponseTypeObject.getEstadoRespuesta().setId("1");
 			headerResponseTypeObject.getEstadoRespuesta().setMensajeAUsuario("Exitosa");
 			headerResponseTypeObject.getEstadoRespuesta().setMensajeDetallado("Solicitud Exitosa");
-			 
 			 
 			headerResResponse.setValue(headerResponseTypeObject);
 			 
@@ -152,59 +208,7 @@ public class ObtenerObjetoFilterEndPoint {
 			  
 		  }
 		
-		
-		/* Structure to send response body*/
-		ObjectFactory objectFactory = new ObjectFactory();
-		
-		ObtenerObjetoFiltradaOutType objetoFiltradaResponseFactory = objectFactory.createObtenerObjetoFiltradaOutType();
-		
-		JAXBElement<ObtenerObjetoFiltradaOutType> objetoFiltradaRespose = objectFactory.createObtenerObjetoFiltradaOut(objetoFiltradaResponseFactory);
-		
-		ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject = new ObtenerObjetoFiltradaOutType();
-		
-		obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
-		
-		/*@Daniel We need to improve this variable assignment*/
-		//N1,N2,R1,R3,FULL			
-		String pUsuario="";
-		String pTerminal="";
-		String pClaveAplicativo=request.getValue().getTranAplicacion();
-		String pVar=request.getValue().getTranTipoObjeto();
-		
-		String json = new Gson().toJson( request.getValue().getObjetos().getObjeto() );
-		json=json.toLowerCase();
-		
-		String type_query=PropsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
-		
-		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json,pVar, pClaveAplicativo);
-		
-		//Objeto listResponseObjects= new Objeto();
-		if(!type_query.equals("not_found"))
-		{
-			if (listObtenerObjetoFilterOut != null) {
-				DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-				GregorianCalendar cal = new GregorianCalendar();
-				dateList = new HashMap<String, XMLGregorianCalendar>();
-				
-				switch (type_query) {
-				case "N1":
-					populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
-					break;
-				case "N2":
-					populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
-					break;
-				case "R1":
-					populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
-					break;
-				case "R3":
-					populateR3Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, cal);
-					break;
-				default:
-					break;
-				}
-			}
-			objetoFiltradaRespose.setValue(obtenerObjetoFilterResponseObject);
-		}
+		/********************************************************************/
 		
 		return objetoFiltradaRespose;
 		

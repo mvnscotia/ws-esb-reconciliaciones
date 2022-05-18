@@ -46,6 +46,46 @@ public class ObtenerInventarioFullEndPoint {
 			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request,
 			MessageContext messageContext) throws JAXBException, TransformerException, SQLException {
 		
+		
+		ObjectFactory objectFactory = new ObjectFactory();
+		
+		ObtenerInventarioFullTypeResponse InventarioFullResponseFactory = objectFactory.createObtenerInventarioFullTypeResponse();
+		
+		JAXBElement<ObtenerInventarioFullTypeResponse> InventarioFullResponse = objectFactory.createObtenerInventarioFullOut(InventarioFullResponseFactory);
+		
+		ObtenerInventarioFullTypeResponse ObtenerInventarioFullResponseObject= new ObtenerInventarioFullTypeResponse();
+		
+		ObtenerInventarioFullResponseObject.setObjetos(new ObtenerInventarioFullTypeResponse.Objetos());
+		//N1,N2,R1,R3,FULL			
+		String pUsuario="";
+		String pTerminal="";
+		String pVar=request.getValue().getTranTipoObjeto();
+		String pClaveAplicativo=request.getValue().getTranAplicacion();
+		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente */
+		
+		if(!type_query.equals("not_found"))
+		{	
+			List<ObtenerInventarioFiltradoOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,type_query,pClaveAplicativo);
+			Objeto listResponseObjects= new Objeto();
+			
+			if (listObtenerInventarioFullOut != null) {
+				for (ObtenerInventarioFiltradoOut objfull : listObtenerInventarioFullOut) {
+					
+					listResponseObjects= new Objeto();
+					listResponseObjects.setTranIdTipoObjeto(objfull.getVal1());
+					ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
+				}
+			}
+			
+			InventarioFullResponse.setValue(ObtenerInventarioFullResponseObject);
+			
+		}
+		
+		
+		
+		
+		/**************************************************************************************************/
+		
 		String idOperacion = "", tokenOperacion = "";
 		try {
 	        /*
@@ -106,7 +146,9 @@ public class ObtenerInventarioFullEndPoint {
 			HeaderResponseType headerResponseTypeObject = new HeaderResponseType();
 			headerResponseTypeObject.setEstadoRespuesta(new EstadoRespuestaType());
 			
-			idOperacion = headersRequestType.getValue().getAcceso().getIdOperacion();
+			//idOperacion = headersRequestType.getValue().getAcceso().getIdOperacion();
+			/* Calculate of idOperation */
+			idOperacion = obtenerInventarioFullOutServiceImpl.getIdOperation();
 			tokenOperacion = headersRequestType.getValue().getAcceso().getTokenOperacion();
 				
 			headerResponseTypeObject.setIdOperacion(idOperacion);
@@ -132,48 +174,10 @@ public class ObtenerInventarioFullEndPoint {
 			  
 		  }
 		
+		/**************************************************************************************************/
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		ObjectFactory objectFactory = new ObjectFactory();
-		
-		ObtenerInventarioFullTypeResponse InventarioFullResponseFactory = objectFactory.createObtenerInventarioFullTypeResponse();
-		
-		JAXBElement<ObtenerInventarioFullTypeResponse> InventarioFullResponse = objectFactory.createObtenerInventarioFullOut(InventarioFullResponseFactory);
-		
-		ObtenerInventarioFullTypeResponse ObtenerInventarioFullResponseObject= new ObtenerInventarioFullTypeResponse();
-		
-		ObtenerInventarioFullResponseObject.setObjetos(new ObtenerInventarioFullTypeResponse.Objetos());
-		//N1,N2,R1,R3,FULL			
-		String pUsuario="";
-		String pTerminal="";
-		String pVar=request.getValue().getTranTipoObjeto();
-		String pClaveAplicativo=request.getValue().getTranAplicacion();
-		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
-		
-		if(!type_query.equals("not_found"))
-		{	
-			List<ObtenerInventarioFiltradoOut> listObtenerInventarioFullOut = obtenerInventarioFullOutServiceImpl.getInventarioFullOut(pUsuario,pTerminal,type_query,pClaveAplicativo);
-			Objeto listResponseObjects= new Objeto();
-			
-			if (listObtenerInventarioFullOut != null) {
-				for (ObtenerInventarioFiltradoOut objfull : listObtenerInventarioFullOut) {
-					
-					listResponseObjects= new Objeto();
-					listResponseObjects.setTranIdTipoObjeto(objfull.getVal1());
-					ObtenerInventarioFullResponseObject.getObjetos().getObjeto().add(listResponseObjects);
-				}
-			}
-			
-			InventarioFullResponse.setValue(ObtenerInventarioFullResponseObject);
-			
-		}
 		return InventarioFullResponse;
 		
 	}

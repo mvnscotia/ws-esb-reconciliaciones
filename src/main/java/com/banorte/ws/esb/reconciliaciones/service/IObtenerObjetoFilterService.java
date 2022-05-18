@@ -12,4 +12,5 @@ public interface IObtenerObjetoFilterService {
 	
 	public List<ObtenerInventarioFiltradoOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String pjson,String pVar,String pClaveAplicativo);
 	
+	public String getIdOperation();
 }

@@ -116,7 +116,6 @@ public class WebServiceConfig extends WsConfigurerAdapter /* implements WebServi
 	}
 	
 	XsdSchemaCollection schemaCollection = new XsdSchemaCollection() {
-
         @Override
         public XsdSchema[] getXsdSchemas() {
             return null;
