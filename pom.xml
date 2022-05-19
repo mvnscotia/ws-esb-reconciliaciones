@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.banorte</groupId>
 	<artifactId>ws-esb-reconciliaciones</artifactId>
-	<version>0.0.7-SNAPSHOT</version>
+	<version>0.0.8-SNAPSHOT</version>
 	<name>ws-esb-reconciliaciones</name>
 	<description>ESB Reconciliaciones</description>
 	<packaging>war</packaging>
