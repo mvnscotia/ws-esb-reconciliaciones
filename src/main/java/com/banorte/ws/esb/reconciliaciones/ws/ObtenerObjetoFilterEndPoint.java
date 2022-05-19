@@ -100,7 +100,7 @@ public class ObtenerObjetoFilterEndPoint {
 		}
 		else
 		{
-			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json,pVar, pClaveAplicativo);
+			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,type_query,pVar, pClaveAplicativo);
 		}
 		
 		if(Singleton_handling_errors.getInstance().getId().equals("1"))
@@ -211,9 +211,9 @@ public class ObtenerObjetoFilterEndPoint {
 				headerResponseTypeObject.setIdOperacion(idOperacion);
 				headerResponseTypeObject.setTokenOperacion(tokenOperacion);
 				 
-				headerResponseTypeObject.getEstadoRespuesta().setId("1");
-				headerResponseTypeObject.getEstadoRespuesta().setMensajeAUsuario("Exitosa");
-				headerResponseTypeObject.getEstadoRespuesta().setMensajeDetallado("Solicitud Exitosa");
+				headerResponseTypeObject.getEstadoRespuesta().setId(Singleton_handling_errors.getInstance().getId());
+				headerResponseTypeObject.getEstadoRespuesta().setMensajeAUsuario(Singleton_handling_errors.getInstance().getMessange_user());
+				headerResponseTypeObject.getEstadoRespuesta().setMensajeDetallado(Singleton_handling_errors.getInstance().getMessage_detail());
 				 
 				headerResResponse.setValue(headerResponseTypeObject);
 				 

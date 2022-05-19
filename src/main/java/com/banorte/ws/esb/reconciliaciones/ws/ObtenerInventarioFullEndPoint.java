@@ -73,6 +73,7 @@ public class ObtenerInventarioFullEndPoint {
 				
 				if( listObtenerInventarioFullOut.size()==0)
 				{
+					System.out.println("-----++++++----");
 					Singleton_handling_errors.getInstance().setId("4");
 					Singleton_handling_errors.getInstance().setMessange_user("Error en la logica de negocio");
 					Singleton_handling_errors.getInstance().setMessage_detail("Peticion incorrecta");
@@ -92,6 +93,7 @@ public class ObtenerInventarioFullEndPoint {
 		}
 		else
 		{
+			System.out.println("----------");
 			Singleton_handling_errors.getInstance().setId("4");
 			Singleton_handling_errors.getInstance().setMessange_user("Error en la logica de negocio");
 			Singleton_handling_errors.getInstance().setMessage_detail("Peticion incorrecta");
@@ -170,10 +172,10 @@ public class ObtenerInventarioFullEndPoint {
 					
 				headerResponseTypeObject.setIdOperacion(idOperacion);
 				headerResponseTypeObject.setTokenOperacion(tokenOperacion);
-				 
-				headerResponseTypeObject.getEstadoRespuesta().setId("1");
-				headerResponseTypeObject.getEstadoRespuesta().setMensajeAUsuario("Exitosa");
-				headerResponseTypeObject.getEstadoRespuesta().setMensajeDetallado("Solicitud Exitosa");
+				
+				headerResponseTypeObject.getEstadoRespuesta().setId(Singleton_handling_errors.getInstance().getId());
+				headerResponseTypeObject.getEstadoRespuesta().setMensajeAUsuario(Singleton_handling_errors.getInstance().getMessange_user());
+				headerResponseTypeObject.getEstadoRespuesta().setMensajeDetallado(Singleton_handling_errors.getInstance().getMessage_detail());
 				 
 				 
 				headerResResponse.setValue(headerResponseTypeObject);
