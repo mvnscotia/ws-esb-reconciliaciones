@@ -67,6 +67,14 @@ public class ObtenerObjetoFilterEndPoint {
 			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInType> request,
 			MessageContext messageContext)throws JAXBException, TransformerException {
 		
+		/*Initialize error handling*/
+		Singleton_handling_errors.getInstance().setId("1");
+		Singleton_handling_errors.getInstance().setMessange_user("Exitosa");
+		Singleton_handling_errors.getInstance().setMessage_detail("Solicitud Exitosa");
+		
+		/*Get request headers from message*/
+		Map<String,Object> requestHeadersParams = propsObj.getRequestHeaders(messageContext);
+		
 		/* Structure to send response body*/
 		ObjectFactory objectFactory = new ObjectFactory();
 		
@@ -100,25 +108,25 @@ public class ObtenerObjetoFilterEndPoint {
 		}
 		else
 		{
-			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,type_query,pVar, pClaveAplicativo);
+			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json,type_query, pClaveAplicativo);
 		}
 		
 		if(Singleton_handling_errors.getInstance().getId().equals("1"))
 		{
 			if(!type_query.equals("not_found"))
 			{
-				if (listObtenerObjetoFilterOut != null) {
+				if (!listObtenerObjetoFilterOut.isEmpty()) {
 					DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 					dateList = new HashMap<String, XMLGregorianCalendar>();
 					
 					switch (type_query) {
 					case "N1":
 						obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
-						populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
+						populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, request);
 						break;
 					case "N2":
 						obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
-						populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
+						populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, request);
 						break;
 					case "R1":
 						populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
@@ -129,6 +137,11 @@ public class ObtenerObjetoFilterEndPoint {
 					default:
 						break;
 					}
+				}
+				else {
+					Singleton_handling_errors.getInstance().setId("4");
+					Singleton_handling_errors.getInstance().setMessange_user("Error en la logica de negocio");
+					Singleton_handling_errors.getInstance().setMessage_detail("Peticion incorrecta");					
 				}
 				objetoFiltradaRespose.setValue(obtenerObjetoFilterResponseObject);
 			}
@@ -141,100 +154,8 @@ public class ObtenerObjetoFilterEndPoint {
 		}
 		
 		/********************************************************************/
-		
-		String idOperacion = "", tokenOperacion = "";
-		try {
-			try {
-		        /*
-		          Get MessageContext to get request soap message
-		          defined in ObtenerObjetoFiltradaRequestMsg message from WSDL
-		        */
-				SaajSoapMessage soapRequest = (SaajSoapMessage) messageContext.getRequest();
-	
-		        /*
-		          Read request Header
-		          requestHeader is defined in ObtenerObjetoFiltradaRequestMsg message
-		          that make reference to head:HeaderReq element in WSLD definition
-		        */			 
-			    org.springframework.ws.soap.SoapHeader soapRequestHeader = soapRequest.getSoapHeader();
-	
-		        /*
-		          Get MessageContext to get response soap message
-		          defined in ObtenerObjetoFiltradaResponseMsg message from WSDL
-		        */
-			    SaajSoapMessage soapResponse = (SaajSoapMessage) messageContext.getResponse();
-			     
-			    /*
-		          Read response Header
-		          responseHeader is defined in ObtenerObjetoFiltradaRequestMsg message
-		          that make reference to head:HeaderRes element in WSDL definition
-		        */			     
-			    org.springframework.ws.soap.SoapHeader soapResponseHeader = soapResponse.getSoapHeader();        
-	
-			    /*
-			     * We need to create JAXB element object to parse the header that we got from request message
-			    */
-			    JAXBElement<HeaderRequestType> headersRequestType = null;
-			     
-			    /*
-			     * We create an instance of JAXBContest base on the header request factory created by JAXB
-			     * this is important because this indicate the base structure of your header request element
-			    */
-				JAXBContext jaxbContext = JAXBContext.newInstance(com.banorte.ws.esb.reconciliaciones.requestHeaders.schema.ObjectFactory.class);
-			        
-		        Iterator<SoapHeaderElement> itr = soapRequestHeader.examineAllHeaderElements();
-			    while (itr.hasNext()) {
-			    	SoapHeaderElement ele = itr.next();
-			        headersRequestType = (JAXBElement<HeaderRequestType>)jaxbContext.createUnmarshaller().unmarshal(ele.getSource());
-			    }
-	
-			    /*
-			     * Create response header
-			     * And send back
-			     * The process in the same like when we send a nomar response object
-			     * but now we will send the response object into the soapResponseHeader object
-			     * calling the result method
-			    */       
-				com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory responseHeaderObjFactory = new com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory();
-					
-				HeaderResponseType headerResponseFactory = responseHeaderObjFactory.createHeaderResponseType();
-				JAXBElement<HeaderResponseType> headerResResponse = responseHeaderObjFactory.createHeaderRes(headerResponseFactory);
-					
-				HeaderResponseType headerResponseTypeObject = new HeaderResponseType();
-				headerResponseTypeObject.setEstadoRespuesta(new EstadoRespuestaType());
-				
-				//idOperacion = headersRequestType.getValue().getAcceso().getIdOperacion();
-				/* Calculate of idOperation */
-				idOperacion = obtenerObjetoFilterService.getIdOperation();
-				tokenOperacion = headersRequestType.getValue().getAcceso().getTokenOperacion();
-				
-				headerResponseTypeObject.setIdOperacion(idOperacion);
-				headerResponseTypeObject.setTokenOperacion(tokenOperacion);
-				 
-				headerResponseTypeObject.getEstadoRespuesta().setId(Singleton_handling_errors.getInstance().getId());
-				headerResponseTypeObject.getEstadoRespuesta().setMensajeAUsuario(Singleton_handling_errors.getInstance().getMessange_user());
-				headerResponseTypeObject.getEstadoRespuesta().setMensajeDetallado(Singleton_handling_errors.getInstance().getMessage_detail());
-				 
-				headerResResponse.setValue(headerResponseTypeObject);
-				 
-			    /*
-			    * Send response back
-			    * It is important to make sure create a new JAXB instance from
-			    * existing jaxbContext variable that we created at the beginning to parse the request headers,
-			    * and also make sure that in this new instance we pass the ObjectFactory
-			    * that belong to response Headers object to be able to marshal it in a right way
-			   */
-			    jaxbContext = JAXBContext.newInstance(com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.ObjectFactory.class);
-			    jaxbContext.createMarshaller().marshal(headerResResponse, soapResponseHeader.getResult());
-			  }finally {
-				  
-			  }
-		}catch(JAXBException jb){
-			Singleton_handling_errors.getInstance().setId("3");
-			Singleton_handling_errors.getInstance().setMessange_user("Error ESB");
-			Singleton_handling_errors.getInstance().setMessage_detail(jb.getMessage());
-		}
-		
+		/*Set response headers*/
+		propsObj.setResponseHeaders(requestHeadersParams);
 		/********************************************************************/
 		
 		return objetoFiltradaRespose;
@@ -243,15 +164,19 @@ public class ObtenerObjetoFilterEndPoint {
 	
 
 	
-	private void populateN1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format) {
+	private void populateN1Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut,
+									ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, 
+									DateFormat format,
+									JAXBElement<ObtenerObjetoFiltradaInType> request) {
 		Objeto listResponseObjects= new Objeto();
 		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
 			listResponseObjects= new Objeto();
-			listResponseObjects.setTranIdGrupo("");
+			listResponseObjects.setTranIdGrupo(request.getValue().getTranTipoObjeto());
 			listResponseObjects.setTranNombreGrupo("");
 			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
 			listResponseObjects.setTranObjeto(fullObj.getVal2());
 			listResponseObjects.setTranDescripcion(fullObj.getVal3());
+			listResponseObjects.setTranTipoOperacion(getFechaCreacionR1(propsObj.removeSpaceInString(fullObj.getVal7())));
 			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal5(), format));
 			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal6()));
 			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal7(), format));
@@ -261,16 +186,19 @@ public class ObtenerObjetoFilterEndPoint {
 		}		
 	}
 	
-	private void populateN2Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, DateFormat format) {
+	private void populateN2Response(List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut, 
+									ObtenerObjetoFiltradaOutType obtenerObjetoFilterResponseObject, 
+									DateFormat format,
+									JAXBElement<ObtenerObjetoFiltradaInType> request) {
 		Objeto listResponseObjects= new Objeto();
 		for (ObtenerInventarioFiltradoOut fullObj : listObtenerObjetoFilterOut) {
 			listResponseObjects= new Objeto();
-			listResponseObjects.setTranIdGrupo("");
+			listResponseObjects.setTranIdGrupo(request.getValue().getTranTipoObjeto());
 			listResponseObjects.setTranNombreGrupo("");
 			listResponseObjects.setTranIdTipoObjeto(fullObj.getVal1());
 			listResponseObjects.setTranObjeto(fullObj.getVal4());
 			listResponseObjects.setTranDescripcion(fullObj.getVal5());
-			listResponseObjects.setTranTipoOperacion(fullObj.getVal6());
+			listResponseObjects.setTranTipoOperacion(getFechaCreacionR1(propsObj.removeSpaceInString(fullObj.getVal10())));
 			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal8(), format));
 			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal9()));
 			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal10(), format));
@@ -293,7 +221,7 @@ public class ObtenerObjetoFilterEndPoint {
 			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format));
 			
 			relacionesList = new Relaciones();
-			relacionesList.setTranIdTipoObjeto("");
+			relacionesList.setTranIdTipoObjeto(fullObj.getVal1()+":"+fullObj.getVal2());
 			relacionesList.getRelacion().add(relacionAttributeList);
 			
 			obtenerObjetoFilterResponseObject.getRelaciones().add(relacionesList);
@@ -314,7 +242,7 @@ public class ObtenerObjetoFilterEndPoint {
 			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format));
 			
 			relacionesList = new Relaciones();
-			relacionesList.setTranIdTipoObjeto("");
+			relacionesList.setTranIdTipoObjeto(fullObj.getVal1()+":"+fullObj.getVal2());
 			relacionesList.getRelacion().add(relacionAttributeList);
 			
 			obtenerObjetoFilterResponseObject.getRelaciones().add(relacionesList);
@@ -349,7 +277,7 @@ public class ObtenerObjetoFilterEndPoint {
 	
 	private String getFechaCreacionR1(String fecha) {
 		//System.out.println("getFechaCreacionR1::Before parse date: " + fecha);	
-		if( (null == fecha) || (fecha.equals(INIT_DATE)) ) {
+		if( (null == fecha) || (fecha.isEmpty()) || (fecha.equals(INIT_DATE)) ) {
 			return ALTA;
 		}
 		return MODIFICACION;

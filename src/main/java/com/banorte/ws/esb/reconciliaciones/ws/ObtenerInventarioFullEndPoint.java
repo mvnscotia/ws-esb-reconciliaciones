@@ -47,6 +47,9 @@ public class ObtenerInventarioFullEndPoint {
 			@RequestPayload JAXBElement<ObtenerInventarioFullTypeRequest> request,
 			MessageContext messageContext){
 		
+		Singleton_handling_errors.getInstance().setId("1");
+		Singleton_handling_errors.getInstance().setMessange_user("Exitosa");
+		Singleton_handling_errors.getInstance().setMessage_detail("Solicitud Exitosa");
 		
 		ObjectFactory objectFactory = new ObjectFactory();
 		
