@@ -177,9 +177,9 @@ public class ObtenerObjetoFilterEndPoint {
 			listResponseObjects.setTranObjeto(fullObj.getVal2());
 			listResponseObjects.setTranDescripcion(fullObj.getVal3());
 			listResponseObjects.setTranTipoOperacion(getFechaCreacionR1(propsObj.removeSpaceInString(fullObj.getVal7())));
-			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal5(), format));
+			listResponseObjects.setTranFechaCreacion(convertStringToGregrianCalendar(propsObj.removeSpaceInString(fullObj.getVal5()), format));
 			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal6()));
-			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal7(), format));
+			listResponseObjects.setTranFechaModificacion(convertStringToGregrianCalendar(propsObj.removeSpaceInString(fullObj.getVal7()), format));
 			listResponseObjects.setTranExtension("");
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
@@ -199,9 +199,8 @@ public class ObtenerObjetoFilterEndPoint {
 			listResponseObjects.setTranObjeto(fullObj.getVal4());
 			listResponseObjects.setTranDescripcion(fullObj.getVal5());
 			listResponseObjects.setTranTipoOperacion(getFechaCreacionR1(propsObj.removeSpaceInString(fullObj.getVal10())));
-			listResponseObjects.setTranFechaCreacion(getFechaCreacion(fullObj.getVal8(), format));
-			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal9()));
-			listResponseObjects.setTranFechaModificacion(getFechaCreacion(fullObj.getVal10(), format));
+			listResponseObjects.setTranFechaCreacion(convertStringToGregrianCalendar(fullObj.getVal8(), format));
+			listResponseObjects.setTranFechaModificacion(convertStringToGregrianCalendar(propsObj.removeSpaceInString(fullObj.getVal10()), format));
 			listResponseObjects.setTranExtension("");
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
@@ -218,7 +217,7 @@ public class ObtenerObjetoFilterEndPoint {
 			relacionAttributeList.setTranIdTransaccion(fullObj.getVal2());  
 			relacionAttributeList.setTranTipoOperacion(getFechaCreacionR1(fullObj.getVal3()));
 			relacionAttributeList.setTranIdUsuario(fullObj.getVal4());
-			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format));
+			relacionAttributeList.setTranFechaOperacion(convertStringToGregrianCalendar(fullObj.getVal3(), format));
 			
 			relacionesList = new Relaciones();
 			relacionesList.setTranIdTipoObjeto(fullObj.getVal1()+":"+fullObj.getVal2());
@@ -239,7 +238,7 @@ public class ObtenerObjetoFilterEndPoint {
 			relacionAttributeList.setTranIdTransaccion("");
 			relacionAttributeList.setTranTipoOperacion("Alta");
 			relacionAttributeList.setTranIdUsuario(fullObj.getVal1()); 
-			relacionAttributeList.setTranFechaOperacion(getFechaCreacion(fullObj.getVal3(), format));
+			relacionAttributeList.setTranFechaOperacion(convertStringToGregrianCalendar(fullObj.getVal3(), format));
 			
 			relacionesList = new Relaciones();
 			relacionesList.setTranIdTipoObjeto(fullObj.getVal1()+":"+fullObj.getVal2());
@@ -249,11 +248,12 @@ public class ObtenerObjetoFilterEndPoint {
 		}		
 	}	
 	
-	private XMLGregorianCalendar getFechaCreacion(String fecha, DateFormat format) {
-		//System.out.println("getFechaCreacion-XMLGregorianCalendar::Before parse date: " + fecha);	
-		//DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private XMLGregorianCalendar convertStringToGregrianCalendar(String fecha, DateFormat format) {
 		Date date;
 		XMLGregorianCalendar xmlGregCal = null;
+		if(fecha.isEmpty()) {
+			fecha = INIT_DATE;
+		}
 		if(dateList.containsKey(fecha))
 		{
 			xmlGregCal = dateList.get(fecha);
