@@ -1,8 +1,12 @@
 package com.banorte.ws.esb.reconciliaciones.ws;
 
+import java.sql.Clob;
+import java.sql.NClob;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -10,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.rowset.serial.SerialException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -17,6 +22,8 @@ import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.transform.TransformerException;
+
+import org.hibernate.engine.jdbc.NonContextualLobCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.context.MessageContext;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -37,10 +44,12 @@ import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.EstadoRespuest
 import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.HeaderResponseType;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
+import com.banorte.ws.esb.reconciliaciones.util.Tranidtipoobjeto;
 import com.banorte.ws.esb.reconciliaciones.util.Singleton_handling_errors;
 import com.google.gson.Gson;
-
-
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 
 //import weblogic.logging.NonCatalogLogger;
@@ -65,7 +74,7 @@ public class ObtenerObjetoFilterEndPoint {
 	@ResponsePayload
 	public JAXBElement<ObtenerObjetoFiltradaOutType> getObtenerObjetoFiltradaInType(
 			@RequestPayload JAXBElement<ObtenerObjetoFiltradaInType> request,
-			MessageContext messageContext)throws JAXBException, TransformerException {
+			MessageContext messageContext)throws JAXBException, TransformerException, SerialException, SQLException {
 		
 		/*Initialize error handling*/
 		Singleton_handling_errors.getInstance().setId("1");
@@ -93,14 +102,64 @@ public class ObtenerObjetoFilterEndPoint {
 		String pClaveAplicativo=request.getValue().getTranAplicacion();
 		String pVar=request.getValue().getTranTipoObjeto();
 		
-		String json = new Gson().toJson( request.getValue().getObjetos().getObjeto() );
-		json=json.toLowerCase();
+		StringBuilder stringBjson=new StringBuilder(request.getValue().getObjetos().getObjeto().size());
+		stringBjson.append(new Gson().toJson( request.getValue().getObjetos().getObjeto() ).toLowerCase());
+		
+		Gson gson = new Gson();
+		JsonElement json = gson.fromJson( stringBjson.toString() , JsonElement.class);
+		Type listType = new TypeToken<List<Tranidtipoobjeto>>() {}.getType();
+
+		List<Tranidtipoobjeto> obj_trantipoobjeto = new Gson().fromJson(json, listType);
+		
+		
+		
+		
+		
+		//List<Tranidtipoobjeto> obj_trantipoobjeto = gson.fromJson(stringBjson.toString().toLowerCase(), new TypeToken<List<Tranidtipoobjeto>>(){}.getType());
+		
+		//ArrayList<Tranidtipoobjeto> obj_trantipoobjeto= (ArrayList<Tranidtipoobjeto>) new Gson().fromJson(stringBjson.toString().toLowerCase(),new TypeToken<ArrayList<Tranidtipoobjeto>>() {}.getType());
+		
+		//List<Tranidtipoobjeto> obj_trantipoobjeto = new Gson().fromJson(stringBjson.toString().toLowerCase(),Tranidtipoobjeto.class);
+		System.out.println(stringBjson.toString());
+		
+		System.out.println(obj_trantipoobjeto.size());
+		
+		int tamanio=obj_trantipoobjeto.size()/3;
+		String json1 ="[{\"tranidtipoobjeto\":\"\"}]";
+		String json2 ="[{\"tranidtipoobjeto\":\"\"}]";;
+		String json3 ="[{\"tranidtipoobjeto\":\"\"}]";;
+		System.out.println("El tamaño de tocken "+tamanio);
+		if(tamanio>20)
+		{
+			System.out.println("El tamaño de tocken "+tamanio);
+			json1 = new Gson().toJson(obj_trantipoobjeto.subList(0, tamanio));
+			json2 = new Gson().toJson(obj_trantipoobjeto.subList(tamanio, (tamanio+tamanio) ));
+			json3 = new Gson().toJson(obj_trantipoobjeto.subList((tamanio+tamanio), obj_trantipoobjeto.size()));
+		}
+		else
+		{
+			json1 = stringBjson.toString();
+		}
+
+		System.out.println("\n******"+json1);
+		System.out.println("\n\n******"+json2);
+		System.out.println("\n\n******"+json3);
+		//List<Tranidtipoobjeto> = new ArrayList<>(obj_trantipoobjeto.getWorkers().values());		
+		//stringBjson.append(new Gson().toJson( request.getValue().getObjetos().getObjeto() ).toLowerCase());		
+		//Clob myClob = new javax.sql.rowset.serial.SerialClob(stringBjson.toString().toCharArray());		
+		//String json = new Gson().toJson( request.getValue().getObjetos().getObjeto() );
+		//json=json.toLowerCase();
 		
 		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
 		
 		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = null;
+		Clob myClob = NonContextualLobCreator.INSTANCE.createClob(stringBjson.toString());
 		
-		if( json.equals("[{}]") )//No hay valores
+		//System.out.println("******"+stringBjson.toString());
+		
+		//System.out.println("**///////////////////////////////////////***"+myClob);
+		
+		if( stringBjson.toString().equals("[{}]") )//No hay valores
 		{
 			Singleton_handling_errors.getInstance().setId("4");
 			Singleton_handling_errors.getInstance().setMessange_user("Error en la logica de negocio");
@@ -108,7 +167,7 @@ public class ObtenerObjetoFilterEndPoint {
 		}
 		else
 		{
-			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json,type_query, pClaveAplicativo);
+			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo);
 		}
 		
 		if(Singleton_handling_errors.getInstance().getId().equals("1"))
@@ -120,22 +179,22 @@ public class ObtenerObjetoFilterEndPoint {
 					dateList = new HashMap<String, XMLGregorianCalendar>();
 					
 					switch (type_query) {
-					case "N1":
-						obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
-						populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, request);
-						break;
-					case "N2":
-						obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
-						populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, request);
-						break;
-					case "R1":
-						populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
-						break;
-					case "R3":
-						populateR3Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
-						break;
-					default:
-						break;
+						case "N1":
+							obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
+							populateN1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, request);
+							break;
+						case "N2":
+							obtenerObjetoFilterResponseObject.setObjetos(new ObtenerObjetoFiltradaOutType.Objetos());
+							populateN2Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format, request);
+							break;
+						case "R1":
+							populateR1Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
+							break;
+						case "R3":
+							populateR3Response(listObtenerObjetoFilterOut, obtenerObjetoFilterResponseObject, format);
+							break;
+						default:
+							break;
 					}
 				}
 				else {

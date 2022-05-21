@@ -76,7 +76,6 @@ public class ObtenerInventarioFullEndPoint {
 				
 				if( listObtenerInventarioFullOut.size()==0)
 				{
-					System.out.println("-----++++++----");
 					Singleton_handling_errors.getInstance().setId("4");
 					Singleton_handling_errors.getInstance().setMessange_user("Error en la logica de negocio");
 					Singleton_handling_errors.getInstance().setMessage_detail("Peticion incorrecta");
@@ -96,7 +95,6 @@ public class ObtenerInventarioFullEndPoint {
 		}
 		else
 		{
-			System.out.println("----------");
 			Singleton_handling_errors.getInstance().setId("4");
 			Singleton_handling_errors.getInstance().setMessange_user("Error en la logica de negocio");
 			Singleton_handling_errors.getInstance().setMessage_detail("Peticion incorrecta");

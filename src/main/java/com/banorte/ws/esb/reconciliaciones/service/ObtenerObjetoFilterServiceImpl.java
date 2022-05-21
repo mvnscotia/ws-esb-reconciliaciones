@@ -1,5 +1,6 @@
 package com.banorte.ws.esb.reconciliaciones.service;
 
+import java.sql.Clob;
 import java.util.List;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -11,6 +12,8 @@ import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
 import com.banorte.ws.esb.reconciliaciones.entity.RepOig;
 import com.banorte.ws.esb.reconciliaciones.repository.RepOigRepository;
 import com.banorte.ws.esb.reconciliaciones.util.Singleton_handling_errors;
+
+import oracle.sql.CLOB;
 
 @Service("ObtenerObjetoFilterService")
 public class ObtenerObjetoFilterServiceImpl implements IObtenerObjetoFilterService{
@@ -30,11 +33,11 @@ public class ObtenerObjetoFilterServiceImpl implements IObtenerObjetoFilterServi
 	}
 	
 	@Override
-	public List<ObtenerInventarioFiltradoOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String pjson,String pVar,String pClaveAplicativo) {
+	public List<ObtenerInventarioFiltradoOut> getObjetoFiltradaResponse(String pUsuario,String pTerminal,String pjson1,String pjson2,String pjson3,String pVar,String pClaveAplicativo) {
 		
 		List<ObtenerInventarioFiltradoOut> returnlist=null;
 		try {
-			returnlist = repOigRepository.findFilteredInventoryByObjectType(pUsuario,pTerminal,pjson,pVar,pClaveAplicativo);
+			returnlist = repOigRepository.findFilteredInventoryByObjectType(pUsuario,pTerminal,pjson1,pjson2,pjson3,pVar,pClaveAplicativo);
 		} catch(ConstraintViolationException e) {
 			System.out.println(e.getMessage());
 			Singleton_handling_errors.getInstance().setId("2");
@@ -60,5 +63,7 @@ public class ObtenerObjetoFilterServiceImpl implements IObtenerObjetoFilterServi
 	public String getIdOperation() {
 		return repOigRepository.getIdOperation();
 	}
+
+	
 }
 
