@@ -260,6 +260,7 @@ public class ObtenerObjetoFilterEndPoint {
 			listResponseObjects.setTranTipoOperacion(getFechaCreacionR1(propsObj.removeSpaceInString(fullObj.getVal10())));
 			listResponseObjects.setTranFechaCreacion(convertStringToGregrianCalendar(fullObj.getVal8(), format));
 			listResponseObjects.setTranFechaModificacion(convertStringToGregrianCalendar(propsObj.removeSpaceInString(fullObj.getVal10()), format));
+			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal9()));
 			listResponseObjects.setTranExtension("");
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);
