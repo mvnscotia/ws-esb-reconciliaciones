@@ -111,27 +111,13 @@ public class ObtenerObjetoFilterEndPoint {
 
 		List<Tranidtipoobjeto> obj_trantipoobjeto = new Gson().fromJson(json, listType);
 		
-		
-		
-		
-		
-		//List<Tranidtipoobjeto> obj_trantipoobjeto = gson.fromJson(stringBjson.toString().toLowerCase(), new TypeToken<List<Tranidtipoobjeto>>(){}.getType());
-		
-		//ArrayList<Tranidtipoobjeto> obj_trantipoobjeto= (ArrayList<Tranidtipoobjeto>) new Gson().fromJson(stringBjson.toString().toLowerCase(),new TypeToken<ArrayList<Tranidtipoobjeto>>() {}.getType());
-		
-		//List<Tranidtipoobjeto> obj_trantipoobjeto = new Gson().fromJson(stringBjson.toString().toLowerCase(),Tranidtipoobjeto.class);
-		System.out.println(stringBjson.toString());
-		
-		System.out.println(obj_trantipoobjeto.size());
-		
 		int tamanio=obj_trantipoobjeto.size()/3;
 		String json1 ="[{\"tranidtipoobjeto\":\"\"}]";
-		String json2 ="[{\"tranidtipoobjeto\":\"\"}]";;
-		String json3 ="[{\"tranidtipoobjeto\":\"\"}]";;
+		String json2 ="[{\"tranidtipoobjeto\":\"\"}]";
+		String json3 ="[{\"tranidtipoobjeto\":\"\"}]";
 		System.out.println("El tamaño de tocken "+tamanio);
 		if(tamanio>20)
 		{
-			System.out.println("El tamaño de tocken "+tamanio);
 			json1 = new Gson().toJson(obj_trantipoobjeto.subList(0, tamanio));
 			json2 = new Gson().toJson(obj_trantipoobjeto.subList(tamanio, (tamanio+tamanio) ));
 			json3 = new Gson().toJson(obj_trantipoobjeto.subList((tamanio+tamanio), obj_trantipoobjeto.size()));
@@ -140,24 +126,11 @@ public class ObtenerObjetoFilterEndPoint {
 		{
 			json1 = stringBjson.toString();
 		}
-
-		System.out.println("\n******"+json1);
-		System.out.println("\n\n******"+json2);
-		System.out.println("\n\n******"+json3);
-		//List<Tranidtipoobjeto> = new ArrayList<>(obj_trantipoobjeto.getWorkers().values());		
-		//stringBjson.append(new Gson().toJson( request.getValue().getObjetos().getObjeto() ).toLowerCase());		
-		//Clob myClob = new javax.sql.rowset.serial.SerialClob(stringBjson.toString().toCharArray());		
-		//String json = new Gson().toJson( request.getValue().getObjetos().getObjeto() );
-		//json=json.toLowerCase();
-		
-		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
-		
+		//System.out.println("\n******"+json1);
+		//System.out.println("\n\n******"+json2);
+		//System.out.println("\n\n******"+json3);
+		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
 		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = null;
-		Clob myClob = NonContextualLobCreator.INSTANCE.createClob(stringBjson.toString());
-		
-		//System.out.println("******"+stringBjson.toString());
-		
-		//System.out.println("**///////////////////////////////////////***"+myClob);
 		
 		if( stringBjson.toString().equals("[{}]") )//No hay valores
 		{
