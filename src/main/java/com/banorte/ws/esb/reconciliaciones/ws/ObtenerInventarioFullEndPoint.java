@@ -66,6 +66,7 @@ public class ObtenerInventarioFullEndPoint {
 		String pVar=request.getValue().getTranTipoObjeto();
 		String pClaveAplicativo=request.getValue().getTranAplicacion();
 		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente */
+		System.out.println("ObtenerInventarioFull - getTranTipoObjeto: "+pVar+" getTranAplicacion: "+pClaveAplicativo+" type_query: "+type_query);
 		
 		if(!type_query.equals("not_found"))
 		{	

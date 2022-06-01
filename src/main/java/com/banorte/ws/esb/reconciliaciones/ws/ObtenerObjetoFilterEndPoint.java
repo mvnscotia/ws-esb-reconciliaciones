@@ -102,6 +102,8 @@ public class ObtenerObjetoFilterEndPoint {
 		String pClaveAplicativo=request.getValue().getTranAplicacion();
 		String pVar=request.getValue().getTranTipoObjeto();
 		
+		System.out.println("ObtenerObjetoFiltrada - getTranTipoObjeto: "+pVar+" getTranAplicacion: "+pClaveAplicativo);
+		
 		StringBuilder stringBjson=new StringBuilder(request.getValue().getObjetos().getObjeto().size());
 		stringBjson.append(new Gson().toJson( request.getValue().getObjetos().getObjeto() ).toLowerCase());
 		
@@ -147,7 +149,7 @@ public class ObtenerObjetoFilterEndPoint {
 		//List<Tranidtipoobjeto> = new ArrayList<>(obj_trantipoobjeto.getWorkers().values());		
 		//stringBjson.append(new Gson().toJson( request.getValue().getObjetos().getObjeto() ).toLowerCase());		
 		//Clob myClob = new javax.sql.rowset.serial.SerialClob(stringBjson.toString().toCharArray());		
-		//String json = new Gson().toJson( request.getValue().getObjetos().getObjeto() );
+		//String json = new Gson().toJson( requestx.getValue().getObjetos().getObjeto() );
 		//json=json.toLowerCase();
 		
 		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
