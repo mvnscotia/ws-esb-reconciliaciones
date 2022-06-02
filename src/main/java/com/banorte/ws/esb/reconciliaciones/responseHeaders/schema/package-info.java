@@ -5,5 +5,9 @@
 // Generated on: 2022.05.18 at 03:41:36 PM CDT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.banorte.com/ws/esb/general/Headers", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(xmlns = { 
+        @javax.xml.bind.annotation.XmlNs(prefix = "NS2", namespaceURI="http://www.banorte.com/ws/esb/general/Headers")
+    },
+	namespace = "http://www.banorte.com/ws/esb/general/Headers", 
+	elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package com.banorte.ws.esb.reconciliaciones.responseHeaders.schema;
