@@ -62,7 +62,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HeaderRequestType", propOrder = {
+@XmlType(namespace = "",name = "HeaderRequestType", propOrder = {
     "despliegue",
     "acceso",
     "consumidor",

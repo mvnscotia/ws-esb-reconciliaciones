@@ -93,7 +93,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ObtenerObjetoFiltradaOutType", propOrder = {
+@XmlType(namespace = "",name = "ObtenerObjetoFiltradaOutType", propOrder = {
     "objetos",
     "relaciones"
 })
@@ -202,7 +202,7 @@ public class ObtenerObjetoFiltradaOutType {
     })
     public static class Objetos {
 
-        @XmlElement(name = "Objeto")
+        @XmlElement(name = "Objeto", namespace = "")
         protected List<ObtenerObjetoFiltradaOutType.Objetos.Objeto> objeto;
 
         /**
@@ -264,7 +264,7 @@ public class ObtenerObjetoFiltradaOutType {
          * 
          */
         @XmlAccessorType(XmlAccessType.FIELD)
-        @XmlType(name = "", propOrder = {
+        @XmlType(namespace = "",name = "", propOrder = {
             "tranIdGrupo",
             "tranNombreGrupo",
             "tranIdTipoObjeto",
@@ -278,27 +278,27 @@ public class ObtenerObjetoFiltradaOutType {
         })
         public static class Objeto {
 
-            @XmlElement(name = "Tran_IdGrupo")
+            @XmlElement(name = "Tran_IdGrupo", namespace = "")
             protected String tranIdGrupo;
-            @XmlElement(name = "Tran_NombreGrupo")
+            @XmlElement(name = "Tran_NombreGrupo", namespace = "")
             protected String tranNombreGrupo;
-            @XmlElement(name = "Tran_IdTipoObjeto")
+            @XmlElement(name = "Tran_IdTipoObjeto", namespace = "")
             protected String tranIdTipoObjeto;
-            @XmlElement(name = "Tran_Objeto")
+            @XmlElement(name = "Tran_Objeto", namespace = "")
             protected String tranObjeto;
-            @XmlElement(name = "Tran_Descripcion")
+            @XmlElement(name = "Tran_Descripcion", namespace = "")
             protected String tranDescripcion;
-            @XmlElement(name = "Tran_TipoOperacion")
+            @XmlElement(name = "Tran_TipoOperacion", namespace = "")
             protected String tranTipoOperacion;
-            @XmlElement(name = "Tran_FechaCreacion")
+            @XmlElement(name = "Tran_FechaCreacion", namespace = "")
             @XmlSchemaType(name = "date")
             protected XMLGregorianCalendar tranFechaCreacion;
-            @XmlElement(name = "Tran_FechaModificacion")
+            @XmlElement(name = "Tran_FechaModificacion", namespace = "")
             @XmlSchemaType(name = "date")
             protected XMLGregorianCalendar tranFechaModificacion;
-            @XmlElement(name = "Tran_IdUsuario")
+            @XmlElement(name = "Tran_IdUsuario", namespace = "")
             protected String tranIdUsuario;
-            @XmlElement(name = "Tran_Extension")
+            @XmlElement(name = "Tran_Extension", namespace = "")
             protected String tranExtension;
 
             /**
@@ -587,9 +587,9 @@ public class ObtenerObjetoFiltradaOutType {
     })
     public static class Relaciones {
 
-        @XmlElement(name = "Tran_IdTipoObjeto")
+        @XmlElement(name = "Tran_IdTipoObjeto", namespace = "")
         protected String tranIdTipoObjeto;
-        @XmlElement(name = "Relacion")
+        @XmlElement(name = "Relacion", namespace = "")
         protected List<ObtenerObjetoFiltradaOutType.Relaciones.Relacion> relacion;
 
         /**
@@ -670,7 +670,7 @@ public class ObtenerObjetoFiltradaOutType {
          * 
          */
         @XmlAccessorType(XmlAccessType.FIELD)
-        @XmlType(name = "", propOrder = {
+        @XmlType(namespace = "", name = "", propOrder = {
             "tranIdPerfil",
             "tranIdTransaccion",
             "tranTipoOperacion",
@@ -679,15 +679,15 @@ public class ObtenerObjetoFiltradaOutType {
         })
         public static class Relacion {
 
-            @XmlElement(name = "Tran_IdPerfil")
+            @XmlElement(name = "Tran_IdPerfil", namespace = "")
             protected String tranIdPerfil;
-            @XmlElement(name = "Tran_IdTransaccion")
+            @XmlElement(name = "Tran_IdTransaccion", namespace = "")
             protected String tranIdTransaccion;
-            @XmlElement(name = "Tran_TipoOperacion")
+            @XmlElement(name = "Tran_TipoOperacion", namespace = "")
             protected String tranTipoOperacion;
-            @XmlElement(name = "Tran_IdUsuario")
+            @XmlElement(name = "Tran_IdUsuario", namespace = "")
             protected String tranIdUsuario;
-            @XmlElement(name = "Tran_FechaOperacion")
+            @XmlElement(name = "Tran_FechaOperacion", namespace = "")
             @XmlSchemaType(name = "date")
             protected XMLGregorianCalendar tranFechaOperacion;
 

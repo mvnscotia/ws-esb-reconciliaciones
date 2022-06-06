@@ -42,6 +42,7 @@ import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
 import com.banorte.ws.esb.reconciliaciones.requestHeaders.schema.HeaderRequestType;
 import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.EstadoRespuestaType;
 import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.HeaderResponseType;
+import com.banorte.ws.esb.reconciliaciones.service.IObtenerObjetoFilterService;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
 import com.banorte.ws.esb.reconciliaciones.util.Tranidtipoobjeto;
@@ -63,7 +64,7 @@ public class ObtenerObjetoFilterEndPoint {
 	private static final String INIT_DATE = "0001-01-01";
 
 	@Autowired
-	private ObtenerObjetoFilterServiceImpl obtenerObjetoFilterService;
+	private IObtenerObjetoFilterService obtenerObjetoFilterService;
 	
 	@Autowired
 	Props propsObj;
@@ -112,9 +113,6 @@ public class ObtenerObjetoFilterEndPoint {
 		Type listType = new TypeToken<List<Tranidtipoobjeto>>() {}.getType();
 
 		List<Tranidtipoobjeto> obj_trantipoobjeto = new Gson().fromJson(json, listType);
-		
-		
-		
 		
 		
 		//List<Tranidtipoobjeto> obj_trantipoobjeto = gson.fromJson(stringBjson.toString().toLowerCase(), new TypeToken<List<Tranidtipoobjeto>>(){}.getType());

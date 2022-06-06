@@ -58,7 +58,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ObtenerObjetoFiltradaInType", propOrder = {
+@XmlType(namespace = "",name = "ObtenerObjetoFiltradaInType", propOrder = {
     "tranTipoObjeto",
     "tranAplicacion",
     "objetos"
@@ -69,7 +69,7 @@ public class ObtenerObjetoFiltradaInType {
     protected String tranTipoObjeto;
     @XmlElement(name = "Tran_Aplicacion", required = true)
     protected String tranAplicacion;
-    @XmlElement(name = "Objetos", required = true)
+    @XmlElement(name = "Objetos", required = true, namespace = "")
     protected ObtenerObjetoFiltradaInType.Objetos objetos;
 
     /**
@@ -175,12 +175,12 @@ public class ObtenerObjetoFiltradaInType {
      * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
+    @XmlType(namespace = "", name = "", propOrder = {
         "objeto"
     })
     public static class Objetos {
 
-        @XmlElement(name = "Objeto", required = true)
+        @XmlElement(name = "Objeto", required = true, namespace = "")
         protected List<ObtenerObjetoFiltradaInType.Objetos.Objeto> objeto;
 
         /**
@@ -233,12 +233,12 @@ public class ObtenerObjetoFiltradaInType {
          * 
          */
         @XmlAccessorType(XmlAccessType.FIELD)
-        @XmlType(name = "", propOrder = {
+        @XmlType(namespace = "", name = "", propOrder = {
             "tranIdTipoObjeto"
         })
         public static class Objeto {
 
-            @XmlElement(name = "Tran_IdTipoObjeto", required = true)
+            @XmlElement(name = "Tran_IdTipoObjeto", required = true, namespace = "")
             protected String tranIdTipoObjeto;
 
             /**

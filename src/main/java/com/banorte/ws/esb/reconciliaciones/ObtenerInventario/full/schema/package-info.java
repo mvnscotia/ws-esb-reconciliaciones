@@ -8,5 +8,6 @@
 @javax.xml.bind.annotation.XmlSchema(xmlns = { 
         @javax.xml.bind.annotation.XmlNs(prefix = "NS3", namespaceURI="http://www.banorte.com/ws/esb/Reconciliaciones")
     },
-	namespace = "http://www.banorte.com/ws/esb/Reconciliaciones", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+	namespace = "http://www.banorte.com/ws/esb/Reconciliaciones", 
+	elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package com.banorte.ws.esb.reconciliaciones.ObtenerInventario.full.schema;

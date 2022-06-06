@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ObtenerInventarioFullTypeRequest", propOrder = {
+@XmlType(namespace = "", name = "ObtenerInventarioFullTypeRequest", propOrder = {
     "tranTipoObjeto",
     "tranAplicacion"
 })
