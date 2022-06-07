@@ -198,8 +198,8 @@ public class WebServiceConfig extends WsConfigurerAdapter /* implements WebServi
 	@Override
 	public void addInterceptors(List<EndpointInterceptor> interceptors) {
 		interceptors.add(payloadLoggingInterceptor());
-		interceptors.add(payloadValidatingInterceptor());
-		interceptors.add(securityInterceptor());
+		//interceptors.add(payloadValidatingInterceptor());
+		//interceptors.add(securityInterceptor());
 	}
 
 	/*

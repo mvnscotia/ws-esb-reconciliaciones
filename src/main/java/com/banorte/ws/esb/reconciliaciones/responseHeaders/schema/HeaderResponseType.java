@@ -79,17 +79,17 @@ import javax.xml.datatype.XMLGregorianCalendar;
 })
 public class HeaderResponseType {
 
-    @XmlElement(name = "IdOperacion", required = true)
+    @XmlElement(name = "IdOperacion", required = true, namespace = "")
     protected String idOperacion;
-    @XmlElement(name = "NumReferencia")
+    @XmlElement(name = "NumReferencia", namespace = "")
     protected String numReferencia;
-    @XmlElement(name = "TotalOcurrencias")
+    @XmlElement(name = "TotalOcurrencias", namespace = "")
     protected Integer totalOcurrencias;
-    @XmlElement(name = "EstadoRespuesta", required = true)
+    @XmlElement(name = "EstadoRespuesta", required = true, namespace = "")
     protected EstadoRespuestaType estadoRespuesta;
-    @XmlElement(name = "TokenOperacion")
+    @XmlElement(name = "TokenOperacion", namespace = "")
     protected String tokenOperacion;
-    @XmlAttribute(name = "fechaHora")
+    @XmlAttribute(name = "fechaHora", namespace = "")
     @XmlSchemaType(name = "dateTime")
     protected XMLGregorianCalendar fechaHora;
 

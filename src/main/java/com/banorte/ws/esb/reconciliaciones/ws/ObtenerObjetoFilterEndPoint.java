@@ -42,6 +42,7 @@ import com.banorte.ws.esb.reconciliaciones.entity.ObtenerInventarioFiltradoOut;
 import com.banorte.ws.esb.reconciliaciones.requestHeaders.schema.HeaderRequestType;
 import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.EstadoRespuestaType;
 import com.banorte.ws.esb.reconciliaciones.responseHeaders.schema.HeaderResponseType;
+import com.banorte.ws.esb.reconciliaciones.service.IObtenerObjetoFilterService;
 import com.banorte.ws.esb.reconciliaciones.service.ObtenerObjetoFilterServiceImpl;
 import com.banorte.ws.esb.reconciliaciones.util.Props;
 import com.banorte.ws.esb.reconciliaciones.util.Tranidtipoobjeto;
@@ -63,7 +64,7 @@ public class ObtenerObjetoFilterEndPoint {
 	private static final String INIT_DATE = "0001-01-01";
 
 	@Autowired
-	private ObtenerObjetoFilterServiceImpl obtenerObjetoFilterService;
+	private IObtenerObjetoFilterService obtenerObjetoFilterService;
 	
 	@Autowired
 	Props propsObj;
@@ -102,6 +103,8 @@ public class ObtenerObjetoFilterEndPoint {
 		String pClaveAplicativo=request.getValue().getTranAplicacion();
 		String pVar=request.getValue().getTranTipoObjeto();
 		
+		System.out.println("ObtenerObjetoFiltrada - getTranTipoObjeto: "+pVar+" getTranAplicacion: "+pClaveAplicativo);
+		
 		StringBuilder stringBjson=new StringBuilder(request.getValue().getObjetos().getObjeto().size());
 		stringBjson.append(new Gson().toJson( request.getValue().getObjetos().getObjeto() ).toLowerCase());
 		
@@ -110,6 +113,16 @@ public class ObtenerObjetoFilterEndPoint {
 		Type listType = new TypeToken<List<Tranidtipoobjeto>>() {}.getType();
 
 		List<Tranidtipoobjeto> obj_trantipoobjeto = new Gson().fromJson(json, listType);
+		
+		
+		//List<Tranidtipoobjeto> obj_trantipoobjeto = gson.fromJson(stringBjson.toString().toLowerCase(), new TypeToken<List<Tranidtipoobjeto>>(){}.getType());
+		
+		//ArrayList<Tranidtipoobjeto> obj_trantipoobjeto= (ArrayList<Tranidtipoobjeto>) new Gson().fromJson(stringBjson.toString().toLowerCase(),new TypeToken<ArrayList<Tranidtipoobjeto>>() {}.getType());
+		
+		//List<Tranidtipoobjeto> obj_trantipoobjeto = new Gson().fromJson(stringBjson.toString().toLowerCase(),Tranidtipoobjeto.class);
+		System.out.println(stringBjson.toString());
+		
+		System.out.println(obj_trantipoobjeto.size());
 		
 		int tamanio=obj_trantipoobjeto.size()/3;
 		String json1 ="[{\"tranidtipoobjeto\":\"\"}]";
@@ -126,10 +139,18 @@ public class ObtenerObjetoFilterEndPoint {
 		{
 			json1 = stringBjson.toString();
 		}
-		//System.out.println("\n******"+json1);
-		//System.out.println("\n\n******"+json2);
-		//System.out.println("\n\n******"+json3);
-		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/
+
+		System.out.println("\n******"+json1);
+		System.out.println("\n\n******"+json2);
+		System.out.println("\n\n******"+json3);
+		//List<Tranidtipoobjeto> = new ArrayList<>(obj_trantipoobjeto.getWorkers().values());		
+		//stringBjson.append(new Gson().toJson( request.getValue().getObjetos().getObjeto() ).toLowerCase());		
+		//Clob myClob = new javax.sql.rowset.serial.SerialClob(stringBjson.toString().toCharArray());		
+		//String json = new Gson().toJson( requestx.getValue().getObjetos().getObjeto() );
+		//json=json.toLowerCase();
+		
+		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
+		
 		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = null;
 		
 		if( stringBjson.toString().equals("[{}]") )//No hay valores
@@ -233,6 +254,7 @@ public class ObtenerObjetoFilterEndPoint {
 			listResponseObjects.setTranTipoOperacion(getFechaCreacionR1(propsObj.removeSpaceInString(fullObj.getVal10())));
 			listResponseObjects.setTranFechaCreacion(convertStringToGregrianCalendar(fullObj.getVal8(), format));
 			listResponseObjects.setTranFechaModificacion(convertStringToGregrianCalendar(propsObj.removeSpaceInString(fullObj.getVal10()), format));
+			listResponseObjects.setTranIdUsuario(propsObj.removeSpaceInString(fullObj.getVal9()));
 			listResponseObjects.setTranExtension("");
 			
 			obtenerObjetoFilterResponseObject.getObjetos().getObjeto().add(listResponseObjects);

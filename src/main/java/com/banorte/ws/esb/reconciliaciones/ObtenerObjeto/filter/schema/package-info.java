@@ -5,5 +5,9 @@
 // Generated on: 2022.05.12 at 07:33:43 p.m. CDT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://www.banorte.com/ws/esb/Reconciliaciones", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(xmlns = { 
+        @javax.xml.bind.annotation.XmlNs(prefix = "NS3", namespaceURI="http://www.banorte.com/ws/esb/Reconciliaciones")
+    },
+	namespace = "http://www.banorte.com/ws/esb/Reconciliaciones", 
+	elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package com.banorte.ws.esb.reconciliaciones.ObtenerObjeto.filter.schema;

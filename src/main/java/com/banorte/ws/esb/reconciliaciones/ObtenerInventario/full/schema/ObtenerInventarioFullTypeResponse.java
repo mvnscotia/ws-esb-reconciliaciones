@@ -61,7 +61,7 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class ObtenerInventarioFullTypeResponse {
 
-    @XmlElement(name = "Objetos")
+    @XmlElement(name = "Objetos", namespace = "")
     protected ObtenerInventarioFullTypeResponse.Objetos objetos;
 
     /**
@@ -124,7 +124,7 @@ public class ObtenerInventarioFullTypeResponse {
     })
     public static class Objetos {
 
-        @XmlElement(name = "Objeto")
+        @XmlElement(name = "Objeto", namespace = "")
         protected List<ObtenerInventarioFullTypeResponse.Objetos.Objeto> objeto;
 
         /**
@@ -182,7 +182,7 @@ public class ObtenerInventarioFullTypeResponse {
         })
         public static class Objeto {
 
-            @XmlElement(name = "Tran_IdTipoObjeto")
+            @XmlElement(name = "Tran_IdTipoObjeto", namespace = "")
             protected String tranIdTipoObjeto;
 
             /**

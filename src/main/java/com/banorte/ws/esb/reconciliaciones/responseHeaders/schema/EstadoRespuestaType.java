@@ -66,13 +66,13 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class EstadoRespuestaType {
 
-    @XmlElement(name = "Id", required = true)
+    @XmlElement(name = "Id", required = true, namespace = "")
     protected String id;
-    @XmlElement(name = "MensajeAUsuario")
+    @XmlElement(name = "MensajeAUsuario", namespace = "")
     protected String mensajeAUsuario;
-    @XmlElement(name = "MensajeDetallado")
+    @XmlElement(name = "MensajeDetallado", namespace = "")
     protected String mensajeDetallado;
-    @XmlElement(name = "NivelSegRequerido")
+    @XmlElement(name = "NivelSegRequerido", namespace = "")
     protected Integer nivelSegRequerido;
 
     /**
