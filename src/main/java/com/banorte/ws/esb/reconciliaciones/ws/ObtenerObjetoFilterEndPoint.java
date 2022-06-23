@@ -151,6 +151,7 @@ public class ObtenerObjetoFilterEndPoint {
 		
 		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
 		
+		/*
 		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = null;
 		
 		if( stringBjson.toString().equals("[{}]") )//No hay valores
@@ -163,6 +164,9 @@ public class ObtenerObjetoFilterEndPoint {
 		{
 			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo);
 		}
+		*/
+		
+		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo);
 		
 		if(Singleton_handling_errors.getInstance().getId().equals("1"))
 		{
