@@ -170,8 +170,8 @@ public class ObtenerInventarioFullEndPoint {
 				//idOperacion = headersRequestType.getValue().getAcceso().getIdOperacion();
 				/* Calculate of idOperation */
 				idOperacion = obtenerInventarioFullOutServiceImpl.getIdOperation();
-				if(headersRequestType != null & headersRequestType.getValue() != null & headersRequestType.getValue().getAcceso() != null) {
-					tokenOperacion = headersRequestType.getValue().getAcceso().getTokenOperacion() != null ? headersRequestType.getValue().getAcceso().getTokenOperacion() : "";
+				if(headersRequestType != null && headersRequestType.getValue() != null && headersRequestType.getValue().getAcceso() != null) {
+					tokenOperacion =  headersRequestType.getValue().getAcceso().getTokenOperacion();
 				}
 					
 				headerResponseTypeObject.setIdOperacion(idOperacion);
