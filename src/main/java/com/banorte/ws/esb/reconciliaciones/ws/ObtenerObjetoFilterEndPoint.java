@@ -143,16 +143,10 @@ public class ObtenerObjetoFilterEndPoint {
 		System.out.println("\n******"+json1);
 		System.out.println("\n\n******"+json2);
 		System.out.println("\n\n******"+json3);
-		//List<Tranidtipoobjeto> = new ArrayList<>(obj_trantipoobjeto.getWorkers().values());		
-		//stringBjson.append(new Gson().toJson( request.getValue().getObjetos().getObjeto() ).toLowerCase());		
-		//Clob myClob = new javax.sql.rowset.serial.SerialClob(stringBjson.toString().toCharArray());		
-		//String json = new Gson().toJson( requestx.getValue().getObjetos().getObjeto() );
-		//json=json.toLowerCase();
-		
+
 		String type_query=propsObj.find_coincidence(pVar);/* Se busca coincidencia de acuerdo a lo establecido por el cliente*/		
 		
-		/*
-		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = null;
+		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = new ArrayList<>();
 		
 		if( stringBjson.toString().equals("[{}]") )//No hay valores
 		{
@@ -162,11 +156,32 @@ public class ObtenerObjetoFilterEndPoint {
 		}
 		else
 		{
-			listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo);
+			if(tamanio>300)
+			{
+				int subTamanio=tamanio/3;
+				json1 = new Gson().toJson(obj_trantipoobjeto.subList(0, subTamanio));
+				json2 = new Gson().toJson(obj_trantipoobjeto.subList(subTamanio, (subTamanio+subTamanio) ));
+				json3 = new Gson().toJson(obj_trantipoobjeto.subList((subTamanio+subTamanio), tamanio));
+				
+				listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo);
+				
+				json1 = new Gson().toJson(obj_trantipoobjeto.subList(tamanio, tamanio+subTamanio));
+				json2 = new Gson().toJson(obj_trantipoobjeto.subList(tamanio+subTamanio, (tamanio+subTamanio+subTamanio) ));
+				json3 = new Gson().toJson(obj_trantipoobjeto.subList((tamanio+subTamanio+subTamanio), tamanio+tamanio));
+				listObtenerObjetoFilterOut.addAll( obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo) );
+								
+				json1 = new Gson().toJson(obj_trantipoobjeto.subList(tamanio+tamanio, tamanio+tamanio+subTamanio));
+				json2 = new Gson().toJson(obj_trantipoobjeto.subList(tamanio+tamanio+subTamanio, (tamanio+tamanio+subTamanio+subTamanio) ));
+				json3 = new Gson().toJson(obj_trantipoobjeto.subList((tamanio+tamanio+subTamanio+subTamanio), obj_trantipoobjeto.size()));
+				listObtenerObjetoFilterOut.addAll(  obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo) );
+				
+			}
+			else
+			{
+				listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo);
+			}
 		}
-		*/
 		
-		List<ObtenerInventarioFiltradoOut> listObtenerObjetoFilterOut = obtenerObjetoFilterService.getObjetoFiltradaResponse(pUsuario,pTerminal,json1,json2,json3,type_query, pClaveAplicativo);
 		
 		if(Singleton_handling_errors.getInstance().getId().equals("1"))
 		{
